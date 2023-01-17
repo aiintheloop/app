@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useUser } from 'utils/useUser';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
+
 const Navbar = () => {
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
@@ -30,6 +31,9 @@ const Navbar = () => {
               </Link>
               <Link href="/account">
                 <a className={s.link}>Account</a>
+              </Link>
+              <Link href="/processes">
+                <a className={s.link}>Processes</a>
               </Link>
             </nav>
           </div>

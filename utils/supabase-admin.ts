@@ -175,9 +175,23 @@ const manageSubscriptionStatusChange = async (
     );
 };
 
+const getApproval = async (approvalID: string) => {
+  try {
+    const response = await supabaseAdmin.from('approvals').select('*').eq('ID', approvalID).single();
+    if (response.status !== 200) {
+      return { error: `Error: ${response.statusText}` };
+    }
+    return { data: response.data, message: 'Approval retrieved successfully' };
+  } catch (error) {
+    console.error(error);
+    return { error: error };
+  }
+}
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
-  manageSubscriptionStatusChange
+  manageSubscriptionStatusChange,
+  getApproval
 };

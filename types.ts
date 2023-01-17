@@ -33,6 +33,21 @@ export interface UserDetails {
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
 }
 
+export interface Approval {
+  ID: string /* primary key */;
+  content: string;
+  process_id: string;
+  approved: boolean;
+}
+
+export interface Process {
+  ident: string /* primary key */;
+  name: string;
+  webhook: string;
+  user_id: string;
+}
+
+
 export interface Price {
   id: string /* primary key */;
   product_id?: string /* foreign key to products.id */;
