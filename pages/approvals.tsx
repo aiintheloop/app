@@ -8,7 +8,7 @@ export default function ApproveDeclineWithContentView() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [id, setId] = useState<string>(null)
+  const [id, setId] = useState<string | null>(null)
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 

@@ -43,6 +43,15 @@ export interface Approval {
   user_id: string | null;
 }
 
+
+export interface ApprovalData {
+  ID: string /* primary key */;
+  content: string | null;
+  process_id: string | null;
+  approved: boolean | null;
+  name: string | null;
+}
+
 export interface Process {
   ident: string /* primary key */;
   name: string;
