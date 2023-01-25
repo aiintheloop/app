@@ -28,6 +28,7 @@ export interface UserDetails {
   first_name: string;
   last_name: string;
   full_name?: string;
+  email?: string;
   avatar_url?: string;
   billing_address?: Stripe.Address;
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
@@ -35,9 +36,11 @@ export interface UserDetails {
 
 export interface Approval {
   ID: string /* primary key */;
-  content: string;
-  process_id: string;
-  approved: boolean;
+  content: string | null;
+  process_id: string | null;
+  approved: boolean | null;
+  created_at: string | null;
+  user_id: string | null;
 }
 
 export interface Process {
@@ -46,7 +49,6 @@ export interface Process {
   webhook: string;
   user_id: string;
 }
-
 
 export interface Price {
   id: string /* primary key */;
