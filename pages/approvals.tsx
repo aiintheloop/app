@@ -1,41 +1,44 @@
-import Link from 'next/link';
-import { useState, ReactNode, useEffect } from 'react';
-
-import LoadingDots from 'components/ui/LoadingDots';
-import { useUser } from 'utils/useUser';
-import { postData } from 'utils/helpers';
-
-import { User } from '@supabase/supabase-js';
-import { withPageAuth } from '@supabase/auth-helpers-nextjs';
-import { Grid, makeStyles } from '@material-ui/core';
-import { Button, Card, CardContent, Typography } from '@material-ui/core';
+import { useEffect, useState } from 'react';
+import { Box, Button, Card, CardContent, CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import { supabase } from '@/utils/supabase-client';
-import { Approval } from '../types';
+import { ApprovalData } from '../types';
 import axios from 'axios';
 
 export default function ApproveDeclineWithContentView() {
-  const router = useRouter()
-  const {id} = router.query
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [id, setId] = useState<string>(null)
 
-  const [approval, setApproval] = useState<Approval | null>(null);
+  const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 
-  const getApproval = (id : string) => supabase.from('approvals').select().eq('ID',id).single();
-  const getProcces = (id : string) => supabase.from('processes').select().eq('ID',id).single();
 
   useEffect(() => {
-      if(id && typeof id == 'string') {
-        Promise.allSettled([getApproval(id)]).then(
-          (results) => {
-            const approval = results[0];
-            console.log(approval.value.data)
-            if (approval.status === 'fulfilled') {
-              setApproval(approval.value.data);
+    setIsLoading(true);
+    if(router.isReady) {
+      const { id } = router.query;
+      if (id && typeof id == 'string') {
+        setId(id)
+        fetch(`/api/approvals?id=${id}`)
+          .then((res) => {
+            if(res.ok) {
+              return res.json();
             }
-          }
-        );
+            throw Error('Request failed')
+          })
+          .then((approval) => {
+            setApprovalData(approval.data);
+            setIsLoading(false);
+          }).catch((error) => {
+          console.log('WTF')
+          setIsError(true);
+          setIsLoading(false);
+        });
+      } else {
+        setIsError(true);
       }
-  }, [id]);
+    }
+  }, [router]);
 
 
   const useStyles = makeStyles({
@@ -59,75 +62,93 @@ export default function ApproveDeclineWithContentView() {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: '1rem'
-    },
+    }
   });
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const handleApprove = () => {
-      console.log(id)
-      supabase.from('approvals').update({approved : true}).eq('ID', id).then(() => {
-          supabase.from('processes').select().eq('ID' ,approval?.process_id).single().then((res) => {
-              axios.post(res.data.webhook, approval?.content)
-                .then(response => {
-                  console.log(response)
-                })
-                .catch(error => {
-                  console.log(error)
-                })
-          })
-      }
-      )
-    };
+  const handleApprove = () => {
+    axios.get(`api/approve?id=${id}`)
+      .then(response => {
+        router.push('approved')
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-    const handleDecline = () => {
-      supabase.from('approvals').update({approved : false}).eq('ID', id).then()
-    };
+  const handleDecline = () => {
+    axios.get(`api/decline?id=${id}`)
+      .then(response => {
+        router.push('approved')
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-    if(approval && approval.approved != null) {
-      return (
-        <section className="bg-black mb-32">
-          <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
-            <div className="sm:flex sm:flex-col sm:align-center">
-              <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
-                Allready approved
-              </h1>
-            </div>
+  if (isLoading) {
+    return (<Grid item xs={12}><Box
+      sx={{
+        p: 5,
+        pt: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <CircularProgress />
+    </Box></Grid>);
+  }
+
+  if (isError) {
+    return (<p>Could not load Approval</p>);
+  }
+
+  if (approvalData && approvalData.approved != null) {
+    return (
+      <section className='bg-black mb-32'>
+        <div className='max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8'>
+          <div className='sm:flex sm:flex-col sm:align-center'>
+            <h1 className='text-4xl font-extrabold text-white sm:text-center sm:text-6xl'>
+              Allready approved
+            </h1>
           </div>
-        </section>
-      )
-    }
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="bg-black mb-32">
-      <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
+    <section className='bg-black mb-32'>
+      <div className='max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8'>
+        <div className='sm:flex sm:flex-col sm:align-center'>
+          <h1 className='text-4xl font-extrabold text-white sm:text-center sm:text-6xl'>
             New Approval
           </h1>
         </div>
       </div>
-      <div className="p-4">
-        <div className="border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8">
-          <div className="px-5 py-4">
+      <div className='p-4'>
+        <div className='border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8'>
+          <div className='px-5 py-4'>
             <div className={classes.root}>
-              <h3 className="text-2xl font-extrabold text-white sm:text-center pb-5">
+              <h3 className='text-2xl font-extrabold text-white sm:text-center pb-5'>
                 Approval for the proccess x
               </h3>
               <Card className={classes.content}>
                 <CardContent className={classes.content}>
-                  <Typography variant="body1">{approval?.content}</Typography>
+                  <Typography variant='body1'>{approvalData?.content}</Typography>
                 </CardContent>
               </Card>
               <p className={classes.text}>Are you sure you want to approve this?</p>
               <Grid container spacing={4} className={classes.buttonContainer}>
-                <Grid item xs={6} style={{width: '30%'}}>
-                  <Button fullWidth variant="contained" color="primary" onClick={handleApprove} size="small">
+                <Grid item xs={6} style={{ width: '30%' }}>
+                  <Button fullWidth variant='contained' color='primary' onClick={handleApprove} size='small'>
                     Approve
                   </Button>
                 </Grid>
-                <Grid item xs={6} style={{width: '30%'}}>
-                  <Button fullWidth variant="contained" color="secondary" onClick={handleDecline} size="small">
+                <Grid item xs={6} style={{ width: '30%' }}>
+                  <Button fullWidth variant='contained' color='secondary' onClick={handleDecline} size='small'>
                     Decline
                   </Button>
                 </Grid>

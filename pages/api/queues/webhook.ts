@@ -19,8 +19,7 @@ const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
   };
   console.log(webhook.subscriberUrl)
   try {
-    const response = await fetch(webhook.subscriberUrl, {
-      method: 'POST',
+    const response = await fetch(webhook.subscriberUrl, { //Todo change to axios
       body: JSON.stringify(event.payload),
       ...config,
     });
@@ -34,6 +33,7 @@ const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
       if(supabaseResponse.error) {
         console.error(`Failed to update Status for `)
       }
+      throw new Error(`Failed to send webhook for approval ${webhook.approvalId}`)
     }
 
     // update this event webhook status in events DB so the user knows the status

@@ -35,9 +35,16 @@ export interface UserDetails {
 
 export interface Approval {
   ID: string /* primary key */;
-  content: string;
-  process_id: string;
-  approved: boolean;
+  content: string | null;
+  process_id: string | null;
+  approved: boolean | null;
+}
+
+export interface ApprovalData {
+  approvalID: string /* primary key */;
+  content: string | null;
+  approved: boolean | null;
+  name: string | null;
 }
 
 export interface Process {

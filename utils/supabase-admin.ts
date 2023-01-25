@@ -4,6 +4,7 @@ import { toDateTime } from './helpers';
 import { Customer, UserDetails, Price, Product } from 'types';
 import type { Database } from 'types_db';
 import Stripe from 'stripe';
+import {ApprovalData} from 'types';
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
 // as it has admin priviliges and overwrites RLS policies!
@@ -188,10 +189,43 @@ const getApproval = async (approvalID: string) => {
   }
 }
 
+
+const getDataForApproval = async (approvalID: string) => {
+  try {
+    console.log(approvalID)
+    const response = await supabaseAdmin.from('approvals').select('*').eq('ID', approvalID).single();
+    if(response.error) {
+      return { error: `Error: ${response.statusText}` };
+    }
+    const approvalData = response.data;
+    if(approvalData.process_id) {
+      const processResponse = await supabaseAdmin.from('processes').select('*').eq('ident', approvalData.process_id).single();
+      if(processResponse.error) {
+        return { error: `Error: ${response.statusText}` };
+      } else {
+        const processData = processResponse.data;
+        return { data : {
+            approvalID : approvalData.ID,
+            content : approvalData.content,
+            name: processData.name,
+            approved: approvalData.approved
+          } as ApprovalData, message: 'Approval retrieved successfully' };
+      }
+    } else {
+      return { error: `Error: Failed to load process data` };
+    }
+  } catch (error) {
+    console.error(error);
+    return { error: error };
+  }
+}
+
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
-  getApproval
+  getApproval,
+  getDataForApproval
 };
