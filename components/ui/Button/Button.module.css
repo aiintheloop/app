@@ -3,7 +3,7 @@
 }
 
 .root:hover {
-  @apply bg-zinc-800 text-white border border-white;
+  @apply bg-zinc-800 text-black border border-white;
 }
 
 .root:focus {

@@ -60,7 +60,7 @@ function Card({ title, description, footer, children }: Props) {
         <p className="overflow-scroll h-16">{children}</p>
       </div>
       {footer && (
-        <div className="border-t border-zinc-700 bg-zinc-900 p-4 text-zinc-500 rounded-b-md">
+        <div className="border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 rounded-b-md">
           {footer}
         </div>
       )}
@@ -75,13 +75,13 @@ export default function Processes({ user }: { user: User }) {
   const handleAddProcess = async () => {};
 
   return (
-    <section className="bg-black mb-32">
+    <section className="bg-neutral-100 mb-32">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-white sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
             Process
           </h1>
-          <p className="mt-5 text-xl text-zinc-200 sm:text-center sm:text-2xl max-w-2xl m-auto">
+          <p className="mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto">
             All your possible Approvals
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function Processes({ user }: { user: User }) {
                 <div className="px-5 py-5">
                   <div className="flex justify-center items-center text-center py-20">
                     <div className="bg-zinc-800 rounded-full w-9 h-9">
-                      <AddIcon className="text-zinc-300" fontSize="large" />
+                      <AddIcon className="text-zinc-900" fontSize="large" />
                     </div>
                   </div>
                 </div>

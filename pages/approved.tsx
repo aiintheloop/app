@@ -34,10 +34,10 @@ export default function ApprovedFinish() {
 
 
   return (
-    <section className='bg-black mb-32'>
+    <section className='bg-neutral-100 mb-32'>
       <div className='max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:flex-col sm:align-center'>
-          <h1 className='text-4xl font-extrabold text-white sm:text-center sm:text-6xl'>
+          <h1 className='text-4xl font-extrabold text-black sm:text-center sm:text-6xl'>
             Approval finished
           </h1>
         </div>
@@ -46,7 +46,7 @@ export default function ApprovedFinish() {
         <div className='border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8'>
           <div className='px-5 py-4'>
             <div className={classes.root}>
-              <h3 className='text-2xl font-extrabold text-white sm:text-center pb-5'>
+              <h3 className='text-2xl font-extrabold text-black sm:text-center pb-5'>
                 Thanks for your decision
               </h3>
             </div>
