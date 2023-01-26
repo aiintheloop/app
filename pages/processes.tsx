@@ -93,7 +93,7 @@ export default function Processes({ user }: { user: User }) {
               <div className="border border-zinc-700 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-500">
                 <div className="px-5 py-5">
                   <div className="flex justify-center items-center text-center py-20">
-                    <div className="bg-zinc-800 rounded-full w-9 h-9">
+                    <div className="bg-zinc-200 rounded-full w-9 h-9">
                       <AddIcon className="text-zinc-900" fontSize="large" />
                     </div>
                   </div>
