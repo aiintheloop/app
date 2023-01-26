@@ -4,7 +4,7 @@ import {
   useSessionContext,
   User
 } from '@supabase/auth-helpers-react';
-import { UserDetails } from 'types';
+import { Process, UserDetails } from 'types';
 import { Subscription } from 'types';
 
 type UserContextType = {
@@ -13,6 +13,7 @@ type UserContextType = {
   userDetails: UserDetails | null;
   isLoading: boolean;
   subscription: Subscription | null;
+  processes: Process[] | null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -34,6 +35,7 @@ export const MyUserContextProvider = (props: Props) => {
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [processes, setProcesses] = useState<Process[] | null>(null);
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getSubscription = () =>
@@ -42,24 +44,32 @@ export const MyUserContextProvider = (props: Props) => {
       .select('*, prices(*, products(*))')
       .in('status', ['trialing', 'active'])
       .single();
+  const getUserProcesses = () =>
+    supabase.from('processes').select('*').eq('user_id', user?.id);
 
   useEffect(() => {
-    if (user && !isLoadingData && !userDetails && !subscription) {
+    if (user && !isLoadingData && !userDetails && !subscription && !processes) {
       setIsloadingData(true);
-      Promise.allSettled([getUserDetails(), getSubscription()]).then(
-        (results) => {
-          const userDetailsPromise = results[0];
-          const subscriptionPromise = results[1];
+      Promise.allSettled([
+        getUserDetails(),
+        getSubscription(),
+        getUserProcesses()
+      ]).then((results) => {
+        const userDetailsPromise = results[0];
+        const subscriptionPromise = results[1];
+        const processesPromise = results[2];
 
-          if (userDetailsPromise.status === 'fulfilled')
-            setUserDetails(userDetailsPromise.value.data);
+        if (userDetailsPromise.status === 'fulfilled')
+          setUserDetails(userDetailsPromise.value.data);
 
-          if (subscriptionPromise.status === 'fulfilled')
-            setSubscription(subscriptionPromise.value.data);
+        if (subscriptionPromise.status === 'fulfilled')
+          setSubscription(subscriptionPromise.value.data);
 
-          setIsloadingData(false);
-        }
-      );
+        if (processesPromise.status === 'fulfilled')
+          setProcesses(processesPromise.value.data);
+
+        setIsloadingData(false);
+      });
     } else if (!user && !isLoadingUser && !isLoadingData) {
       setUserDetails(null);
       setSubscription(null);
@@ -70,8 +80,10 @@ export const MyUserContextProvider = (props: Props) => {
     accessToken,
     user,
     userDetails,
+    setUserDetails,
     isLoading: isLoadingUser || isLoadingData,
-    subscription
+    subscription,
+    processes
   };
 
   return <UserContext.Provider value={value} {...props} />;

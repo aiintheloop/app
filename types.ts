@@ -43,7 +43,6 @@ export interface Approval {
   user_id: string | null;
 }
 
-
 export interface ApprovalData {
   approvalID: string /* primary key */;
   content: string | null;
@@ -56,7 +55,12 @@ export interface Process {
   ident: string /* primary key */;
   name: string;
   webhook: string;
+  tool: string;
+  type: string;
+  hook: boolean;
+  description: string;
   user_id: string;
+  created_at: string;
 }
 
 export interface Price {
