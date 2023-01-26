@@ -6,97 +6,15 @@ import GitHub from 'components/icons/GitHub';
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-[1920px] px-6 bg-zinc-200">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-zinc-600 py-12 text-black transition-colors duration-150 bg-zinc-200">
-        <div className="col-span-1 lg:col-span-2">
-          <Link href="/">
-            <a className="flex flex-initial items-center font-bold md:mr-24">
-              <span className="rounded-full border border-zinc-700 mr-2">
-                <Logo />
-              </span>
-              <span>ACME</span>
-            </a>
-          </Link>
-        </div>
-        <div className="col-span-1 lg:col-span-2">
-          <ul className="flex flex-initial flex-col md:flex-1">
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  Home
-                </a>
-              </Link>
-            </li>
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  About
-                </a>
-              </Link>
-            </li>
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  Careers
-                </a>
-              </Link>
-            </li>
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  Blog
-                </a>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="col-span-1 lg:col-span-2">
-          <ul className="flex flex-initial flex-col md:flex-1">
-            <li className="py-3 md:py-0 md:pb-4">
-              <p className="text-black font-bold hover:text-zinc-800 transition ease-in-out duration-150">
-                LEGAL
-              </p>
-            </li>
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  Privacy Policy
-                </a>
-              </Link>
-            </li>
-            <li className="py-3 md:py-0 md:pb-4">
-              <Link href="/">
-                <a className="text-black hover:text-zinc-800 transition ease-in-out duration-150">
-                  Terms of Use
-                </a>
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div className="col-span-1 lg:col-span-6 flex items-start lg:justify-end text-black">
-          <div className="flex space-x-6 items-center h-10">
-            <a
-              aria-label="Github Repository"
-              href="https://github.com/vercel/nextjs-subscription-payments"
-            >
-              <GitHub />
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="py-12 flex flex-col md:flex-row justify-between items-center space-y-4 bg-zinc-200">
+    <footer className="mx-auto max-w-[1920px] px-6 bg-neutral-100">
+      <div className="py-12 mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center space-y-4 ">
         <div>
-          <span>&copy; 2020 ACME, Inc. All rights reserved.</span>
+          <span className="text-black">v.0.1.0</span>
+          <span className="text-black"> | </span>
+          <span className="text-black">Terms</span>
         </div>
         <div className="flex items-center">
-          <span className="text-black">Crafted by</span>
-          <a href="https://vercel.com" aria-label="Vercel.com Link">
-            <img
-              src="/vercel.svg"
-              alt="Vercel.com Logo"
-              className="inline-block h-6 ml-4 text-black"
-            />
-          </a>
+          <span className="text-black">Support</span>
         </div>
       </div>
     </footer>
