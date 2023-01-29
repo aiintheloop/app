@@ -44,12 +44,12 @@ const SignIn = () => {
                   default: {
                     colors: {
                       brand: '#404040',
-                      brandAccent: '#52525b'
+                      brandAccent: '#000000'
                     }
                   }
                 }
               }}
-              theme="dark"
+              theme="default"
             />
             <div className="flex place-items-center m-auto">
               <span className="text-xs text-accents-4 text-center">
