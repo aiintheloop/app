@@ -51,7 +51,7 @@ export interface ApprovalData {
   name: string | null;
 }
 
-export interface Process {
+export interface Loop {
   ident: string /* primary key */;
   name: string;
   webhook: string;

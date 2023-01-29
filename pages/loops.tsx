@@ -1,34 +1,21 @@
-import Link from 'next/link';
+
 import { useState, ReactNode } from 'react';
-
-import LoadingDots from 'components/ui/LoadingDots';
-import Button from 'components/ui/Button';
 import { useUser } from 'utils/useUser';
-import { postData } from 'utils/helpers';
-
 import { User } from '@supabase/supabase-js';
-import { withPageAuth } from '@supabase/auth-helpers-nextjs';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import AddIcon from '@mui/icons-material/Add';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { Process } from 'types';
+import { Loop } from 'types';
 
 interface Props {
   title?: string;
   description?: string;
   footer?: ReactNode;
   children: ReactNode;
-  process?: Process;
+  process?: Loop;
 }
 
 function Card({ title, description, footer, children }: Props) {
@@ -68,9 +55,9 @@ function Card({ title, description, footer, children }: Props) {
   );
 }
 
-export default function Processes({ user }: { user: User }) {
+export default function Loops({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
-  const { isLoading, subscription, userDetails, processes } = useUser();
+  const { isLoading, subscription, userDetails, loops } = useUser();
 
   const handleAddProcess = async () => {};
 
@@ -101,40 +88,40 @@ export default function Processes({ user }: { user: User }) {
               </div>
             </div>
 
-            {processes?.map((process: Process) => {
+            {loops?.map((loop: Loop) => {
               return (
-                <div key={process.ident}>
+                <div key={loop.ident}>
                   <Card
-                    process={process}
-                    title={process.name}
-                    description={process.type}
+                    process={loop}
+                    title={loop.name}
+                    description={loop.type}
                     footer={
                       <div className="flex items-start justify-between flex-col sm:flex-row sm:items-center">
                         <p className="pb-4 sm:pb-0">
-                          {process.hook === null && (
+                          {loop.hook === null && (
                             <PendingOutlinedIcon
                               fontSize="medium"
                               color="warning"
                             />
                           )}
-                          {process.hook == true && (
+                          {loop.hook == true && (
                             <CheckCircleOutlinedIcon
                               fontSize="medium"
                               color="success"
                             />
                           )}
-                          {process.hook == false && (
+                          {loop.hook == false && (
                             <ErrorOutlineOutlinedIcon
                               fontSize="medium"
                               color="error"
                             />
                           )}
                         </p>
-                        <p className="pb-4 sm:pb-0">{process.tool}</p>
+                        <p className="pb-4 sm:pb-0">{loop.tool}</p>
                       </div>
                     }
                   >
-                    {process.description}
+                    {loop.description}
                   </Card>
                 </div>
               );

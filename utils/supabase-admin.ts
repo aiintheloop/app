@@ -198,21 +198,21 @@ const getDataForApproval = async (approvalID: string) => {
       return { error: `Error: ${response.statusText}` };
     }
     const approvalData = response.data;
-    if(approvalData.process_id) {
-      const processResponse = await supabaseAdmin.from('processes').select('*').eq('ident', approvalData.process_id).single();
-      if(processResponse.error) {
+    if(approvalData.loop_id) {
+      const loopResponse = await supabaseAdmin.from('loops').select('*').eq('ident', approvalData.loop_id).single();
+      if(loopResponse.error) {
         return { error: `Error: ${response.statusText}` };
       } else {
-        const processData = processResponse.data;
+        const loopData = loopResponse.data;
         return { data : {
             approvalID : approvalData.ID,
             content : approvalData.content,
-            name: processData.name,
+            name: loopData.name,
             approved: approvalData.approved
           } as ApprovalData, message: 'Approval retrieved successfully' };
       }
     } else {
-      return { error: `Error: Failed to load process data` };
+      return { error: `Error: Failed to load loop data` };
     }
   } catch (error) {
     console.error(error);

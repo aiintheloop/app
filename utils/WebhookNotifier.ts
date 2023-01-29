@@ -12,8 +12,8 @@ const supabaseAdmin = createClient<Database>(
 );
 
 export default class WebhookNotifier {
-  static async sendEvent(processID : string, approvalId : string, data : string) {
-    const process = await supabaseAdmin.from('processes').select().eq('ident', processID).single()
+  static async sendEvent(loopId : string, approvalId : string, data : string) {
+    const process = await supabaseAdmin.from('loops').select().eq('ident', loopId).single()
     if (process.data) {
       const processData = process.data;
       // Adding to the queue
@@ -47,6 +47,6 @@ export default class WebhookNotifier {
         throw new Error(`Failed to send webhook with reason '${webhookResponse.error}' and status '${webhookResponse.status}'`)
       }
     }
-    throw new Error(`Failed to load process with id: ${processID}`)
+    throw new Error(`Failed to load process with id: ${loopId}`)
     }
   }

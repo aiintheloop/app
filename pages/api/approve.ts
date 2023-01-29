@@ -10,9 +10,9 @@ export default async function approve(
     const approvalId = req.query.id;
     try {
       const approvalData = await getApproval(approvalId);
-      if (approvalData.data?.process_id && approvalData.data?.content) {
+      if (approvalData.data?.loop_id && approvalData.data?.content) {
         try {
-          await WebhookNotifier.sendEvent(approvalData.data.process_id, approvalId, approvalData.data.content);
+          await WebhookNotifier.sendEvent(approvalData.data.loop_id, approvalId, approvalData.data.content);
           const approvalResponse = await supabase.from('approvals').update({ approved: true }).eq('ID', approvalId);
           if(approvalResponse.error) {
             console.error(`Failed to set approval to approved with error ${approvalResponse.error}`);

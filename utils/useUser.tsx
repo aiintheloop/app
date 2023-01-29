@@ -4,7 +4,7 @@ import {
   useSessionContext,
   User
 } from '@supabase/auth-helpers-react';
-import { Process, UserDetails } from 'types';
+import { Loop, UserDetails } from 'types';
 import { Subscription } from 'types';
 
 type UserContextType = {
@@ -13,7 +13,7 @@ type UserContextType = {
   userDetails: UserDetails | null;
   isLoading: boolean;
   subscription: Subscription | null;
-  processes: Process[] | null;
+  loops: Loop[] | null;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -35,7 +35,7 @@ export const MyUserContextProvider = (props: Props) => {
   const [isLoadingData, setIsloadingData] = useState(false);
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
-  const [processes, setProcesses] = useState<Process[] | null>(null);
+  const [loops, setLoops] = useState<Loop[] | null>(null);
 
   const getUserDetails = () => supabase.from('users').select('*').single();
   const getSubscription = () =>
@@ -45,10 +45,10 @@ export const MyUserContextProvider = (props: Props) => {
       .in('status', ['trialing', 'active'])
       .single();
   const getUserProcesses = () =>
-    supabase.from('processes').select('*').eq('user_id', user?.id);
+    supabase.from('loops').select('*').eq('user_id', user?.id);
 
   useEffect(() => {
-    if (user && !isLoadingData && !userDetails && !subscription && !processes) {
+    if (user && !isLoadingData && !userDetails && !subscription && !loops) {
       setIsloadingData(true);
       Promise.allSettled([
         getUserDetails(),
@@ -57,7 +57,7 @@ export const MyUserContextProvider = (props: Props) => {
       ]).then((results) => {
         const userDetailsPromise = results[0];
         const subscriptionPromise = results[1];
-        const processesPromise = results[2];
+        const loopsPromise = results[2];
 
         if (userDetailsPromise.status === 'fulfilled')
           setUserDetails(userDetailsPromise.value.data);
@@ -65,8 +65,8 @@ export const MyUserContextProvider = (props: Props) => {
         if (subscriptionPromise.status === 'fulfilled')
           setSubscription(subscriptionPromise.value.data);
 
-        if (processesPromise.status === 'fulfilled')
-          setProcesses(processesPromise.value.data);
+        if (loopsPromise.status === 'fulfilled')
+          setLoops(loopsPromise.value.data);
 
         setIsloadingData(false);
       });
@@ -83,7 +83,7 @@ export const MyUserContextProvider = (props: Props) => {
     setUserDetails,
     isLoading: isLoadingUser || isLoadingData,
     subscription,
-    processes
+    loops
   };
 
   return <UserContext.Provider value={value} {...props} />;

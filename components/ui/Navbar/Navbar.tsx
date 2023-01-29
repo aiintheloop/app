@@ -32,7 +32,7 @@ const Navbar = () => {
               <Link href="/account">
                 <a className={s.link}>Account</a>
               </Link>
-              <Link href="/processes">
+              <Link href="/Loops">
                 <a className={s.link}>Processes</a>
               </Link>
             </nav>
