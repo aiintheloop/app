@@ -15,7 +15,7 @@ export default class WebhookNotifier {
   static async sendEvent(loopId : string, approvalId : string, data : string) {
     const process = await supabaseAdmin.from('loops').select().eq('ident', loopId).single()
     if (process.data) {
-      const processData = process.data;
+      const loopData = process.data;
       // Adding to the queue
       const webhookResponse = await supabaseAdmin.from('webhooks').insert({
         id: uuid4(),
@@ -26,9 +26,9 @@ export default class WebhookNotifier {
         await WebhookQueue.enqueue(
           {
             webhook: {
-              processID: processData.ident,
+              processID: loopData.ident,
               approvalId: approvalId,
-              subscriberUrl: processData.webhook
+              subscriberUrl: loopData.webhook
             },
             event: {
               type: 'approval',

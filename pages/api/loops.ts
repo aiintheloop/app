@@ -2,38 +2,43 @@ import { getApproval } from 'utils/supabase-admin';
 import WebhookNotifier from '@/utils/WebhookNotifier';
 import { supabase } from '@/utils/supabase-client';
 
-
 /**
  * @swagger
- * definitions:
- *   Loops:
- *     required:
- *       - id
- *       - password
- *     properties:
- *       username:
- *         type: string
- *       password:
- *         type: string
- *       path:
- *         type: string
+ * components:
+ *   schemas:
+ *     Loops:
+ *       type: object
+ *       properties:
+ *         ident:
+ *           type: string
+ *         name:
+ *           type: string
+ *         webhook:
+ *           type: string
+ *         tool:
+ *           type: string
+ *         type:
+ *           type: string
+ *         hook:
+ *           type: boolean
+ *         description:
+ *           type: string
  */
 
 /**
  * @swagger
- * /loops:
+ * /api/loops:
  *   get:
- *     description: Returns all Loops for a User
+ *     summary: Returns all Loops for a User
  *     tags:
  *      - Loops
- *     produces:
- *      - application/json
  *     responses:
  *       200:
  *         description: users
- *         schema:
- *            type: object
- *            $ref: '#/definitions/Login
+ *         content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Loops'
  */
 export default async function loops(
   req: any,
