@@ -259,16 +259,15 @@ export function ModalForm({
                         className="ring-0 border-0 outline-none"
                         size="small"
                       />
+                      <div className="mt-4">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
+                        >
+                          Create Loop
+                        </button>
+                      </div>
                     </form>
-
-                    <div className="mt-4">
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
-                      >
-                        Create Loop
-                      </button>
-                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
