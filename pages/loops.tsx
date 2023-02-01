@@ -263,7 +263,7 @@ export function ModalForm({
 
                     <div className="mt-4">
                       <button
-                        type="button"
+                        type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
                       >
                         Create Loop
