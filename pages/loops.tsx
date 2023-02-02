@@ -254,7 +254,7 @@ export function ModalForm({
                         label="Title"
                         className="ring-0 border-0 outline-none"
                         size="small"
-                        defaultValue={data.title}
+                        value={data.title}
                         required
                       />
                       <TextField
@@ -263,7 +263,7 @@ export function ModalForm({
                         multiline
                         className="ring-0 border-0 outline-none"
                         rows={4}
-                        defaultValue={data.description}
+                        value={data.description}
                         required
                       />
                       <TextField
@@ -271,14 +271,14 @@ export function ModalForm({
                         label="Webhook Accept"
                         className="ring-0 border-0 outline-none"
                         size="small"
-                        defaultValue={data.webhookAccept}
+                        value={data.webhookAccept}
                       />
                       <TextField
                         onChange={setWebhookDecline}
                         label="Webhook Decline"
                         className="ring-0 border-0 outline-none"
                         size="small"
-                        defaultValue={data.webhookDecline}
+                        value={data.webhookDecline}
                       />
                       <div className="mt-4">
                         <button
