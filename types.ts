@@ -52,15 +52,15 @@ export interface ApprovalData {
 }
 
 export interface Loop {
-  ident: string /* primary key */;
-  name: string;
-  webhook: string;
-  tool: string;
-  type: string;
-  hook: boolean;
-  description: string;
-  user_id: string;
-  created_at: string;
+  afterLoopHook: string | null
+  beforeLoopHook: string | null
+  created_at: string | null
+  description: string | null
+  hook: boolean | null
+  ident: string | null
+  name: string | null
+  tool: string | null
+  type: string | null
 }
 
 export interface Price {
