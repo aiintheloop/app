@@ -14,8 +14,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: string | null;
+  description?: string | null;
   footer?: ReactNode;
   children: ReactNode;
   process?: Loop;
