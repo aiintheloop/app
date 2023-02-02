@@ -114,6 +114,14 @@ export default function Loops() {
               isOpen={isOpen}
               setIsOpen={setIsOpen}
               submit={handleSubmit}
+              data={{
+                automation,
+                automationType,
+                title,
+                description,
+                webhookAccept,
+                webhookDecline
+              }}
               setAutomation={setAutomation}
               setAutomationType={setAutomationType}
               setTitle={setTitle}
@@ -177,9 +185,18 @@ interface ModalFormProps {
   setDescription: (value: any) => void;
   setWebhookAccept: (value: any) => void;
   setWebhookDecline: (value: any) => void;
+  data: {
+    automation: string;
+    automationType: string;
+    title: string;
+    description: string;
+    webhookAccept: string;
+    webhookDecline: string;
+  };
 }
 
 export function ModalForm({
+  data,
   isOpen,
   setIsOpen,
   submit,
@@ -237,6 +254,7 @@ export function ModalForm({
                         label="Title"
                         className="ring-0 border-0 outline-none"
                         size="small"
+                        defaultValue={data.title}
                         required
                       />
                       <TextField
@@ -245,6 +263,7 @@ export function ModalForm({
                         multiline
                         className="ring-0 border-0 outline-none"
                         rows={4}
+                        defaultValue={data.description}
                         required
                       />
                       <TextField
@@ -252,12 +271,14 @@ export function ModalForm({
                         label="Webhook Accept"
                         className="ring-0 border-0 outline-none"
                         size="small"
+                        defaultValue={data.webhookAccept}
                       />
                       <TextField
                         onChange={setWebhookDecline}
                         label="Webhook Decline"
                         className="ring-0 border-0 outline-none"
                         size="small"
+                        defaultValue={data.webhookDecline}
                       />
                       <div className="mt-4">
                         <button
