@@ -263,7 +263,7 @@ export function ModalForm({
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={submit} className="flex flex-col space-y-4">
-                      <List onChange={setAutomation} options={automation} />
+                      <List onChange={setAutomation} options={automation}/>
                       <List onChange={setAutomationType} options={type} />
                       <TextField
                         onChange={setTitle}
@@ -351,7 +351,7 @@ export function List({ onChange, options }: ListProps) {
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
           <span className="block truncate text-sm">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
