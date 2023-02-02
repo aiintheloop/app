@@ -28,7 +28,7 @@ export default class WebhookNotifier {
             webhook: {
               processID: loopData.ident,
               approvalId: approvalId,
-              subscriberUrl: loopData.webhook
+              subscriberUrl: loopData.afterLoopHook
             },
             event: {
               type: 'approval',
