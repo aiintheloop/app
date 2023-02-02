@@ -1,7 +1,5 @@
-
-import { useState, ReactNode } from 'react';
+import { useState, ReactNode, useEffect } from 'react';
 import { useUser } from 'utils/useUser';
-import { User } from '@supabase/supabase-js';
 
 import AddIcon from '@mui/icons-material/Add';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
@@ -9,6 +7,11 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Loop } from 'types';
+import { Listbox } from '@headlessui/react';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import { TextField } from '@mui/material';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 interface Props {
   title?: string;
@@ -55,11 +58,46 @@ function Card({ title, description, footer, children }: Props) {
   );
 }
 
-export default function Loops({ user }: { user: User }) {
+export default function Loops() {
   const [loading, setLoading] = useState(false);
-  const { isLoading, subscription, userDetails, loops } = useUser();
+  const [isOpen, setIsOpen] = useState(false);
+  const [automation, setAutomation] = useState<string>('');
+  const [automationType, setAutomationType] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [webhookAccept, setWebhookAccept] = useState<string>('');
+  const [webhookDecline, setWebhookDecline] = useState<string>('');
+  const { user, isLoading, subscription, userDetails, loops } = useUser();
 
-  const handleAddProcess = async () => {};
+  const handleTitle = (e: any) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDescription = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const handleWebhookAccept = (e: any) => {
+    setWebhookAccept(e.target.value);
+  };
+
+  const handleWebhookDecline = (e: any) => {
+    setWebhookDecline(e.target.value);
+  };
+
+  const handleAddProcess = async () => {
+    if (!user) return alert('You need to be logged in to do that!');
+    setIsOpen(true);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (!user) return alert('You need to be logged in to do that!');
+    if (!automation) return alert('You need to select the automation!');
+    if (!automationType) return alert('You need to select the type!');
+    if (!title) return alert('You need to write the title!');
+    if (!description) return alert('You need to write the description!');
+  };
 
   return (
     <section className="bg-neutral-100 mb-32">
@@ -87,6 +125,26 @@ export default function Loops({ user }: { user: User }) {
                 </div>
               </div>
             </div>
+
+            <ModalForm
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              submit={handleSubmit}
+              data={{
+                automation,
+                automationType,
+                title,
+                description,
+                webhookAccept,
+                webhookDecline
+              }}
+              setAutomation={setAutomation}
+              setAutomationType={setAutomationType}
+              setTitle={handleTitle}
+              setDescription={handleDescription}
+              setWebhookAccept={handleWebhookAccept}
+              setWebhookDecline={handleWebhookDecline}
+            />
 
             {loops?.map((loop: Loop) => {
               return (
@@ -133,61 +191,213 @@ export default function Loops({ user }: { user: User }) {
   );
 }
 
-{
-  /* <div className="border border-zinc-700	max-w-7xl w-full p rounded-md m-auto my-8">
-          <div className="px-5 py-4">
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">Webhook</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.id}
-                      </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.webhook}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        </div> */
+interface ModalFormProps {
+  isOpen: boolean;
+  setIsOpen: (value: any) => void;
+  submit: () => void;
+  setAutomation: (value: any) => void;
+  setAutomationType: (value: any) => void;
+  setTitle: (value: any) => void;
+  setDescription: (value: any) => void;
+  setWebhookAccept: (value: any) => void;
+  setWebhookDecline: (value: any) => void;
+  data: {
+    automation: string;
+    automationType: string;
+    title: string;
+    description: string;
+    webhookAccept: string;
+    webhookDecline: string;
+  };
 }
 
-// function createData(id: string, name: string, webhook: string) {
-//   return { id, name, webhook };
-// }
+export function ModalForm({
+  data,
+  isOpen,
+  setIsOpen,
+  submit,
+  setAutomation,
+  setAutomationType,
+  setTitle,
+  setDescription,
+  setWebhookAccept,
+  setWebhookDecline
+}: ModalFormProps) {
+  return (
+    <>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={() => setIsOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
+          </Transition.Child>
 
-// const rows = [
-//   createData(
-//     '37162ab2-f8d0-402b-b3d3-12062450d3c6',
-//     'SocialMediaPost',
-//     'https://hook.eu1.make.com/i1qazj139ikkfjkptslmtu02vk9txnr5'
-//   ),
-//   createData(
-//     '37162ab2-f8d0-402b-b3d3-12062450d3c6',
-//     'SocialMediaPost',
-//     'https://hook.eu1.make.com/i1qazj139ikkfjkptslmtu02vk9txnr5'
-//   ),
-//   createData(
-//     '37162ab2-f8d0-402b-b3d3-12062450d3c6',
-//     'SocialMediaPost',
-//     'https://hook.eu1.make.com/i1qazj139ikkfjkptslmtu02vk9txnr5'
-//   ),
-//   createData(
-//     '37162ab2-f8d0-402b-b3d3-12062450d3c6',
-//     'SocialMediaPost',
-//     'https://hook.eu1.make.com/i1qazj139ikkfjkptslmtu02vk9txnr5'
-//   )
-// ];
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    New Loop
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <form onSubmit={submit} className="flex flex-col space-y-4">
+                      <List onChange={setAutomation} options={automation}/>
+                      <List onChange={setAutomationType} options={type} />
+                      <TextField
+                        onChange={setTitle}
+                        label="Title"
+                        className="ring-0 border-0 outline-none"
+                        size="small"
+                        value={data.title}
+                        required
+                      />
+                      <TextField
+                        onChange={setDescription}
+                        label="Description"
+                        multiline
+                        className="ring-0 border-0 outline-none"
+                        rows={4}
+                        value={data.description}
+                        required
+                      />
+                      <TextField
+                        onChange={setWebhookAccept}
+                        label="Webhook Accept"
+                        className="ring-0 border-0 outline-none"
+                        size="small"
+                        value={data.webhookAccept}
+                      />
+                      <TextField
+                        onChange={setWebhookDecline}
+                        label="Webhook Decline"
+                        className="ring-0 border-0 outline-none"
+                        size="small"
+                        value={data.webhookDecline}
+                      />
+                      <div className="mt-4">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
+                        >
+                          Create Loop
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
+  );
+}
+
+const automation = [
+  { id: 1, value: '', name: 'Select Automation' },
+  { id: 2, value: 'make', name: 'Make' },
+  { id: 3, value: 'zappier', name: 'Zappier' },
+  { id: 4, value: 'webhook', name: 'Webhook' }
+];
+
+const type = [
+  { id: 1, value: '', name: 'Select Type' },
+  { id: 2, value: 'text', name: 'Text' },
+  { id: 3, value: 'image', name: 'Image' },
+  { id: 4, value: 'video', name: 'Video' }
+];
+
+interface ListProps {
+  onChange: (status: string) => void;
+  options: Option[];
+}
+
+interface Option {
+  id: number;
+  value: string;
+  name: string;
+}
+
+export function List({ onChange, options }: ListProps) {
+  const [selected, setSelected] = useState(options[0]);
+
+  useEffect(() => {
+    onChange(selected.value);
+  }, [selected]);
+
+  return (
+    <Listbox value={selected} onChange={setSelected}>
+      <div className="relative mt-1">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
+          <span className="block truncate text-sm">{selected.name}</span>
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon
+              className="h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+          </span>
+        </Listbox.Button>
+        <Transition
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md bg-zinc-200 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+            {options.map((option) => (
+              <Listbox.Option
+                key={option.id}
+                className={({ active }) =>
+                  `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
+                    active ? 'bg-zinc-100 text-zinc-900' : 'text-gray-900'
+                  }`
+                }
+                value={option}
+              >
+                {({ selected }) => (
+                  <>
+                    <span
+                      className={`block truncate ${
+                        selected ? 'font-medium' : 'font-normal'
+                      }`}
+                    >
+                      {option.name}
+                    </span>
+                    {selected ? (
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-900">
+                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                      </span>
+                    ) : null}
+                  </>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Transition>
+      </div>
+    </Listbox>
+  );
+}
