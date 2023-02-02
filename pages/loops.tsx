@@ -69,6 +69,22 @@ export default function Loops() {
   const [webhookDecline, setWebhookDecline] = useState<string>('');
   const { user, isLoading, subscription, userDetails, loops } = useUser();
 
+  const handleTitle = (e: any) => {
+    setTitle(e.target.value);
+  };
+
+  const handleDescription = (e: any) => {
+    setDescription(e.target.value);
+  };
+
+  const handleWebhookAccept = (e: any) => {
+    setWebhookAccept(e.target.value);
+  };
+
+  const handleWebhookDecline = (e: any) => {
+    setWebhookDecline(e.target.value);
+  };
+
   const handleAddProcess = async () => {
     if (!user) return alert('You need to be logged in to do that!');
     setIsOpen(true);
@@ -124,10 +140,10 @@ export default function Loops() {
               }}
               setAutomation={setAutomation}
               setAutomationType={setAutomationType}
-              setTitle={setTitle}
-              setDescription={setDescription}
-              setWebhookAccept={setWebhookAccept}
-              setWebhookDecline={setWebhookDecline}
+              setTitle={handleTitle}
+              setDescription={handleDescription}
+              setWebhookAccept={handleWebhookAccept}
+              setWebhookDecline={handleWebhookDecline}
             />
 
             {loops?.map((loop: Loop) => {
