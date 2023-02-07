@@ -12,6 +12,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { TextField } from '@mui/material';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import Image from 'next/image';
 
 interface Props {
   title?: string | null;
@@ -263,7 +264,7 @@ export function ModalForm({
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={submit} className="flex flex-col space-y-4">
-                      <List onChange={setAutomation} options={automation}/>
+                      <List onChange={setAutomation} options={automation} />
                       <List onChange={setAutomationType} options={type} />
                       <TextField
                         onChange={setTitle}
@@ -282,20 +283,25 @@ export function ModalForm({
                         value={data.description}
                         required
                       />
-                      <TextField
-                        onChange={setWebhookAccept}
-                        label="Webhook Accept"
-                        className="ring-0 border-0 outline-none"
-                        size="small"
-                        value={data.webhookAccept}
-                      />
-                      <TextField
-                        onChange={setWebhookDecline}
-                        label="Webhook Decline"
-                        className="ring-0 border-0 outline-none"
-                        size="small"
-                        value={data.webhookDecline}
-                      />
+                      {data.automation === 'webhook' && (
+                        <>
+                          <TextField
+                            onChange={setWebhookAccept}
+                            label="Webhook Accept"
+                            className="ring-0 border-0 outline-none"
+                            size="small"
+                            value={data.webhookAccept}
+                          />
+                          <TextField
+                            onChange={setWebhookDecline}
+                            label="Webhook Decline"
+                            className="ring-0 border-0 outline-none"
+                            size="small"
+                            value={data.webhookDecline}
+                          />
+                        </>
+                      )}
+
                       <div className="mt-4">
                         <button
                           type="submit"
@@ -316,11 +322,15 @@ export function ModalForm({
   );
 }
 
+import FormatAlignLeftOutlinedIcon from '@mui/icons-material/FormatAlignLeftOutlined';
+import VideoCameraBackOutlinedIcon from '@mui/icons-material/VideoCameraBackOutlined';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+
 const automation = [
-  { id: 1, value: '', name: 'Select Automation' },
-  { id: 2, value: 'make', name: 'Make' },
-  { id: 3, value: 'zappier', name: 'Zappier' },
-  { id: 4, value: 'webhook', name: 'Webhook' }
+  { id: 1, value: '', name: 'Select Automation', logo: '' },
+  { id: 2, value: 'make', name: 'Make', logo: '' },
+  { id: 3, value: 'zappier', name: 'Zappier', logo: '/zapier.svg' },
+  { id: 4, value: 'webhook', name: 'Webhook', logo: '/webhook.svg' }
 ];
 
 const type = [
@@ -338,6 +348,8 @@ interface ListProps {
 interface Option {
   id: number;
   value: string;
+  logo?: string;
+  icon?: any;
   name: string;
 }
 
@@ -378,7 +390,34 @@ export function List({ onChange, options }: ListProps) {
                 value={option}
               >
                 {({ selected }) => (
-                  <>
+                  <div className="flex items-center gap-2">
+                    {option.logo && (
+                      <Image src={option.logo} width={18} height={18} />
+                    )}
+                    {option.value === 'text' && (
+                      <FormatAlignLeftOutlinedIcon
+                        style={{
+                          width: 18,
+                          height: 18
+                        }}
+                      />
+                    )}
+                    {option.value === 'image' && (
+                      <InsertPhotoOutlinedIcon
+                        style={{
+                          width: 18,
+                          height: 18
+                        }}
+                      />
+                    )}
+                    {option.value === 'video' && (
+                      <VideoCameraBackOutlinedIcon
+                        style={{
+                          width: 18,
+                          height: 18
+                        }}
+                      />
+                    )}
                     <span
                       className={`block truncate ${
                         selected ? 'font-medium' : 'font-normal'
@@ -391,7 +430,7 @@ export function List({ onChange, options }: ListProps) {
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}
-                  </>
+                  </div>
                 )}
               </Listbox.Option>
             ))}
