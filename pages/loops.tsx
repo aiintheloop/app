@@ -328,7 +328,7 @@ import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 
 const automation = [
   { id: 1, value: '', name: 'Select Automation', logo: '' },
-  { id: 2, value: 'make', name: 'Make', logo: '' },
+  { id: 2, value: 'make', name: 'Make', logo: '/make.png' },
   { id: 3, value: 'zappier', name: 'Zappier', logo: '/zapier.svg' },
   { id: 4, value: 'webhook', name: 'Webhook', logo: '/webhook.svg' }
 ];
