@@ -1,13 +1,13 @@
 import withAuth from '@/utils/withAuth';
 import { LoopService } from '../../../services/loopService';
 
-//Todo
+
 /**
  * @swagger
  * components:
  *   schemas:
  *     LoopsResponse:
- *       type: object:
+ *       type: object
  *       properties:
  *         message:
  *           type: string
