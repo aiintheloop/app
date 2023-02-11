@@ -6,7 +6,8 @@
     "dev": "concurrently 'next dev' 'quirrel'",
     "build": "next build",
     "start": "next start",
-    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=saas-starter"
+    "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=saas-starter",
+    "openapi:yaml": "typeconv -v -f ts -t oapi --oapi-format yaml --output-extension swagger.yaml --output-directory models/openapi models/*.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

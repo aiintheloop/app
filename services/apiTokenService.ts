@@ -1,5 +1,4 @@
 import { BaseService } from './baseService';
-import { Loop } from '../types';
 import { ServiceError } from './exception/ServiceError';
 
 export class ApiTokenService extends BaseService {
@@ -11,7 +10,6 @@ export class ApiTokenService extends BaseService {
   async getUserIdByAPIToken(apiKey : string) : Promise<string | null> {
     let response;
     try {
-      console.log(apiKey)
       response = await this._supabaseAdmin.from("users").select('id').eq('api_key', apiKey).single();
     } catch(error) {
       console.log(error)

@@ -1,38 +1,6 @@
 import withAuth from '@/utils/withAuth';
 import { LoopService } from '../../../services/loopService';
 
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     LoopsResponse:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *         data:
- *           $ref: '#/components/schemas/Loops'
- *     Loops:
- *       type: object
- *       properties:
- *         ident:
- *           type: string
- *         name:
- *           type: string
- *         webhook:
- *           type: string
- *         tool:
- *           type: string
- *         type:
- *           type: string
- *         hook:
- *           type: boolean
- *         description:
- *           type: string
- *
- */
-
 /**
  * @swagger
  * /api/loops:
@@ -42,11 +10,11 @@ import { LoopService } from '../../../services/loopService';
  *      - Loops
  *     responses:
  *       200:
- *         description: users
+ *         description: The list of all Loops
  *         content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/LoopsResponse'
+ *                $ref: '#/components/schemas/LoopResponse'
  */
 async function index(
   req: any,
