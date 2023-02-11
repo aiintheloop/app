@@ -32,29 +32,21 @@ const validate = ajv.compile(schema)
  * @swagger
  * components:
  *   schemas:
- *     LoopsResponse:
- *       type: object:
+ *     RegisterHookResponse:
+ *       type: object
  *       properties:
  *         message:
  *           type: string
- *         data:
- *           $ref: '#/components/schemas/Loops'
- *     Loops:
+ *         status:
+ *           type: number
+ *     RegisterHookRequest:
  *       type: object
  *       properties:
- *         ident:
- *           type: string
- *         name:
- *           type: string
- *         webhook:
- *           type: string
- *         tool:
+ *         loopId:
  *           type: string
  *         type:
  *           type: string
- *         hook:
- *           type: boolean
- *         description:
+ *         url:
  *           type: string
  *
  */
@@ -63,16 +55,20 @@ const validate = ajv.compile(schema)
  * @swagger
  * /api/registerHook:
  *   post:
- *     summary: register a hook for a certain loop
- *     tags:
- *      - Loops
+ *     summary: Register a hook for a certain loop
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterHookRequest'
  *     responses:
  *       200:
- *         description: users
+ *         description: RegisterHookResponse
  *         content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/LoopsResponse'
+ *                $ref: '#/components/schemas/RegisterHookResponse'
  */
 async function registerHook(req: NextApiRequest, res: NextApiResponse,
   userId: string

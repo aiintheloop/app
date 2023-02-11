@@ -1,21 +1,22 @@
 import { supabase } from '@/utils/supabase-client';
+import withAuth from '@/utils/withAuth';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 
 
 /**
  * @swagger
- * /api/hello:
+ * /api/ping:
  *   get:
- *     summary: Returns the hello world
+ *     summary: Check if api key valid
  *     responses:
  *       200:
- *         description: hello world
+ *         description: If API Key is valid
  */
-export default async function approve(
-  req: any,
-  res: any
-) {
+const ping = async (req: NextApiRequest, res: NextApiResponse) => {
   res.status(200).json({
-    result: 'hello world',
+    result: 'pong',
   });
 };
+
+export default withAuth(ping);
