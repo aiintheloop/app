@@ -15,6 +15,8 @@ type UserContextType = {
   isLoading: boolean;
   subscription: Subscription | null;
   loops: Loop[] | null;
+  setLoops: (loops: Loop[] | null) => void;
+  setUserDetails: (userDetails: UserDetails | null) => void;
 };
 
 export const UserContext = createContext<UserContextType | undefined>(
@@ -84,7 +86,8 @@ export const MyUserContextProvider = (props: Props) => {
     setUserDetails,
     isLoading: isLoadingUser || isLoadingData,
     subscription,
-    loops
+    loops,
+    setLoops
   };
 
   return <UserContext.Provider value={value} {...props} />;

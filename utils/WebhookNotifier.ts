@@ -12,8 +12,12 @@ const supabaseAdmin = createClient<Database>(
 );
 
 export default class WebhookNotifier {
-  static async sendEvent(loopId : string, approvalId : string, data : string) {
-    const process = await supabaseAdmin.from('loops').select().eq('ident', loopId).single()
+  static async sendEvent(loopId: string, approvalId: string, data: string) {
+    const process = await supabaseAdmin
+      .from('loops')
+      .select()
+      .eq('ident', loopId)
+      .single();
     if (process.data) {
       const loopData = process.data;
       // Adding to the queue
@@ -28,7 +32,7 @@ export default class WebhookNotifier {
             webhook: {
               processID: loopData.ident,
               approvalId: approvalId,
-              subscriberUrl: loopData.afterLoopHook
+              subscriberUrl: loopData.acceptHook
             },
             event: {
               type: 'approval',
@@ -42,11 +46,13 @@ export default class WebhookNotifier {
             retry: ['10sec', '5min', '1h'] // or output of https://www.npmjs.com/package/exponential-backoff-generator
           }
         );
-        return
+        return;
       } else {
-        throw new Error(`Failed to send webhook with reason '${webhookResponse.error}' and status '${webhookResponse.status}'`)
+        throw new Error(
+          `Failed to send webhook with reason '${webhookResponse.error}' and status '${webhookResponse.status}'`
+        );
       }
     }
-    throw new Error(`Failed to load process with id: ${loopId}`)
-    }
+    throw new Error(`Failed to load process with id: ${loopId}`);
   }
+}

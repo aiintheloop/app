@@ -51,8 +51,6 @@ export interface ApprovalData {
   name: string | null;
 }
 
-
-
 export interface Price {
   id: string /* primary key */;
   product_id?: string /* foreign key to products.id */;
@@ -87,4 +85,17 @@ export interface Subscription {
   trial_start?: string;
   trial_end?: string;
   prices?: Price;
+}
+
+export interface Loop {
+  ident: string;
+  created_at: string;
+  name: string;
+  user_id: string;
+  tool: string;
+  type: string;
+  hook?: boolean | null;
+  description: string;
+  acceptHook: string;
+  declineHook: string;
 }
