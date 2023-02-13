@@ -9,6 +9,8 @@ import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { AppProps } from 'next/app';
 import { MyUserContextProvider } from 'utils/useUser';
 import type { Database } from 'types_db';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [supabaseClient] = useState(() =>
@@ -22,6 +24,18 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <div className="bg-neutral-100">
       <SessionContextProvider supabaseClient={supabaseClient}>
         <MyUserContextProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <Layout>
             <Component {...pageProps} />
           </Layout>

@@ -2,7 +2,7 @@ import {
   createBrowserSupabaseClient,
   User
 } from '@supabase/auth-helpers-nextjs';
-import { ProductWithPrice } from 'types';
+import { Loop, ProductWithPrice } from 'types';
 import type { Database } from 'types_db';
 
 export const supabase = createBrowserSupabaseClient<Database>();
@@ -42,4 +42,26 @@ export const updateUserEmail = async (userId: string, email: string) => {
       email
     })
     .eq('id', userId);
+};
+
+export const insertUserLoops = async (userId: string, loops: Loop) => {
+  const { error } = await supabase.from('loops').insert({
+    ...loops
+  });
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+};
+
+export const getUserLoops = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('loops')
+    .select('*')
+    .eq('user_id', userId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+  return data;
 };

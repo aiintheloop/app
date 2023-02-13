@@ -12,6 +12,17 @@ import { TextField } from '@mui/material';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
+import FormatAlignLeftOutlinedIcon from '@mui/icons-material/FormatAlignLeftOutlined';
+import VideoCameraBackOutlinedIcon from '@mui/icons-material/VideoCameraBackOutlined';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
+import { Loop } from '../models/loop';
+import { getUserLoops, insertUserLoops } from '@/utils/supabase-client';
+import {
+  capitalizeFirstLetter,
+  generateUUID,
+  getCurrentDate
+} from '@/utils/helpers';
 
 interface Props {
   title?: string | null;
@@ -43,7 +54,7 @@ function Card({ title, description, footer, children }: Props) {
               ${description.toLowerCase() == 'text' && 'bg-purple-400'}
               } rounded-2xl px-3 py-1 inline-block`}
             >
-              {description}
+              {capitalizeFirstLetter(description)}
             </div>
           </p>
         )}
@@ -67,7 +78,7 @@ export default function Loops() {
   const [description, setDescription] = useState<string>('');
   const [webhookAccept, setWebhookAccept] = useState<string>('');
   const [webhookDecline, setWebhookDecline] = useState<string>('');
-  const { user, isLoading, subscription, userDetails, loops } = useUser();
+  const { user, loops, setLoops } = useUser();
 
   const handleTitle = (e: any) => {
     setTitle(e.target.value);
@@ -90,13 +101,39 @@ export default function Loops() {
     setIsOpen(true);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
     setLoading(true);
     if (!user) return alert('You need to be logged in to do that!');
-    if (!automation) return alert('You need to select the automation!');
-    if (!automationType) return alert('You need to select the type!');
-    if (!title) return alert('You need to write the title!');
-    if (!description) return alert('You need to write the description!');
+    if (!automation) return toast.error('Please select an automation!');
+    if (!automationType) return toast.error('Please select the type!');
+    if (!title) return toast.error('Please enter a title!');
+    if (!description) return toast.error('Please enter a description!');
+
+    const loop = {
+      ident: generateUUID(),
+      created_at: getCurrentDate(),
+      name: title,
+      user_id: user.id,
+      description,
+      tool: automation,
+      type: automationType,
+      hook: null,
+      acceptHook: webhookAccept,
+      declineHook: webhookDecline
+    };
+
+    try {
+      await insertUserLoops(user.id, loop);
+      await getUserLoops(user.id).then((res) => setLoops(res));
+      toast.success('Loops added successfully!');
+      setIsOpen(false);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Something went wrong!');
+      setLoading(false);
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -175,7 +212,9 @@ export default function Loops() {
                             />
                           )}
                         </p>
-                        <p className="pb-4 sm:pb-0">{loop.tool}</p>
+                        <p className="pb-4 sm:pb-0">
+                          {capitalizeFirstLetter(loop.tool as string)}
+                        </p>
                       </div>
                     }
                   >
@@ -194,7 +233,7 @@ export default function Loops() {
 interface ModalFormProps {
   isOpen: boolean;
   setIsOpen: (value: any) => void;
-  submit: () => void;
+  submit: (e: any) => void;
   setAutomation: (value: any) => void;
   setAutomationType: (value: any) => void;
   setTitle: (value: any) => void;
@@ -304,6 +343,7 @@ export function ModalForm({
                       <div className="mt-4">
                         <button
                           type="submit"
+                          onClick={submit}
                           className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
                         >
                           Create Loop
@@ -321,11 +361,6 @@ export function ModalForm({
   );
 }
 
-import FormatAlignLeftOutlinedIcon from '@mui/icons-material/FormatAlignLeftOutlined';
-import VideoCameraBackOutlinedIcon from '@mui/icons-material/VideoCameraBackOutlined';
-import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
-import { Loop } from '../models/loop';
-
 const automation = [
   { id: 1, value: '', name: 'Select Automation', logo: '' },
   { id: 2, value: 'make', name: 'Make', logo: '/make.png' },
@@ -336,7 +371,7 @@ const automation = [
 const type = [
   { id: 1, value: '', name: 'Select Type' },
   { id: 2, value: 'text', name: 'Text' },
-  { id: 3, value: 'image', name: 'Image' },
+  { id: 3, value: 'picture', name: 'Picture' },
   { id: 4, value: 'video', name: 'Video' }
 ];
 
@@ -402,7 +437,7 @@ export function List({ onChange, options }: ListProps) {
                         }}
                       />
                     )}
-                    {option.value === 'image' && (
+                    {option.value === 'picture' && (
                       <InsertPhotoOutlinedIcon
                         style={{
                           width: 18,
