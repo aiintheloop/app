@@ -6,7 +6,6 @@ export declare type NextRoute = ((req: any, res: any, userId: string) => Promise
 
 function withAuth(route : NextRoute) {
   const routeFunction: NextRoute = async function (req: any, res: any): Promise<void> {
-
     const apiTokenService = new ApiTokenService();
     const apiKey = req.headers["apikey"]
     if(apiKey) {

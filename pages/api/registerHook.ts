@@ -4,14 +4,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Ajv, {JSONSchemaType} from "ajv"
 import addFormats from "ajv-formats"
 import { ServiceError } from '../../services/exception/ServiceError';
+import { RegisterHookRequest } from '../../models/registerHookRequest';
 const ajv = new Ajv()
 addFormats(ajv)
 
-interface RegisterHookRequest {
-  type: string
-  url: string
-  loopId: string
-}
 
 const schema: JSONSchemaType<RegisterHookRequest> = {
   type: "object",
@@ -23,33 +19,7 @@ const schema: JSONSchemaType<RegisterHookRequest> = {
   required: ["type","url","loopId"],
   additionalProperties: false
 }
-
-// validate is a type guard for MyData - type is inferred from schema type
 const validate = ajv.compile(schema)
-
-//Todo
-/**
- * @swagger
- * components:
- *   schemas:
- *     RegisterHookResponse:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *         status:
- *           type: number
- *     RegisterHookRequest:
- *       type: object
- *       properties:
- *         loopId:
- *           type: string
- *         type:
- *           type: string
- *         url:
- *           type: string
- *
- */
 
 /**
  * @swagger
@@ -68,7 +38,7 @@ const validate = ajv.compile(schema)
  *         content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/RegisterHookResponse'
+ *                $ref: '#/components/schemas/DefaultResponse'
  */
 async function registerHook(req: NextApiRequest, res: NextApiResponse,
   userId: string

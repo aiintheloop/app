@@ -49,9 +49,9 @@ const validate = ajv.compile(schema)
 
 /**
  * @swagger
- * /api/registerHook:
+ * /api/unregisterHook:
  *   post:
- *     summary: Register a hook for a certain loop
+ *     summary: Unregister a hook for a certain loop
  *     requestBody:
  *       required: true
  *       content:
@@ -64,7 +64,7 @@ const validate = ajv.compile(schema)
  *         content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/UnregisterHookResponse'
+ *                $ref: '#/components/schemas/DefaultResponse'
  */
 async function unregisterHook(req: NextApiRequest, res: NextApiResponse,
   userId: string

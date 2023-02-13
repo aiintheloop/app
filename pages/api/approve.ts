@@ -18,7 +18,7 @@ export default async function approve(
             console.error(`Failed to set approval to approved with error ${approvalResponse.error}`);
             return res.status(500).json({ status: '500', message: 'Approving failed' });
           }
-          console.log("bla")
+
           return res.status(200).json({ status: '200', message: 'Approved' });
         } catch (err) {
           console.error(err);
