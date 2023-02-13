@@ -8,6 +8,7 @@ import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Link from 'next/link';
 import { updateUserEmail } from '@/utils/supabase-client';
 import { useUser } from '@/utils/useUser';
+import axios from 'axios';
 
 const SignIn = () => {
   const router = useRouter();
@@ -20,8 +21,17 @@ const SignIn = () => {
       if (!user.email) return;
       await updateUserEmail(user.id, user.email);
     }
+    async function initUser() {
+      if (!user) return;
+      const res: Response = await axios.post("api/init_user", {email: "user.email"}, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+      console.log(res)
+    }
     if (user) {
       if (userDetails?.email !== user.email) updateUser();
+      if (!userDetails?.init) initUser();
       router.replace('/account');
     }
   }, [user]);
@@ -37,7 +47,7 @@ const SignIn = () => {
             <Auth
               supabaseClient={supabaseClient}
               providers={['github', 'google']}
-              redirectTo={getURL()}
+              redirectTo={getURL() + "/api/init_user"}
               appearance={{
                 theme: ThemeSupa,
                 variables: {
