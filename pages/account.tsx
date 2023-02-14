@@ -20,7 +20,6 @@ interface Props {
   children: ReactNode;
 }
 
-const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
 
 function Card({ title, description, footer, children }: Props) {
   return (
@@ -42,6 +41,7 @@ export const getServerSideProps = withPageAuth({ redirectTo: '/signin' });
 export default function Account({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
   const { isLoading, subscription, userDetails } = useUser();
+  const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
 
   const redirectToCustomerPortal = async () => {
     setLoading(true);
@@ -174,8 +174,8 @@ export default function Account({ user }: { user: User }) {
           footer={<p><a href={'https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks'}>More Infos</a></p>}
         >
           <p className='flex items-start flex-row mt-8 mb-4 font-semibold'>
-            <TextField className={'w-full mr-5'} id="outlined-basic" label="Webhook" variant="outlined" />
-            <Button className={'w-96'}>Add</Button>
+            <TextField className={'w-full'} id="outlined-basic" label="Webhook" variant="outlined" />
+            <Button className={'w-96 ml-5'}>Add</Button>
           </p>
         </Card>
       </div>

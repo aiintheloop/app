@@ -36,8 +36,6 @@ function generateRequest(code :string, client_id :string, client_secret :string,
   return config;
 }
 
-const SLACK_CLIENT_SECRET = process?.env?.SLACK_CLIENT_SECRET ?? ""
-const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
 
 
 export default withApiAuth(async function createCheckoutSession(
@@ -47,6 +45,9 @@ export default withApiAuth(async function createCheckoutSession(
 ) {
   if (req.method === 'GET') {
     const {code} = req.query
+    const SLACK_CLIENT_SECRET = process?.env?.SLACK_CLIENT_SECRET ?? ""
+    const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
+
     try {
       const {
         data: { user }
@@ -55,12 +56,19 @@ export default withApiAuth(async function createCheckoutSession(
       if(typeof code !== 'string') {
         return res.redirect(307, '/account?error=true')
       }
-      const response = await axios(generateRequest(code,SLACK_CLIENT_ID,SLACK_CLIENT_SECRET, getURL()))
 
-      const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
-      await novu.subscribers.setCredentials(user.id, ChatProviderIdEnum.Slack, {
-        webhookUrl: response.data.incoming_webhook.url,
-      });
+      try {
+        const response = await axios(generateRequest(code,SLACK_CLIENT_ID,SLACK_CLIENT_SECRET, getURL()+"api/integrate_slack"));
+
+        const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+        await novu.subscribers.setCredentials(user.id, ChatProviderIdEnum.Slack, {
+          webhookUrl: response.data.incoming_webhook.url,
+        });
+
+      } catch (e) {
+        console.error(e)
+        return res.redirect(307, '/account?error=true');
+      }
 
       return res.redirect(307, '/account')
     } catch (err: any) {
