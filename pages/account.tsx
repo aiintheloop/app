@@ -9,6 +9,9 @@ import { postData } from 'utils/helpers';
 import { User } from '@supabase/supabase-js';
 import { withPageAuth } from '@supabase/auth-helpers-nextjs';
 import { TextField } from '@mui/material';
+import { getURL } from '@/utils/helpers';
+
+
 
 interface Props {
   title: string;
@@ -16,6 +19,8 @@ interface Props {
   footer?: ReactNode;
   children: ReactNode;
 }
+
+const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
 
 function Card({ title, description, footer, children }: Props) {
   return (
@@ -143,7 +148,7 @@ export default function Account({ user }: { user: User }) {
         >
           <p className='text-xl mt-8 mb-4 font-semibold'>
             <a
-              href='https://slack.com/oauth/v2/authorize?scope=incoming-webhook&amp&amp;redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fapi%2Fintegrate_slack&amp;client_id=4824395837120.4800595371875'
+              href={`https://slack.com/oauth/v2/authorize?scope=incoming-webhook&redirect_uri=${encodeURIComponent(getURL()+'api/integrate_slack')}&client_id=${SLACK_CLIENT_ID}`}
               style={{"alignItems":"center","color":"#000","backgroundColor":"#fff","border":"1px solid #ddd","borderRadius":"4px","display":"inline-flex","fontFamily":"Lato, sans-serif","fontSize":"16px","fontWeight":"600","height":"48px","justifyContent":"center","textDecoration":"none","width":"236px"}}>
               <svg xmlns='http://www.w3.org/2000/svg' style={{"height":"20px","width":"20px","marginRight":"12px"}}
                    viewBox='0 0 122.8 122.8'>

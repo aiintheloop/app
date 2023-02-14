@@ -47,7 +47,7 @@ const SignIn = () => {
             <Auth
               supabaseClient={supabaseClient}
               providers={['github', 'google']}
-              redirectTo={getURL() + "/api/init_user"}
+              redirectTo={getURL()}
               appearance={{
                 theme: ThemeSupa,
                 variables: {
