@@ -8,6 +8,7 @@ import { postData } from 'utils/helpers';
 
 import { User } from '@supabase/supabase-js';
 import { withPageAuth } from '@supabase/auth-helpers-nextjs';
+import { TextField } from '@mui/material';
 
 interface Props {
   title: string;
@@ -136,13 +137,13 @@ export default function Account({ user }: { user: User }) {
           </p>
         </Card>
         <Card
-          title='Slack'
-          description='Please enter the email address you want to use to login.'
-          footer={<p>We will email you to verify the change.</p>}
+          title='Slack Integration'
+          description='Please authenticate with Slack if you want the Approvals in your slack channel'
+          footer={<p>Repress the button if you want to change the Channel</p>}
         >
           <p className='text-xl mt-8 mb-4 font-semibold'>
             <a
-              href='https://slack.com/oauth/v2/authorize?scope=incoming-webhook&amp&amp;redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fapi%2Fintegrate_slack&amp;client_id=4437953060836.4507660211767'
+              href='https://slack.com/oauth/v2/authorize?scope=incoming-webhook&amp&amp;redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fapi%2Fintegrate_slack&amp;client_id=4824395837120.4800595371875'
               style={{"alignItems":"center","color":"#000","backgroundColor":"#fff","border":"1px solid #ddd","borderRadius":"4px","display":"inline-flex","fontFamily":"Lato, sans-serif","fontSize":"16px","fontWeight":"600","height":"48px","justifyContent":"center","textDecoration":"none","width":"236px"}}>
               <svg xmlns='http://www.w3.org/2000/svg' style={{"height":"20px","width":"20px","marginRight":"12px"}}
                    viewBox='0 0 122.8 122.8'>
@@ -160,6 +161,16 @@ export default function Account({ user }: { user: User }) {
                   fill='#ecb22e'></path>
               </svg>
               Add to Slack</a>
+          </p>
+        </Card>
+        <Card
+          title='Discord Integration'
+          description='Please enter a Discord Webhook'
+          footer={<p><a href={'https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks'}>More Infos</a></p>}
+        >
+          <p className='flex items-start flex-row mt-8 mb-4 font-semibold'>
+            <TextField className={'w-full mr-5'} id="outlined-basic" label="Webhook" variant="outlined" />
+            <Button className={'w-96'}>Add</Button>
           </p>
         </Card>
       </div>
