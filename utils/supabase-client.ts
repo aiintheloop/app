@@ -79,7 +79,8 @@ export const getUserLoops = async (userId: string) => {
   const { data, error } = await supabase
     .from('loops')
     .select('*')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
   if (error) {
     console.log(error.message);
     throw error;
