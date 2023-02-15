@@ -27,7 +27,7 @@ export default function ApproveDeclineWithContentView() {
       const { id } = router.query;
       if (id && typeof id == 'string') {
         setId(id);
-        fetch(`/api/approvals?id=${id}`)
+        fetch(`/api/approvalData?id=${id}`)
           .then((res) => {
             if (res.ok) {
               return res.json();
@@ -39,7 +39,6 @@ export default function ApproveDeclineWithContentView() {
             setIsLoading(false);
           })
           .catch((error) => {
-            console.log('WTF');
             setIsError(true);
             setIsLoading(false);
           });

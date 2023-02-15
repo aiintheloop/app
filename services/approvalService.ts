@@ -1,8 +1,11 @@
 import { BaseService } from './baseService';
 import { ApprovalResponse } from '../models/approvalResponse';
 import { Approval } from '../models/approval';
+import { Novu } from '@novu/node';
 
 export class ApprovalService extends BaseService {
+
+
 
   private _userId: string;
 
@@ -80,6 +83,17 @@ export class ApprovalService extends BaseService {
           status: result.status,
         };
       }
+
+
+      const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+      await novu.trigger('approval', {
+        to: {
+          subscriberId: this._userId,
+        },
+        payload: {
+          approvalID: result.data[0].ID,
+        },
+      });
 
       return {
         message: 'Approval created successfully',
