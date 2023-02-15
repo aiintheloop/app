@@ -41,7 +41,7 @@ export const getServerSideProps = withPageAuth({ redirectTo: '/signin' });
 export default function Account({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
   const { isLoading, subscription, userDetails } = useUser();
-  const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
+  const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID
 
   const redirectToCustomerPortal = async () => {
     setLoading(true);
