@@ -20,7 +20,8 @@ import { Loop } from '../models/loop';
 import {
   deleteUserLoops,
   getUserLoops,
-  insertUserLoops
+  insertUserLoops,
+  updateUserLoops
 } from '@/utils/supabase-client';
 import {
   capitalizeFirstLetter,
@@ -35,9 +36,21 @@ interface Props {
   children: ReactNode;
   process?: Loop;
   loop: Loop;
+  setIsOpen: (isOpen: boolean) => void;
+  setIsEdit: (isEdit: boolean) => void;
+  selectedEditLoops: (loop: Loop) => void;
 }
 
-function Card({ title, description, footer, children, loop }: Props) {
+function Card({
+  title,
+  description,
+  footer,
+  children,
+  loop,
+  setIsEdit,
+  setIsOpen,
+  selectedEditLoops
+}: Props) {
   const { setLoops, user } = useUser();
   const handleDeleteLoop = async () => {
     if (!user) return;
@@ -73,14 +86,21 @@ function Card({ title, description, footer, children, loop }: Props) {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-2 w-20 origin-top-right divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-2 w-20 origin-top-right divide-gray-100 rounded-md bg-zinc-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? 'bg-zinc-500 text-white' : 'text-zinc-900'
+                            active
+                              ? 'bg-zinc-300 text-zinc-900'
+                              : 'text-zinc-900'
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={() => {
+                            selectedEditLoops(loop);
+                            setIsEdit(true);
+                            setIsOpen(true);
+                          }}
                         >
                           Edit
                         </button>
@@ -93,7 +113,9 @@ function Card({ title, description, footer, children, loop }: Props) {
                       {({ active }) => (
                         <button
                           className={`${
-                            active ? 'bg-zinc-500 text-white' : 'text-zinc-900'
+                            active
+                              ? 'bg-zinc-300 text-zinc-900'
+                              : 'text-zinc-900'
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           onClick={handleDeleteLoop}
                         >
@@ -134,6 +156,8 @@ function Card({ title, description, footer, children, loop }: Props) {
 export default function Loops() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedEditLoops, setSelectedEditLoops] = useState<Loop>();
   const [automation, setAutomation] = useState<string>('');
   const [automationType, setAutomationType] = useState<string>('');
   const [title, setTitle] = useState<string>('');
@@ -141,6 +165,26 @@ export default function Loops() {
   const [webhookAccept, setWebhookAccept] = useState<string>('');
   const [webhookDecline, setWebhookDecline] = useState<string>('');
   const { user, loops, setLoops } = useUser();
+
+  useEffect(() => {
+    if (isEdit && isOpen) {
+      setTitle(selectedEditLoops?.name || '');
+      setDescription(selectedEditLoops?.description || '');
+      setAutomation(selectedEditLoops?.tool || '');
+      setAutomationType(selectedEditLoops?.type || '');
+      setWebhookAccept(selectedEditLoops?.acceptHook || '');
+      setWebhookDecline(selectedEditLoops?.declineHook || '');
+    }
+    if (!isOpen || !isEdit) {
+      setTitle('');
+      setDescription('');
+      setAutomation('');
+      setAutomationType('');
+      setWebhookAccept('');
+      setWebhookDecline('');
+    }
+    if (!isOpen) setIsEdit(false);
+  }, [isEdit, isOpen, selectedEditLoops]);
 
   const handleTitle = (e: any) => {
     setTitle(e.target.value);
@@ -172,29 +216,58 @@ export default function Loops() {
     if (!title) return toast.error('Please enter a title!');
     if (!description) return toast.error('Please enter a description!');
 
-    const loop = {
-      ident: generateUUID(),
-      created_at: getCurrentDate(),
-      name: title,
-      user_id: user.id,
-      description,
-      tool: automation,
-      type: automationType,
-      hook: null,
-      acceptHook: webhookAccept,
-      declineHook: webhookDecline
-    };
+    if (isEdit) {
+      const loop = {
+        ident: selectedEditLoops?.ident as string,
+        created_at: selectedEditLoops?.created_at as string,
+        name: title,
+        user_id: user.id,
+        description,
+        tool: automation,
+        type: automationType,
+        hook: selectedEditLoops?.hook,
+        acceptHook: webhookAccept,
+        declineHook: webhookDecline
+      };
 
-    try {
-      await insertUserLoops(user.id, loop);
-      await getUserLoops(user.id).then((res) => setLoops(res));
-      toast.success('Loops added successfully!');
-      setIsOpen(false);
-      setLoading(false);
-    } catch (error) {
-      toast.error('Something went wrong!');
-      setLoading(false);
-      setIsOpen(false);
+      try {
+        await updateUserLoops(selectedEditLoops?.ident as string, loop);
+        await getUserLoops(user.id).then((res) => setLoops(res));
+        toast.success('Loops updated successfully!');
+        setIsOpen(false);
+        setIsEdit(false);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Something went wrong!');
+        setLoading(false);
+        setIsOpen(false);
+        setIsEdit(false);
+      }
+    } else {
+      const loop = {
+        ident: generateUUID(),
+        created_at: getCurrentDate(),
+        name: title,
+        user_id: user.id,
+        description,
+        tool: automation,
+        type: automationType,
+        hook: null,
+        acceptHook: webhookAccept,
+        declineHook: webhookDecline
+      };
+
+      try {
+        await insertUserLoops(user.id, loop);
+        await getUserLoops(user.id).then((res) => setLoops(res));
+        toast.success('Loops added successfully!');
+        setIsOpen(false);
+        setLoading(false);
+      } catch (error) {
+        toast.error('Something went wrong!');
+        setLoading(false);
+        setIsOpen(false);
+      }
     }
   };
 
@@ -226,6 +299,7 @@ export default function Loops() {
             </div>
 
             <ModalForm
+              isEdit={isEdit}
               isOpen={isOpen}
               setIsOpen={setIsOpen}
               submit={handleSubmit}
@@ -249,6 +323,9 @@ export default function Loops() {
               return (
                 <div key={loop.ident}>
                   <Card
+                    selectedEditLoops={setSelectedEditLoops}
+                    setIsEdit={setIsEdit}
+                    setIsOpen={setIsOpen}
                     loop={loop}
                     process={loop}
                     title={loop.name}
@@ -295,6 +372,7 @@ export default function Loops() {
 
 interface ModalFormProps {
   isOpen: boolean;
+  isEdit: boolean;
   setIsOpen: (value: any) => void;
   submit: (e: any) => void;
   setAutomation: (value: any) => void;
@@ -315,6 +393,7 @@ interface ModalFormProps {
 
 export function ModalForm({
   data,
+  isEdit,
   isOpen,
   setIsOpen,
   submit,
@@ -365,8 +444,16 @@ export function ModalForm({
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={submit} className="flex flex-col space-y-4">
-                      <List onChange={setAutomation} options={automation} />
-                      <List onChange={setAutomationType} options={type} />
+                      <List
+                        onChange={setAutomation}
+                        options={automation}
+                        data={capitalizeFirstLetter(data.automation)}
+                      />
+                      <List
+                        onChange={setAutomationType}
+                        options={type}
+                        data={capitalizeFirstLetter(data.automationType)}
+                      />
                       <TextField
                         onChange={setTitle}
                         label="Title"
@@ -409,7 +496,7 @@ export function ModalForm({
                           onClick={submit}
                           className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
                         >
-                          Create Loop
+                          {isEdit ? 'Update Loop' : 'Create Loop'}
                         </button>
                       </div>
                     </form>
@@ -441,6 +528,7 @@ const type = [
 interface ListProps {
   onChange: (status: string) => void;
   options: Option[];
+  data?: string;
 }
 
 interface Option {
@@ -451,7 +539,7 @@ interface Option {
   name: string;
 }
 
-export function List({ onChange, options }: ListProps) {
+export function List({ onChange, options, data }: ListProps) {
   const [selected, setSelected] = useState(options[0]);
 
   useEffect(() => {
@@ -462,7 +550,9 @@ export function List({ onChange, options }: ListProps) {
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
         <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
-          <span className="block truncate text-sm">{selected.name}</span>
+          <span className="block truncate text-sm">
+            {data || selected.name}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
               className="h-5 w-5 text-gray-400"
