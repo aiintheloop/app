@@ -46,7 +46,7 @@ export default withApiAuth(async function createCheckoutSession(
   if (req.method === 'GET') {
     const {code} = req.query
     const SLACK_CLIENT_SECRET = process?.env?.SLACK_CLIENT_SECRET ?? ""
-    const SLACK_CLIENT_ID = process?.env?.SLACK_CLIENT_ID ?? ""
+    const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID ?? ""
 
     try {
       const {
