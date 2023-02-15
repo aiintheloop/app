@@ -175,7 +175,7 @@ export default function Loops() {
       setWebhookAccept(selectedEditLoops?.acceptHook || '');
       setWebhookDecline(selectedEditLoops?.declineHook || '');
     }
-    if (!isOpen || !isEdit) {
+    if (!isOpen && !isEdit) {
       setTitle('');
       setDescription('');
       setAutomation('');
