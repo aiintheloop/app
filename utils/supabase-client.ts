@@ -54,6 +54,14 @@ export const insertUserLoops = async (userId: string, loops: Loop) => {
   }
 };
 
+export const deleteUserLoops = async (loopId: string) => {
+  const { error } = await supabase.from('loops').delete().eq('ident', loopId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+};
+
 export const getUserLoops = async (userId: string) => {
   const { data, error } = await supabase
     .from('loops')

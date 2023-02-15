@@ -17,7 +17,11 @@ import FormatAlignLeftOutlinedIcon from '@mui/icons-material/FormatAlignLeftOutl
 import VideoCameraBackOutlinedIcon from '@mui/icons-material/VideoCameraBackOutlined';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { Loop } from '../models/loop';
-import { getUserLoops, insertUserLoops } from '@/utils/supabase-client';
+import {
+  deleteUserLoops,
+  getUserLoops,
+  insertUserLoops
+} from '@/utils/supabase-client';
 import {
   capitalizeFirstLetter,
   generateUUID,
@@ -30,9 +34,21 @@ interface Props {
   footer?: ReactNode;
   children: ReactNode;
   process?: Loop;
+  loop: Loop;
 }
 
-function Card({ title, description, footer, children }: Props) {
+function Card({ title, description, footer, children, loop }: Props) {
+  const { setLoops, user } = useUser();
+  const handleDeleteLoop = async () => {
+    if (!user) return;
+    await toast.promise(deleteUserLoops(loop.ident), {
+      pending: 'Deleting history...',
+      success: 'History deleted',
+      error: 'Error deleting history'
+    });
+    await getUserLoops(user?.id).then((res) => setLoops(res));
+  };
+
   return (
     <div className="border border-zinc-700 max-w-xl rounded-md m-auto">
       <div className="px-5 py-5">
@@ -79,6 +95,7 @@ function Card({ title, description, footer, children }: Props) {
                           className={`${
                             active ? 'bg-zinc-500 text-white' : 'text-zinc-900'
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                          onClick={handleDeleteLoop}
                         >
                           Delete
                         </button>
@@ -232,6 +249,7 @@ export default function Loops() {
               return (
                 <div key={loop.ident}>
                   <Card
+                    loop={loop}
                     process={loop}
                     title={loop.name}
                     description={loop.type}

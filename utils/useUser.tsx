@@ -48,7 +48,11 @@ export const MyUserContextProvider = (props: Props) => {
       .in('status', ['trialing', 'active'])
       .single();
   const getUserProcesses = () =>
-    supabase.from('loops').select('*').eq('user_id', user?.id);
+    supabase
+      .from('loops')
+      .select('*')
+      .eq('user_id', user?.id)
+      .order('created_at', { ascending: false });
 
   useEffect(() => {
     if (user && !isLoadingData && !userDetails && !subscription && !loops) {
