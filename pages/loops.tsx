@@ -213,8 +213,14 @@ export default function Loops() {
     if (!user) return alert('You need to be logged in to do that!');
     if (!automation) return toast.error('Please select an automation!');
     if (!automationType) return toast.error('Please select the type!');
-    if (!title) return toast.error('Please enter a title!');
-    if (!description) return toast.error('Please enter a description!');
+    if (!title) return toast.error('Please write a title!');
+    if (!description) return toast.error('Please write a description!');
+    if (automation == 'webhook') {
+      if (!webhookAccept)
+        return toast.error('Please write the webhook accept!');
+      if (!webhookDecline)
+        return toast.error('Please write the webhook decline!');
+    }
 
     if (isEdit) {
       const loop = {
@@ -490,6 +496,7 @@ export function ModalForm({
                             label="Webhook Accept"
                             className="ring-0 border-0 outline-none"
                             size="small"
+                            required
                             value={data.webhookAccept}
                           />
                           <TextField
@@ -497,6 +504,7 @@ export function ModalForm({
                             label="Webhook Decline"
                             className="ring-0 border-0 outline-none"
                             size="small"
+                            required
                             value={data.webhookDecline}
                           />
                         </>
