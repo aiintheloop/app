@@ -337,24 +337,36 @@ export default function Loops() {
                             <PendingOutlinedIcon
                               fontSize="medium"
                               color="warning"
+                              width={24}
+                              height={24}
                             />
                           )}
                           {loop.hook == true && (
                             <CheckCircleOutlinedIcon
                               fontSize="medium"
                               color="success"
+                              width={24}
+                              height={24}
                             />
                           )}
                           {loop.hook == false && (
                             <ErrorOutlineOutlinedIcon
                               fontSize="medium"
                               color="error"
+                              width={24}
+                              height={24}
                             />
                           )}
                         </p>
-                        <p className="pb-4 sm:pb-0">
-                          {capitalizeFirstLetter(loop.tool as string)}
-                        </p>
+                        <Image
+                          src={
+                            loop.tool !== 'make'
+                              ? `/${loop.tool}.svg`
+                              : '/make.png'
+                          }
+                          width={24}
+                          height={24}
+                        />
                       </div>
                     }
                   >
