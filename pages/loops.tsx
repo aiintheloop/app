@@ -130,7 +130,7 @@ function Card({
           </div>
         )}
         {description && (
-          <p className="text-zinc-90s0 my-2">
+          <p className="text-zinc-900 my-2">
             <div
               className={`${
                 description.toLowerCase() == 'video' && 'bg-blue-400'
@@ -142,7 +142,7 @@ function Card({
             </div>
           </p>
         )}
-        <p className="overflow-scroll h-16">{children}</p>
+        <p className="overflow-scroll scrollbar-hide h-16">{children}</p>
       </div>
       {footer && (
         <div className="border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 rounded-b-md">
