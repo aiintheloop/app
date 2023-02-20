@@ -27,7 +27,7 @@ export default class WebhookNotifier {
         status: 'enqueued'
       });
       if (!webhookResponse.error) {
-        await WebhookQueue.enqueue(
+        const response = await WebhookQueue.enqueue(
           {
             webhook: {
               processID: loopData.ident,
