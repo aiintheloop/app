@@ -130,7 +130,7 @@ function Card({
           </div>
         )}
         {description && (
-          <p className="text-zinc-90s0 my-2">
+          <p className="text-zinc-900 my-2">
             <div
               className={`${
                 description.toLowerCase() == 'video' && 'bg-blue-400'
@@ -142,7 +142,7 @@ function Card({
             </div>
           </p>
         )}
-        <p className="overflow-scroll h-16">{children}</p>
+        <p className="overflow-scroll scrollbar-hide h-16">{children}</p>
       </div>
       {footer && (
         <div className="border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 rounded-b-md">
@@ -167,7 +167,7 @@ export default function Loops() {
   const { user, loops, setLoops } = useUser();
 
   useEffect(() => {
-    if (isEdit && isOpen) {
+    if (selectedEditLoops && isEdit) {
       setTitle(selectedEditLoops?.name || '');
       setDescription(selectedEditLoops?.description || '');
       setAutomation(selectedEditLoops?.tool || '');
@@ -213,8 +213,14 @@ export default function Loops() {
     if (!user) return alert('You need to be logged in to do that!');
     if (!automation) return toast.error('Please select an automation!');
     if (!automationType) return toast.error('Please select the type!');
-    if (!title) return toast.error('Please enter a title!');
-    if (!description) return toast.error('Please enter a description!');
+    if (!title) return toast.error('Please write a title!');
+    if (!description) return toast.error('Please write a description!');
+    if (automation == 'webhook') {
+      if (!webhookAccept)
+        return toast.error('Please write the webhook accept!');
+      if (!webhookDecline)
+        return toast.error('Please write the webhook decline!');
+    }
 
     if (isEdit) {
       const loop = {
@@ -337,24 +343,36 @@ export default function Loops() {
                             <PendingOutlinedIcon
                               fontSize="medium"
                               color="warning"
+                              width={24}
+                              height={24}
                             />
                           )}
                           {loop.hook == true && (
                             <CheckCircleOutlinedIcon
                               fontSize="medium"
                               color="success"
+                              width={24}
+                              height={24}
                             />
                           )}
                           {loop.hook == false && (
                             <ErrorOutlineOutlinedIcon
                               fontSize="medium"
                               color="error"
+                              width={24}
+                              height={24}
                             />
                           )}
                         </p>
-                        <p className="pb-4 sm:pb-0">
-                          {capitalizeFirstLetter(loop.tool as string)}
-                        </p>
+                        <Image
+                          src={
+                            loop.tool !== 'make'
+                              ? `/${loop.tool}.svg`
+                              : '/make.png'
+                          }
+                          width={24}
+                          height={24}
+                        />
                       </div>
                     }
                   >
@@ -467,7 +485,7 @@ export function ModalForm({
                         label="Description"
                         multiline
                         className="ring-0 border-0 outline-none"
-                        rows={4}
+                        rows={6}
                         value={data.description}
                         required
                       />
@@ -478,6 +496,7 @@ export function ModalForm({
                             label="Webhook Accept"
                             className="ring-0 border-0 outline-none"
                             size="small"
+                            required
                             value={data.webhookAccept}
                           />
                           <TextField
@@ -485,6 +504,7 @@ export function ModalForm({
                             label="Webhook Decline"
                             className="ring-0 border-0 outline-none"
                             size="small"
+                            required
                             value={data.webhookDecline}
                           />
                         </>
@@ -514,7 +534,7 @@ export function ModalForm({
 const automation = [
   { id: 1, value: '', name: 'Select Automation', logo: '' },
   { id: 2, value: 'make', name: 'Make', logo: '/make.png' },
-  { id: 3, value: 'zappier', name: 'Zappier', logo: '/zapier.svg' },
+  { id: 3, value: 'zapier', name: 'Zapier', logo: '/zapier.svg' },
   { id: 4, value: 'webhook', name: 'Webhook', logo: '/webhook.svg' }
 ];
 
@@ -543,7 +563,7 @@ export function List({ onChange, options, data }: ListProps) {
   const [selected, setSelected] = useState(options[0]);
 
   useEffect(() => {
-    onChange(selected.value);
+    if (selected.value) onChange(selected.value);
   }, [selected]);
 
   return (

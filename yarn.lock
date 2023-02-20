@@ -5197,6 +5197,11 @@
   "resolved" "https://registry.npmjs.org/tabbable/-/tabbable-6.0.1.tgz"
   "version" "6.0.1"
 
+"tailwind-scrollbar-hide@^1.1.7":
+  "integrity" "sha512-X324n9OtpTmOMqEgDUEA/RgLrNfBF/jwJdctaPZDzB3mppxJk7TLIDmOreEDm1Bq4R9LSPu4Epf8VSdovNU+iA=="
+  "resolved" "https://registry.npmjs.org/tailwind-scrollbar-hide/-/tailwind-scrollbar-hide-1.1.7.tgz"
+  "version" "1.1.7"
+
 "tailwindcss@3.0.18":
   "integrity" "sha512-ihPTpEyA5ANgZbwKlgrbfnzOp9R5vDHFWmqxB1PT8NwOGCOFVVMl+Ps1cQQ369acaqqf1BEF77roCwK0lvNmTw=="
   "resolved" "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.0.18.tgz"
