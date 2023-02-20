@@ -555,7 +555,7 @@ export function List({ onChange, options, data }: ListProps) {
   const [selected, setSelected] = useState(options[0]);
 
   useEffect(() => {
-    if (!data) onChange(selected.value);
+    if (selected.value) onChange(selected.value);
   }, [selected]);
 
   return (
