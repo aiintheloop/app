@@ -167,7 +167,7 @@ export default function Loops() {
   const { user, loops, setLoops } = useUser();
 
   useEffect(() => {
-    if (isEdit && isOpen) {
+    if (selectedEditLoops && isEdit) {
       setTitle(selectedEditLoops?.name || '');
       setDescription(selectedEditLoops?.description || '');
       setAutomation(selectedEditLoops?.tool || '');
@@ -467,7 +467,7 @@ export function ModalForm({
                         label="Description"
                         multiline
                         className="ring-0 border-0 outline-none"
-                        rows={4}
+                        rows={6}
                         value={data.description}
                         required
                       />
@@ -543,7 +543,7 @@ export function List({ onChange, options, data }: ListProps) {
   const [selected, setSelected] = useState(options[0]);
 
   useEffect(() => {
-    onChange(selected.value);
+    if (!data) onChange(selected.value);
   }, [selected]);
 
   return (
