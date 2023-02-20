@@ -514,7 +514,7 @@ export function ModalForm({
 const automation = [
   { id: 1, value: '', name: 'Select Automation', logo: '' },
   { id: 2, value: 'make', name: 'Make', logo: '/make.png' },
-  { id: 3, value: 'zappier', name: 'Zappier', logo: '/zapier.svg' },
+  { id: 3, value: 'zapier', name: 'Zapier', logo: '/zapier.svg' },
   { id: 4, value: 'webhook', name: 'Webhook', logo: '/webhook.svg' }
 ];
 
