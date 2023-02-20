@@ -9,8 +9,8 @@ export default withApiAuth(async function createCheckoutSession(
   res,
   supabaseServerClient
 ) {
-  console.log(supabaseServerClient);
-  console.log(req)
+  const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
+
   if (req.method === 'POST') {
     try {
       const {
@@ -19,7 +19,7 @@ export default withApiAuth(async function createCheckoutSession(
       if (!user) throw Error('Could not get user')
 
 
-      const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+      const novu = new Novu(NOVU_SECRET);
 
       await novu.subscribers.identify(user.id, {
         email: user.email

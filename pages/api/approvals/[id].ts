@@ -26,8 +26,9 @@ const validate = ajv.compile(schema)
 
 
 async function approvals(req: NextApiRequest, res: NextApiResponse, userId : string) {
+  const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
 
-  const approvalService = new ApprovalService(userId);
+  const approvalService = new ApprovalService(userId, NOVU_SECRET);
   const { method } = req;
   const { id } = req.query;
   if(typeof id !== 'string') {

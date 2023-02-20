@@ -8,10 +8,12 @@ export class ApprovalService extends BaseService {
 
 
   private _userId: string;
+  private _novuSecret: string;
 
-  public constructor(userId: string) {
+  public constructor(userId: string, novuSecret : string) {
     super();
     this._userId = userId;
+    this._novuSecret = novuSecret;
   }
 
   async delete(id: string): Promise<ApprovalResponse> {
@@ -85,7 +87,7 @@ export class ApprovalService extends BaseService {
       }
 
 
-      const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+      const novu = new Novu(this._novuSecret);
       await novu.trigger('approval', {
         to: {
           subscriberId: this._userId,

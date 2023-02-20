@@ -37,7 +37,6 @@ function generateRequest(code :string, client_id :string, client_secret :string,
 }
 
 
-
 export default withApiAuth(async function createCheckoutSession(
   req,
   res,
@@ -47,6 +46,7 @@ export default withApiAuth(async function createCheckoutSession(
     const {code} = req.query
     const SLACK_CLIENT_SECRET = process?.env?.SLACK_CLIENT_SECRET ?? ""
     const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID ?? ""
+    const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
 
     try {
       const {
@@ -59,8 +59,7 @@ export default withApiAuth(async function createCheckoutSession(
 
       try {
         const response = await axios(generateRequest(code,SLACK_CLIENT_ID,SLACK_CLIENT_SECRET, getURL()+"api/integrate_slack"));
-
-        const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+        const novu = new Novu(NOVU_SECRET);
         await novu.subscribers.setCredentials(user.id, ChatProviderIdEnum.Slack, {
           webhookUrl: response.data.incoming_webhook.url,
         });

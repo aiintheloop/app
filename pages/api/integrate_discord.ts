@@ -11,8 +11,7 @@ export default withApiAuth(async function createCheckoutSession(
   res,
   supabaseServerClient
 ) {
-  console.log(supabaseServerClient);
-  console.log(req)
+  const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
   if (req.method === 'GET') {
     const {webhook} = req.query
     try {
@@ -25,7 +24,7 @@ export default withApiAuth(async function createCheckoutSession(
       if(typeof webhook !== 'string') {
         throw Error("nope")
       }
-      const novu = new Novu("1d09c211bd7b49867e3a31500e0776d4");
+      const novu = new Novu(NOVU_SECRET);
 
       await novu.subscribers.setCredentials(user.id, ChatProviderIdEnum.Discord, {
         webhookUrl: 'https://discord.com/api/webhooks/1075067303999307807/vV7gYfYfPKxM7Ee01lIqRG5cCfzqMJO-IF6gA-fFOsUkiJzxlAhTEFx4DtfLOBmGPLZg',

@@ -49,7 +49,7 @@ export default class WebhookNotifier {
         return;
       } else {
         throw new Error(
-          `Failed to send webhook with reason '${webhookResponse.error}' and status '${webhookResponse.status}'`
+          `Failed to send webhook with reason '${JSON.stringify(webhookResponse.error)}' and status '${webhookResponse.status}'`
         );
       }
     }
