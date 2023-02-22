@@ -184,12 +184,15 @@ export default function ApproveDeclineWithContentView() {
                   }}
                 >
                   <CardContent
-                    className="bg-transparent whitespace-pre-wrap p-0"
+                    className="bg-transparent whitespace-pre-wrap p-0 text-zinc-700"
                     style={{
                       padding: '0'
                     }}
                   >
-                    <Typography variant="body1" className="bg-transparent">
+                    <Typography
+                      variant="body1"
+                      className="bg-transparent text-zinc-700"
+                    >
                       {approvalData?.content}
                     </Typography>
                   </CardContent>
