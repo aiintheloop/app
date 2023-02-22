@@ -211,22 +211,18 @@ export default function ApproveDeclineWithContentView() {
               <div className="flex flex-col gap-2 pb-10">
                 <span className="font-bold">Output</span>
                 <Card
-                  className="bg-transparent"
                   style={{
                     backgroundColor: 'transparent',
                     boxShadow: 'none'
                   }}
                 >
                   <CardContent
-                    className="bg-transparent whitespace-pre-wrap p-0 text-zinc-700"
+                    className="whitespace-pre-wrap text-zinc-700"
                     style={{
                       padding: '0'
                     }}
                   >
-                    <Typography
-                      variant="body1"
-                      className="bg-transparent text-zinc-700"
-                    >
+                    <Typography variant="body1" className="text-zinc-700">
                       {approvalData?.content}
                     </Typography>
                   </CardContent>
