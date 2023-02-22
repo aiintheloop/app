@@ -15,6 +15,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { TextField } from '@mui/material';
 import { capitalizeFirstLetter } from '@/utils/helpers';
+import { toast } from 'react-toastify';
+import { getApprovals, updateApprovals } from '@/utils/supabase-client';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
@@ -40,6 +42,7 @@ export default function ApproveDeclineWithContentView() {
           })
           .then((approval) => {
             setApprovalData(approval.data);
+            if (approval.data?.prompt) setPrompt(approval.data?.prompt);
             setIsLoading(false);
           })
           .catch((error) => {
@@ -78,8 +81,8 @@ export default function ApproveDeclineWithContentView() {
 
   const classes = useStyles();
 
-  const handleApprove = () => {
-    axios
+  const handleApprove = async () => {
+    await axios
       .get(`api/approve?id=${id}`)
       .then((response) => {
         router.push('approved');
@@ -89,14 +92,45 @@ export default function ApproveDeclineWithContentView() {
       });
   };
 
-  const handleDecline = () => {
-    axios
+  const handleDecline = async () => {
+    await axios
       .get(`api/decline?id=${id}`)
       .then((response) => {
         router.push('approved');
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const handleUpdate = async () => {
+    if (!prompt) toast.error('Please enter a prompt');
+
+    const approval = await getApprovals(approvalData?.approvalID as string);
+
+    approval.prompt = prompt;
+
+    await toast.promise(updateApprovals(approval.ID, approval), {
+      pending: 'Updating approvals...',
+      success: 'Approvals updated',
+      error: 'Error updating approvals'
+    });
+
+    await fetch(`/api/approvalData?id=${id}`)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw Error('Request failed');
+      })
+      .then((approval) => {
+        setApprovalData(approval.data);
+        if (approval.data?.prompt) setPrompt(approval.data?.prompt);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setIsLoading(false);
       });
   };
 
@@ -208,11 +242,11 @@ export default function ApproveDeclineWithContentView() {
                 size="medium"
                 multiline
                 rows={6}
-                value={approvalData?.prompt}
+                value={prompt}
                 required
               />
               <Grid container spacing={4} className={classes.buttonContainer}>
-                <Grid item xs={6} style={{ width: '30%' }}>
+                <Grid item xs={3}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -223,7 +257,18 @@ export default function ApproveDeclineWithContentView() {
                     Approve
                   </Button>
                 </Grid>
-                <Grid item xs={6} style={{ width: '30%' }}>
+                <Grid item xs={3}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="default"
+                    onClick={handleUpdate}
+                    size="small"
+                  >
+                    Update
+                  </Button>
+                </Grid>
+                <Grid item xs={3}>
                   <Button
                     fullWidth
                     variant="contained"

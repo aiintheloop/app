@@ -87,3 +87,28 @@ export const getUserLoops = async (userId: string) => {
   }
   return data;
 };
+
+export const getApprovals = async (approvalId: string) => {
+  const { data, error } = await supabase
+    .from('approvals')
+    .select('*')
+    .eq('ID', approvalId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+  return data[0];
+};
+
+export const updateApprovals = async (approvalId: string, approvals: any) => {
+  const { error } = await supabase
+    .from('approvals')
+    .update({
+      ...approvals
+    })
+    .eq('ID', approvalId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+};
