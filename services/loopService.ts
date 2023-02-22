@@ -49,21 +49,21 @@ export class LoopService extends BaseService {
 
     if (getCurrentState.error) {
       console.error(
-        `Failed to register hook for loop with id '${id}' with error: ${getCurrentState.error}`
+        `Failed to unregister hook for loop with id '${id}' with error: ${getCurrentState.error}`
       );
-      throw new ServiceError('Failed to register loop');
+      throw new ServiceError('Failed to unregister hook');
     }
     if (!getCurrentState.data) {
       throw new ServiceError(`Failed to find loop with id \'${id}\'`);
     }
 
-    if (getCurrentState.data.acceptHook == null && type == 'acceptHook') {
+    if ((getCurrentState.data.acceptHook == null || getCurrentState.data.acceptHook == '') && type == 'acceptHook') {
       throw new ServiceError(
         `Accept Hook not registered for loop with id \'${id}\' register the hook before`
       );
     }
 
-    if (getCurrentState.data.declineHook == null && type == 'declineHook') {
+    if ((getCurrentState.data.declineHook == null || getCurrentState.data.declineHook == '') && type == 'declineHook') {
       throw new ServiceError(
         `Decline Hook not registered for loop with id \'${id}\' register the hook before`
       );
@@ -126,21 +126,20 @@ export class LoopService extends BaseService {
       console.error(
         `Failed to unregister hook for loop with id '${id}' with error: ${getCurrentState.error}`
       );
-      throw new ServiceError('Failed to unregister loop');
+      throw new ServiceError('Failed to register hook');
     }
     if (!getCurrentState.data) {
       throw new ServiceError(`Failed to find loop with id \'${id}\'`);
     }
-
-    if (getCurrentState.data.acceptHook != null && type == 'acceptHook') {
+    if ((getCurrentState.data.acceptHook != null || getCurrentState.data.acceptHook != '') && type == 'acceptHook') {
       throw new ServiceError(
-        `Accept Hook already registered for loop with id \'${id}\' unregister the hook before`
+        `Accept Hook already registered for loop with id \'${id}\' register the hook before`
       );
     }
-
-    if (getCurrentState.data.declineHook != null && type == 'declineHook') {
+    console.log(getCurrentState.data.declineHook)
+    if ((getCurrentState.data.declineHook != null || getCurrentState.data.declineHook != '') && type == 'declineHook') {
       throw new ServiceError(
-        `Decline Hook already registered for loop with id \'${id}\' unregister the hook before`
+        `Decline Hook already registered for loop with id \'${id}\' register the hook before`
       );
     }
 
