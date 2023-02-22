@@ -14,6 +14,7 @@ import { ApprovalData } from '../types';
 import axios from 'axios';
 import moment from 'moment';
 import { TextField } from '@mui/material';
+import { capitalizeFirstLetter } from '@/utils/helpers';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
@@ -151,6 +152,24 @@ export default function ApproveDeclineWithContentView() {
               <h3 className="text-2xl font-extrabold text-black sm:text-left pb-1">
                 {approvalData?.name}
               </h3>
+              {approvalData?.type && (
+                <p className="text-zinc-900 pb-1">
+                  <div
+                    className={`${
+                      approvalData?.type.toLowerCase() == 'video' &&
+                      'bg-blue-400'
+                    } ${
+                      approvalData?.type.toLowerCase() == 'picture' &&
+                      'bg-green-400'
+                    }
+            ${approvalData?.type.toLowerCase() == 'text' && 'bg-purple-400'}
+            } rounded-2xl px-3 py-1 inline-block`}
+                  >
+                    {capitalizeFirstLetter(approvalData?.type)}
+                  </div>
+                </p>
+              )}
+
               <span className="pb-5 text-zinc-700">
                 {approvalData?.created_at &&
                   moment(`${approvalData.created_at}`).format('MMMM Do YYYY')}
