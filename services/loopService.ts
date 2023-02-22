@@ -131,13 +131,13 @@ export class LoopService extends BaseService {
     if (!getCurrentState.data) {
       throw new ServiceError(`Failed to find loop with id \'${id}\'`);
     }
-    if ((getCurrentState.data.acceptHook != null || getCurrentState.data.acceptHook != '') && type == 'acceptHook') {
+    if ((getCurrentState.data.acceptHook != null && getCurrentState.data.acceptHook != '') && type == 'acceptHook') {
       throw new ServiceError(
         `Accept Hook already registered for loop with id \'${id}\' register the hook before`
       );
     }
     console.log(getCurrentState.data.declineHook)
-    if ((getCurrentState.data.declineHook != null || getCurrentState.data.declineHook != '') && type == 'declineHook') {
+    if ((getCurrentState.data.declineHook != null && getCurrentState.data.declineHook != '') && type == 'declineHook') {
       throw new ServiceError(
         `Decline Hook already registered for loop with id \'${id}\' register the hook before`
       );
