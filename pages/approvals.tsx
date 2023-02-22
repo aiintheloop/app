@@ -175,7 +175,7 @@ export default function ApproveDeclineWithContentView() {
                   moment(`${approvalData.created_at}`).format('MMMM Do YYYY')}
               </span>
               <div className="flex flex-col gap-2 pb-10">
-                <span className="font-bold">Output: </span>
+                <span className="font-bold">Output</span>
                 <Card
                   className="bg-transparent"
                   style={{
