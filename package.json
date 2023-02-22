@@ -34,6 +34,7 @@
     "concurrently": "^7.6.0",
     "core-js": "^3.27.2",
     "mobx": "^6.7.0",
+    "moment": "^2.29.4",
     "next": "^12.2.5",
     "next-swagger-doc": "^0.3.6",
     "quirrel": "^1.13.1",

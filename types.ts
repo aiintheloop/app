@@ -50,6 +50,9 @@ export interface ApprovalData {
   process_id: string | null;
   approved: boolean | null;
   name: string | null;
+  prompt: string | null;
+  created_at: string;
+  type: string | null;
 }
 
 export interface Price {

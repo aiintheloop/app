@@ -4,7 +4,7 @@ import { toDateTime } from './helpers';
 import { Customer, UserDetails, Price, Product } from 'types';
 import type { Database } from 'types_db';
 import Stripe from 'stripe';
-import {ApprovalData} from 'types';
+import { ApprovalData } from 'types';
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
 // as it has admin priviliges and overwrites RLS policies!
@@ -178,7 +178,11 @@ const manageSubscriptionStatusChange = async (
 
 const getApproval = async (approvalID: string) => {
   try {
-    const response = await supabaseAdmin.from('approvals').select('*').eq('ID', approvalID).single();
+    const response = await supabaseAdmin
+      .from('approvals')
+      .select('*')
+      .eq('ID', approvalID)
+      .single();
     if (response.status !== 200) {
       return { error: `Error: ${response.statusText}` };
     }
@@ -187,29 +191,42 @@ const getApproval = async (approvalID: string) => {
     console.error(error);
     return { error: error };
   }
-}
-
+};
 
 const getDataForApproval = async (approvalID: string) => {
   try {
-    console.log(approvalID)
-    const response = await supabaseAdmin.from('approvals').select('*').eq('ID', approvalID).single();
-    if(response.error) {
+    console.log(approvalID);
+    const response = await supabaseAdmin
+      .from('approvals')
+      .select('*')
+      .eq('ID', approvalID)
+      .single();
+    if (response.error) {
       return { error: `Error: ${response.statusText}` };
     }
     const approvalData = response.data;
-    if(approvalData.loop_id) {
-      const loopResponse = await supabaseAdmin.from('loops').select('*').eq('ident', approvalData.loop_id).single();
-      if(loopResponse.error) {
+    if (approvalData.loop_id) {
+      const loopResponse = await supabaseAdmin
+        .from('loops')
+        .select('*')
+        .eq('ident', approvalData.loop_id)
+        .single();
+      if (loopResponse.error) {
         return { error: `Error: ${response.statusText}` };
       } else {
         const loopData = loopResponse.data;
-        return { data : {
-            approvalID : approvalData.ID,
-            content : approvalData.content,
+        return {
+          data: {
+            approvalID: approvalData.ID,
+            content: approvalData.content,
             name: loopData.name,
-            approved: approvalData.approved
-          } as ApprovalData, message: 'Approval retrieved successfully' };
+            approved: approvalData.approved,
+            prompt: approvalData.prompt,
+            created_at: approvalData.created_at,
+            type: approvalData.type
+          } as ApprovalData,
+          message: 'Approval retrieved successfully'
+        };
       }
     } else {
       return { error: `Error: Failed to load loop data` };
@@ -218,8 +235,7 @@ const getDataForApproval = async (approvalID: string) => {
     console.error(error);
     return { error: error };
   }
-}
-
+};
 
 export {
   upsertProductRecord,

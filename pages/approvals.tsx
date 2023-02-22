@@ -12,11 +12,14 @@ import {
 import { useRouter } from 'next/router';
 import { ApprovalData } from '../types';
 import axios from 'axios';
+import moment from 'moment';
+import { TextField } from '@mui/material';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [prompt, setPrompt] = useState<string>('');
   const [id, setId] = useState<string | null>(null);
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
@@ -144,20 +147,48 @@ export default function ApproveDeclineWithContentView() {
       <div className="p-4">
         <div className="border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8">
           <div className="px-5 py-4">
-            <div className={classes.root}>
-              <h3 className="text-2xl font-extrabold text-black sm:text-center pb-5">
-                Approval for the process x
+            <div className="flex flex-col justify-start p-4">
+              <h3 className="text-2xl font-extrabold text-black sm:text-left pb-1">
+                {approvalData?.name}
               </h3>
-              <Card className={classes.content}>
-                <CardContent className={classes.content}>
-                  <Typography variant="body1">
-                    {approvalData?.content}
-                  </Typography>
-                </CardContent>
-              </Card>
-              <p className={classes.text}>
-                Are you sure you want to approve this?
-              </p>
+              <span className="pb-5 text-zinc-700">
+                {approvalData?.created_at &&
+                  moment(`${approvalData.created_at}`).format('MMMM Do YYYY')}
+              </span>
+              <div className="flex flex-col gap-2 pb-10">
+                <span className="font-bold">Output: </span>
+                <Card
+                  className="bg-transparent"
+                  style={{
+                    backgroundColor: 'transparent',
+                    boxShadow: 'none'
+                  }}
+                >
+                  <CardContent
+                    className="bg-transparent whitespace-pre-wrap p-0"
+                    style={{
+                      padding: '0'
+                    }}
+                  >
+                    <Typography variant="body1" className="bg-transparent">
+                      {approvalData?.content}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <TextField
+                onChange={(e: any) => {
+                  setPrompt(e.target.value);
+                }}
+                label="Prompt"
+                className="ring-0 border-0 outline-none"
+                size="medium"
+                multiline
+                rows={6}
+                value={approvalData?.prompt}
+                required
+              />
               <Grid container spacing={4} className={classes.buttonContainer}>
                 <Grid item xs={6} style={{ width: '30%' }}>
                   <Button
