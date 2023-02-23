@@ -161,7 +161,7 @@ export default function ApproveDeclineWithContentView() {
 
   if (approvalData && approvalData.approved != null) {
     return (
-      <section className="bg-neutral-100 mb-32">
+      <section className="bg-zinc-50 mb-32">
         <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
             <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -174,7 +174,7 @@ export default function ApproveDeclineWithContentView() {
   }
 
   return (
-    <section className="bg-neutral-100 mb-32">
+    <section className="bg-zinc-50 mb-32">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">

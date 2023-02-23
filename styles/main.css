@@ -17,11 +17,10 @@ html {
 
 html,
 body {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
-    'Helvetica', sans-serif;
+  font-family: 'Roboto', serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-black bg-neutral-100 antialiased;
+  @apply text-black bg-zinc-50 antialiased;
 }
 
 body {

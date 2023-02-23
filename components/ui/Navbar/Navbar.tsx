@@ -23,17 +23,37 @@ const Navbar = () => {
   const styles = {
     header: {
       root: {
-        backgroundColor: 'black',
-        '&:hover': { backgroundColor: 'black' }
+        backgroundColor: 'rgb(250 250 250)'
       },
       title: {
-        color: 'white'
+        color: 'black'
       },
     },
     layout:{
       root: {
-        backgroundColor: 'black',
-        color: 'white'
+        backgroundColor: 'rgb(250 250 250)',
+        color: 'black',
+        border: '1px solid rgb(212 212 216)',
+      }
+    },
+    foooter: {
+      root: {
+        backgroundColor: 'rgb(250 250 250)',
+      }
+    },
+    "notifications": {
+      root: {
+        backgroundColor: 'rgb(250 250 250)',
+        color: 'black',
+      },
+      listItem: {
+        root: {
+          backgroundColor: 'black'
+        },
+        read: { backgroundColor: 'rgb(244 244 245)', border: '1px solid rgb(228 228 231)'},
+        unread: { backgroundColor: 'rgb(250 250 250)', color: 'black',
+          //'&:before': { background: '#008dd5' }
+        },
       }
     },
     bellButton: {
@@ -86,7 +106,7 @@ const Navbar = () => {
               </span>
                 <span>
                   <NovuProvider subscriberId={user.id} applicationIdentifier={'Z3T4PYfzymoj'} styles={styles}>
-              <PopoverNotificationCenter onNotificationClick={onNotificationClick} colorScheme="dark">
+              <PopoverNotificationCenter onNotificationClick={onNotificationClick} colorScheme="light">
                 {({ unseenCount }) => <NotificationBell unseenCount={unseenCount} />}
               </PopoverNotificationCenter>
             </NovuProvider>

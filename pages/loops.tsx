@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Listbox, Menu } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 import { TextField } from '@mui/material';
@@ -28,6 +27,7 @@ import {
   generateUUID,
   getCurrentDate
 } from '@/utils/helpers';
+import { Settings } from '@mui/icons-material';
 
 interface Props {
   title?: string | null;
@@ -63,7 +63,7 @@ function Card({
   };
 
   return (
-    <div className="border border-zinc-700 max-w-xl rounded-md m-auto">
+    <div className="border border-zinc-300 max-w-xl rounded-md m-auto">
       <div className="px-5 py-5">
         {title && (
           <div className="flex align-middle content-center justify-between">
@@ -71,9 +71,9 @@ function Card({
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <SettingsOutlinedIcon
+                  <Settings
                     fontSize="medium"
-                    className="hover:cursor-pointer text-zinc-900"
+                    className="hover:cursor-pointer text-zinc-600"
                   />
                 </Menu.Button>
               </div>
@@ -130,7 +130,7 @@ function Card({
           </div>
         )}
         {description && (
-          <p className="text-zinc-900 my-2">
+          <p className="text-zinc-100 my-2">
             <div
               className={`${
                 description.toLowerCase() == 'video' && 'bg-blue-400'
@@ -142,10 +142,10 @@ function Card({
             </div>
           </p>
         )}
-        <p className="overflow-scroll scrollbar-hide h-16">{children}</p>
+        <p className="overflow-scroll scrollbar-hide h-16 mt-4">{children}</p>
       </div>
       {footer && (
-        <div className="border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 rounded-b-md">
+        <div className="border-t border-zinc-300 bg-zinc-100 p-4 text-zinc-500 rounded-b-md">
           {footer}
         </div>
       )}
@@ -278,22 +278,22 @@ export default function Loops() {
   };
 
   return (
-    <section className="bg-neutral-100 mb-32">
-      <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
-            Process
+    <section className="bg-zinc-50 mb-32">
+      <div className='max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8'>
+        <div className='sm:flex sm:flex-col sm:align-center'>
+          <h1 className='text-4xl font-extrabold text-black sm:text-center sm:text-6xl'>
+            Loops
           </h1>
-          <p className="mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto">
-            All your possible Approvals
+          <p className='mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto'>
+            Configure your loops
           </p>
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 pt-8 sm:pt-20">
         <section className="max-w-6xl mx-auto">
           <div className="grid grid-cols-3 gap-6">
             <div onClick={handleAddProcess}>
-              <div className="border border-zinc-700 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-500">
+              <div className="border border-zinc-300 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-400">
                 <div className="px-5 py-5">
                   <div className="flex justify-center items-center text-center py-20">
                     <div className="bg-zinc-200 rounded-full w-9 h-9">

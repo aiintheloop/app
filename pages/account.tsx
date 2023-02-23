@@ -23,13 +23,13 @@ interface Props {
 
 function Card({ title, description, footer, children }: Props) {
   return (
-    <div className='border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8'>
+    <div className='border border-zinc-300	max-w-3xl w-full p rounded-md m-auto my-8'>
       <div className='px-5 py-4'>
         <h3 className='text-2xl mb-1 font-medium'>{title}</h3>
         <p className='text-zinc-900'>{description}</p>
         {children}
       </div>
-      <div className='border-t border-zinc-700 bg-zinc-200 p-4 text-zinc-500 rounded-b-md'>
+      <div className='border-t border-zinc-300 bg-zinc-100 p-4 text-zinc-500 rounded-b-md'>
         {footer}
       </div>
     </div>
@@ -65,8 +65,8 @@ export default function Account({ user }: { user: User }) {
     }).format((subscription?.prices?.unit_amount || 0) / 100);
 
   return (
-    <section className='bg-neutral-100 mb-32'>
-      <div className='max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8'>
+    <section className='bg-zinc-50 mb-32'>
+      <div className='max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8'>
         <div className='sm:flex sm:flex-col sm:align-center'>
           <h1 className='text-4xl font-extrabold text-black sm:text-center sm:text-6xl'>
             Account
@@ -115,24 +115,6 @@ export default function Account({ user }: { user: User }) {
           </div>
         </Card>
         <Card
-          title='Your Name'
-          description='Please enter your full name, or a display name you are comfortable with.'
-          footer={<p>Please use 64 characters at maximum.</p>}
-        >
-          <div className='text-xl mt-8 mb-4 font-semibold'>
-            {userDetails ? (
-              `${
-                userDetails.full_name ??
-                `${userDetails.first_name} ${userDetails.last_name}`
-              }`
-            ) : (
-              <div className='h-8 mb-6'>
-                <LoadingDots />
-              </div>
-            )}
-          </div>
-        </Card>
-        <Card
           title='Your Email'
           description='Please enter the email address you want to use to login.'
           footer={<p>We will email you to verify the change.</p>}
@@ -174,8 +156,8 @@ export default function Account({ user }: { user: User }) {
           footer={<p><a href={'https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks'}>More Infos</a></p>}
         >
           <p className='flex items-start flex-row mt-8 mb-4 font-semibold'>
-            <TextField className={'w-full'} id="outlined-basic" label="Webhook" variant="outlined" />
-            <Button className={'w-96 ml-5'}>Add</Button>
+            <TextField className={'w-full'} id="outlined-basic" label="Webhook" variant="outlined"/>
+            <Button className={'w-96 ml-5 bg-purple-700'}>Add to Discord</Button>
           </p>
         </Card>
       </div>
