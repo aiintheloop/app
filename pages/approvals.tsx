@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -17,6 +16,7 @@ import { TextField } from '@mui/material';
 import { capitalizeFirstLetter } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 import { getApprovals, updateApprovals } from '@/utils/supabase-client';
+import Button from '@/components/ui/Button/Button';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
@@ -75,7 +75,8 @@ export default function ApproveDeclineWithContentView() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: '1rem'
+      marginTop: '1rem',
+      gap: '1rem'
     }
   });
 
@@ -242,39 +243,15 @@ export default function ApproveDeclineWithContentView() {
                 required
               />
               <Grid container spacing={4} className={classes.buttonContainer}>
-                <Grid item xs={3}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    onClick={handleApprove}
-                    size="small"
-                  >
-                    Approve
-                  </Button>
-                </Grid>
-                <Grid item xs={3}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="default"
-                    onClick={handleUpdate}
-                    size="small"
-                  >
-                    Update
-                  </Button>
-                </Grid>
-                <Grid item xs={3}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleDecline}
-                    size="small"
-                  >
-                    Decline
-                  </Button>
-                </Grid>
+                <Button onClick={handleApprove} className="bg-green-600">
+                  Approve
+                </Button>
+                <Button onClick={handleUpdate} className="bg-yellow-600">
+                  Update
+                </Button>
+                <Button onClick={handleDecline} className="bg-red-600">
+                  Decline
+                </Button>
               </Grid>
             </div>
           </div>
