@@ -75,7 +75,7 @@ export default function ApproveDeclineWithContentView() {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: '1rem',
+      marginTop: '2rem',
       gap: '1rem'
     }
   });
