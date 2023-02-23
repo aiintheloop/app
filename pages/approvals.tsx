@@ -109,6 +109,8 @@ export default function ApproveDeclineWithContentView() {
 
     const approval = await getApprovals(approvalData?.approvalID as string);
 
+    if (!approval) return toast.error('Error updating approvals');
+
     approval.prompt = prompt;
 
     await toast.promise(updateApprovals(approval.ID, approval), {

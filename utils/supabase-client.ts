@@ -97,7 +97,8 @@ export const getApprovals = async (approvalId: string) => {
     console.log(error.message);
     throw error;
   }
-  return data[0];
+  if (data) return data[0];
+  return null;
 };
 
 export const updateApprovals = async (approvalId: string, approvals: any) => {
