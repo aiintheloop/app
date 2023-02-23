@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 
 import LoadingDots from 'components/ui/LoadingDots';
 import Button from 'components/ui/Button';
@@ -10,6 +10,14 @@ import { User } from '@supabase/supabase-js';
 import { withPageAuth } from '@supabase/auth-helpers-nextjs';
 import { TextField } from '@mui/material';
 import { getURL } from '@/utils/helpers';
+import { supabase } from '@/utils/supabase-client';
+import { uuid4 } from '@sentry/utils';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ApiKeyModal from '@/components/ui/Modal/ApiKeyModal';
+import { toast } from 'react-toastify';
 
 
 
@@ -41,7 +49,23 @@ export const getServerSideProps = withPageAuth({ redirectTo: '/signin' });
 export default function Account({ user }: { user: User }) {
   const [loading, setLoading] = useState(false);
   const { isLoading, subscription, userDetails } = useUser();
+  const [apiKey, setApiKey] = useState('');
+  const [hideApiKey, setHideApiKey] = useState(true);
+  const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
+
   const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID
+
+  useEffect(() => {
+    if(user) {
+      getApiKey().then(data => {
+        if(data && data[0].api_key!=null) {
+          setApiKey(data[0].api_key);
+        }
+      });
+    } else {
+      //router.replace('/signin');
+    }
+  }, [user]);
 
   const redirectToCustomerPortal = async () => {
     setLoading(true);
@@ -54,6 +78,28 @@ export default function Account({ user }: { user: User }) {
       if (error) return alert((error as Error).message);
     }
     setLoading(false);
+  };
+
+  const getApiKey = async () => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('api_key')
+      .eq('id', user.id);
+    return data;
+  };
+
+  const generateNewApiKey = async () => {
+    const newApiKey = uuid4();
+    const { data, error } = await supabase
+      .from('users')
+      .update({ api_key: newApiKey })
+      .eq('id', user.id);
+    setApiKey(newApiKey);
+  };
+
+
+  const handleCopy = () => {
+    toast.info('API Key copied to clipboard');
   };
 
   const subscriptionPrice =
@@ -77,6 +123,11 @@ export default function Account({ user }: { user: User }) {
         </div>
       </div>
       <div className='p-4'>
+        <ApiKeyModal
+          generateApiKey={generateNewApiKey}
+          modalOpen={apiKeyModalOpen}
+          setModalOpen={setApiKeyModalOpen}
+        />
         <Card
           title='Your Plan'
           description={
@@ -122,6 +173,55 @@ export default function Account({ user }: { user: User }) {
           <p className='text-xl mt-8 mb-4 font-semibold'>
             {user ? user.email : undefined}
           </p>
+        </Card>
+        <Card
+          title='Your API Key'
+          description='Please keep this Key confidential.'
+          footer={
+            <div className='flex items-start justify-between flex-col sm:flex-row sm:items-center'>
+              <p>Your Api Key</p>
+              <Button className={'bg-zinc-700'} variant='slim' onClick={() => setApiKeyModalOpen(true)}>
+                Generate new API-KEY
+              </Button>
+            </div>
+          }
+        >
+          <div className='text-xl mt-8 mb-4 font-semibold'>
+            {userDetails ? (
+              <div className='flex item-center justify-between'>
+                <p>
+                  {hideApiKey
+                    ? '*********************'
+                    : apiKey
+                      ? apiKey
+                      : ''}
+                </p>
+                <div>
+                  {hideApiKey ? (
+                    <VisibilityIcon
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setHideApiKey(false)}
+                    />
+                  ) : (
+                    <VisibilityOffIcon
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setHideApiKey(true)}
+                    />
+                  )}
+
+                  <CopyToClipboard text={apiKey} onCopy={() => handleCopy()}>
+                    <ContentPasteIcon
+                      style={{ marginLeft: '20px', cursor: 'pointer' }}
+                    />
+                  </CopyToClipboard>
+                </div>
+              </div>
+            ) : (
+              <div className='h-8 mb-6'>
+                <LoadingDots />
+              </div>
+            )}
+          </div>
         </Card>
         <Card
           title='Slack Integration'
