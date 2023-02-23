@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import LoadingDots from 'components/ui/LoadingDots';
 import Button from 'components/ui/Button';
@@ -62,8 +62,6 @@ export default function Account({ user }: { user: User }) {
           setApiKey(data[0].api_key);
         }
       });
-    } else {
-      //router.replace('/signin');
     }
   }, [user]);
 
