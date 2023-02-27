@@ -17,6 +17,7 @@ import { capitalizeFirstLetter } from '@/utils/helpers';
 import { toast } from 'react-toastify';
 import { getApprovals, updateApprovals } from '@/utils/supabase-client';
 import Button from '@/components/ui/Button/Button';
+import Image from 'next/image';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
@@ -213,6 +214,7 @@ export default function ApproveDeclineWithContentView() {
               </span>
               <div className="flex flex-col gap-2 pb-10">
                 <span className="font-bold">Output</span>
+
                 <Card
                   style={{
                     backgroundColor: 'transparent',
@@ -225,9 +227,26 @@ export default function ApproveDeclineWithContentView() {
                       padding: '0'
                     }}
                   >
-                    <Typography variant="body1" className="text-zinc-700">
-                      {approvalData?.content}
-                    </Typography>
+                    {approvalData?.type?.toLowerCase() == 'text' && (
+                      <Typography variant="body1" className="text-zinc-700">
+                        {approvalData?.content}
+                      </Typography>
+                    )}
+                    {approvalData?.type?.toLowerCase() == 'video' && (
+                      <video
+                        controls
+                        className="w-full"
+                        src={approvalData?.content as string}
+                      />
+                    )}
+                    {approvalData?.type?.toLowerCase() == 'picture' && (
+                      <Image
+                        src={approvalData?.content as string}
+                        width={500}
+                        height={500}
+                        alt={`${approvalData?.name}`}
+                      />
+                    )}
                   </CardContent>
                 </Card>
               </div>
