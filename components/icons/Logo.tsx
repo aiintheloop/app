@@ -6,8 +6,8 @@ const cls1 = {
 
 const Logo = ({ className = '', ...props }) => (
   <svg
-    width="60"
-    height="60"
+    width="70"
+    height="70"
     viewBox="0 0 273.7 451.2"
     fill="black"
     xmlns="http://www.w3.org/2000/svg"
