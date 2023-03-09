@@ -2,10 +2,12 @@ import { BaseService } from './baseService';
 import { ApprovalResponse } from '../models/approvalResponse';
 import { Approval } from '../models/approval';
 import { Novu } from '@novu/node';
+import { NotFoundException } from './exception/NotFoundException';
+import { ServiceError } from './exception/ServiceError';
 
+
+// Better Error Handling
 export class ApprovalService extends BaseService {
-
-
 
   private _userId: string;
   private _novuSecret: string;
@@ -16,76 +18,57 @@ export class ApprovalService extends BaseService {
     this._novuSecret = novuSecret;
   }
 
-  async delete(id: string): Promise<ApprovalResponse> {
-    try {
-      const result = await this._supabaseAdmin.from('approvals')
-        .delete()
-        .eq('ID', id)
-        .eq('user_id', this._userId)
+  async delete(id: string) {
+      let result;
+      try {
+        result = await this._supabaseAdmin.from('approvals')
+          .delete()
+          .eq('ID', id)
+          .eq('user_id', this._userId)
+      } catch (e) {
+          console.error(`Failed to get Approval with id "${id}" with Reasion ${JSON.stringify(e)}`)
+          throw new ServiceError(`Failed to get Approval with id "${id}"`)
+      }
 
       if (result.count === 0) {
-        return {
-          message: `Approval with id "${id}" not found`,
-          status: 404,
-        };
+        throw new NotFoundException(`Approval with id "${id}" not found`)
       }
       return {
         message: `Approval with id "${id}" deleted successfully`,
         status: 200,
       };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: 'Error deleting approval',
-        status: 500,
-      };
-    }
   }
 
-  async fetchAll(): Promise<ApprovalResponse> {
+  async fetchAll(): Promise<Approval[]> {
+    let result;
     try {
-      const result = await this._supabaseAdmin.from('approvals')
+      result = await this._supabaseAdmin.from('approvalsd')
         .select('*')
         .eq('user_id', this._userId)
+    } catch(e) {
+      console.error(`Failed to fetch Approvals with error: ${JSON.stringify(e)}`)
+      throw new ServiceError('Failed to fetch approvals')
+    }
 
       if (result.error) {
-        console.log(`Failed to fetch Approvals with error: ${result.error}`)
-        return {
-          message: 'Error fetching approvals',
-          status: 500,
-        };
+        console.error(`Failed to fetch Approvals with error: ${JSON.stringify(result.error)}`)
+        throw new ServiceError('Failed to fetch approvals')
       }
 
-      return {
-        message: 'Approvals fetched successfully',
-        data: result.data as Approval[],
-        status: 200,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: 'Error fetching approvals',
-        status: 500,
-      };
-    }
+    return result.data as Approval[]
   }
 
-  async create(approval: Approval): Promise<ApprovalResponse> {
-    try {
+  async create(approval: Approval): Promise<Approval> {
       approval.user_id = this._userId;
 
-      const result = await this._supabaseAdmin.from('approvals')
+      let result = await this._supabaseAdmin.from('approvals')
         .insert(approval)
         .select()
 
       if (result.error) {
-        console.log(`Failed to insert Approval with error: ${JSON.stringify(result.error)}`)
-        return {
-          message: 'Error creating approval',
-          status: result.status,
-        };
+        console.error(`Failed to insert Approval with error: ${JSON.stringify(result.error)}`)
+        throw new ServiceError('Error creating approval')
       }
-
 
       const novu = new Novu(this._novuSecret);
       await novu.trigger('approval', {
@@ -97,79 +80,50 @@ export class ApprovalService extends BaseService {
         },
       });
 
-      return {
-        message: 'Approval created successfully',
-        data: result.data[0] as Approval,
-        status: 201,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: 'Error creating approval',
-        status: 500,
-      };
+      return result.data[0] as Approval;
     }
-  }
 
-  async update(ID: string, approval: Approval): Promise<ApprovalResponse> {
-    try {
+  async update(ID: string, approval: Approval): Promise<Approval> {
       approval.user_id = this._userId;
-
-      const result = await this._supabaseAdmin.from('approvals')
-        .update(approval)
-        .eq('user_id', this._userId)
-        .eq('ID', ID)
-        .select()
-
-      if (result.error) {
-        return {
-          message: 'Error updating approval',
-          status: result.status,
-        };
+      let result;
+      try {
+         result = await this._supabaseAdmin.from('approvals')
+          .update(approval)
+          .eq('user_id', this._userId)
+          .eq('ID', ID)
+          .select()
+      } catch (e) {
+        console.error(`Failed to update Approval with id '${ID}' and error: ${JSON.stringify(e)}`)
+        throw new ServiceError(`Failed to update approval with id '${ID}'`)
       }
 
-      return {
-        message: 'Approval updated successfully',
-        data: result.data[0] as Approval,
-        status: 200,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: 'Error updating approval',
-        status: 500,
-      };
-    }
+      if (result.error) {
+        console.error(`Failed to update Approval with id '${ID}' and error: ${JSON.stringify(result.error)}`)
+        throw new ServiceError(`Failed to update approval with id '${ID}'`)
+      }
+      return result.data[0] as Approval;
   }
 
-  async getById(ID: string): Promise<ApprovalResponse> {
+  async getById(ID: string): Promise<Approval> {
+    let result;
     try {
-      const result = await this._supabaseAdmin.from('approvals')
+        result = await this._supabaseAdmin.from('approvals')
         .select('*')
         .eq('ID', ID)
         .eq('user_id', this._userId)
         .select();
 
+    } catch (e) {
+      console.log(`Failed to fetch Approval with id '${ID}' and with error: ${JSON.stringify(e)}`)
+      throw new ServiceError(`Failed to fetch Approval with id '${ID}'`)
+    }
+
       if (result.error) {
-        console.log(`Failed to get Approval with error: ${result.error}`)
-        return {
-          message: 'Error fetching approval',
-          status: result.status,
-        };
+        console.log(`Failed to fetch Approval with id '${ID}'and with error: ${JSON.stringify(result.error)}`)
+        throw new ServiceError(`Failed to fetch Approval with id '${ID}'`)
       }
 
-      return {
-        message: 'Approval fetched successfully',
-        data: result.data[0] as Approval,
-        status: 200,
-      };
-    } catch (error) {
-      console.error(error);
-      return {
-        message: 'Error fetching approval',
-        status: 500,
-      };
-    }
+      return result.data[0] as Approval;
   }
 
 }
