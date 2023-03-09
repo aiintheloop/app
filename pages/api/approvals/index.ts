@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import withAuth from '@/utils/withAuth'
 import { ApprovalService } from '../../../services/approvalService';
-
-
-
-
+import withExceptionHandler from '@/utils/withExceptionHandler';
 
 async function approvals(req: NextApiRequest, res: NextApiResponse, userId : string) {
   const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
@@ -12,8 +9,8 @@ async function approvals(req: NextApiRequest, res: NextApiResponse, userId : str
   const { method } = req;
   switch (method) {
     case 'GET':
-      const approvals = await approvalService.fetchAll();
-      return res.status(200).json({ approvals });
+        const approvals = await approvalService.fetchAll();
+        return res.status(200).json({ message : 'Approvals fetched successfully', status : 200, data : approvals });
     case 'POST':
       if (!req.body) {
         return res.status(400).json({ message: 'content is required' });
@@ -26,4 +23,4 @@ async function approvals(req: NextApiRequest, res: NextApiResponse, userId : str
   }
 }
 
-export default withAuth(approvals);
+export default withExceptionHandler(withAuth(approvals));
