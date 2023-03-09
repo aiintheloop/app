@@ -4,6 +4,8 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { ApprovalService } from '../../../services/approvalService';
 import { Approval } from '../../../models/approval';
+import { NotFoundException } from '../../../services/exception/NotFoundException';
+import { ServiceError } from '../../../services/exception/ServiceError';
 
 const ajv = new Ajv()
 addFormats(ajv)
@@ -49,8 +51,12 @@ async function approvals(req: NextApiRequest, res: NextApiResponse, userId : str
       if (!req.query.id) {
         return res.status(400).json({ message: 'id is required' });
       }
-        const deletedApproval = await approvalService.delete(id);
-        return res.status(200).json({ deletedApproval });
+      try {
+        await approvalService.delete(id);
+        return res.status(200).json({ message: `Approval with id "${id}" deleted successfully`, status : 200});
+      } catch (e) {
+
+      }
     default:
       return res.status(405).end({message : 'Method Not Allowed', status : 405});
   }

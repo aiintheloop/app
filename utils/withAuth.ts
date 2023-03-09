@@ -2,9 +2,10 @@ import { ApiTokenService } from '../services/apiTokenService';
 
 export default withAuth
 
-export declare type NextRoute = ((req: any, res: any, userId: string) => Promise<any>);
+export declare type NextRouteWithAuth = ((req: any, res: any, userId: string) => Promise<any>);
+export declare type NextRoute = ((req: any, res: any) => Promise<any>);
 
-function withAuth(route : NextRoute) {
+function withAuth(route : NextRouteWithAuth) {
   const routeFunction: NextRoute = async function (req: any, res: any): Promise<void> {
     const apiTokenService = new ApiTokenService();
     const apiKey = req.headers["apikey"]
