@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import FormatAlignLeftOutlinedIcon from '@mui/icons-material/FormatAlignLeftOutlined';
 import VideoCameraBackOutlinedIcon from '@mui/icons-material/VideoCameraBackOutlined';
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
-import { Loop } from '../models/loop';
+import { Loop } from 'models/loop';
 import {
   deleteUserLoops,
   getUserLoops,
@@ -28,6 +28,7 @@ import {
   getCurrentDate
 } from '@/utils/helpers';
 import { Settings } from '@mui/icons-material';
+import Link from 'next/link';
 
 interface Props {
   title?: string | null;
@@ -67,7 +68,9 @@ function Card({
       <div className="px-5 py-5">
         {title && (
           <div className="flex align-middle content-center justify-between">
-            <h3 className="text-2xl mb-1 font-medium">{title}</h3>
+            <Link href={`/loops/${loop.ident}`}>
+              <h3 className="text-2xl mb-1 font-medium cursor-pointer hover:text-zinc-600">{title}</h3>
+            </Link>
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">

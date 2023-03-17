@@ -108,7 +108,7 @@ export default function ApproveDeclineWithContentView() {
   const handleUpdate = async () => {
     if (!prompt) toast.error('Please enter a prompt');
 
-    const approval = await getApprovals(approvalData?.approvalID as string);
+    const approval = await getApprovals(approvalData?.ID as string);
 
     if (!approval) return toast.error('Error updating approvals');
 

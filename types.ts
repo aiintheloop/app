@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { Json } from 'types_db';
 export interface PageMeta {
   title: string;
   description: string;
@@ -38,14 +39,16 @@ export interface UserDetails {
 export interface Approval {
   ID: string /* primary key */;
   content: string | null;
-  process_id: string | null;
+  loop_id: string | null;
   approved: boolean | null;
   created_at: string | null;
-  user_id: string | null;
+  user_id: string;
+  type: string | null;
+  prompt: string | null;
 }
 
 export interface ApprovalData {
-  approvalID: string /* primary key */;
+  ID: string /* primary key */;
   content: string | null;
   process_id: string | null;
   approved: boolean | null;

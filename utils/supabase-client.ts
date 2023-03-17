@@ -113,3 +113,16 @@ export const updateApprovals = async (approvalId: string, approvals: any) => {
     throw error;
   }
 };
+
+export const getLoopsApprovals = async (loopId: string) => {
+  const { data, error } = await supabase
+    .from('approvals')
+    .select('*')
+    .eq('loop_id', loopId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+  if (data) return data;
+  return null;
+};

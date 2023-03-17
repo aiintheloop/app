@@ -217,7 +217,7 @@ const getDataForApproval = async (approvalID: string) => {
         const loopData = loopResponse.data;
         return {
           data: {
-            approvalID: approvalData.ID,
+            ID: approvalData.ID,
             content: approvalData.content,
             name: loopData.name,
             approved: approvalData.approved,
