@@ -1,23 +1,28 @@
 import Pricing from 'components/Pricing';
-import { getActiveProductsWithPrices } from 'utils/supabase-client';
+import { getActiveProductsWithPrices, updateUserEmail } from 'utils/supabase-client';
 import { Product } from 'types';
 import { GetStaticPropsResult } from 'next';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useUser } from '@/utils/useUser';
+import { useRouter } from 'next/router';
 
-interface Props {
-  products: Product[];
-}
 
-export default function PricingPage({ products }: Props) {
-  return <Pricing products={products} />;
-}
 
-export async function getStaticProps(): Promise<GetStaticPropsResult<Props>> {
-  const products = await getActiveProductsWithPrices();
+export default function Home() {
 
-  return {
-    props: {
-      products
-    },
-    revalidate: 60
-  };
+
+  const router = useRouter();
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      router.replace('/loops');
+    } else {
+      router.replace('/signin');
+    }
+  }, [user]);
+
+
+  return <div/>;
 }

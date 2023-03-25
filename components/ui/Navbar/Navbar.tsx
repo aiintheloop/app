@@ -36,7 +36,7 @@ const Navbar = () => {
         border: '1px solid rgb(212 212 216)',
       }
     },
-    foooter: {
+    footer: {
       root: {
         backgroundColor: 'rgb(250 250 250)',
       }
@@ -79,17 +79,22 @@ const Navbar = () => {
                 <Logo />
               </a>
             </Link>
+            {user ? (
             <nav className="space-x-2 ml-6 hidden lg:block">
-              <Link href="/">
+              {/**
+              <!-- <Link href="/">
                 <a className={s.link}>Pricing</a>
-              </Link>
+              </Link> **/}
+
               <Link href="/account">
                 <a className={s.link}>Account</a>
               </Link>
               <Link href="/loops">
                 <a className={s.link}>Loops</a>
               </Link>
-            </nav>
+            </nav>) : (<nav className="space-x-2 ml-6 hidden lg:block">
+
+            </nav>)}
           </div>
 
           <div className="flex flex-1 justify-end space-x-8">

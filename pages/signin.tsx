@@ -27,12 +27,11 @@ const SignIn = () => {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true
       });
-      console.log(res)
     }
     if (user) {
       if (userDetails?.email !== user.email) updateUser();
       if (!userDetails?.init) initUser();
-      router.replace('/account');
+      router.replace('/loops');
     }
   }, [user]);
 
@@ -41,7 +40,7 @@ const SignIn = () => {
       <div className="flex justify-center height-screen-helper">
         <div className="flex flex-col justify-between max-w-lg p-3 m-auto w-80 ">
           <div className="flex justify-center pb-12 ">
-            <Logo width="64px" height="64px" />
+            <Logo width="100px" height="100px" />
           </div>
           <div className="flex flex-col">
             <Auth
