@@ -69,7 +69,9 @@ function Card({
         {title && (
           <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
-              <h3 className="text-2xl mb-1 font-medium cursor-pointer hover:text-zinc-600">{title}</h3>
+              <h3 className="text-2xl mb-1 font-medium cursor-pointer hover:text-zinc-600 block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
+                {title}
+              </h3>
             </Link>
             <Menu as="div" className="relative inline-block text-left">
               <div>
@@ -167,6 +169,7 @@ export default function Loops() {
   const [description, setDescription] = useState<string>('');
   const [webhookAccept, setWebhookAccept] = useState<string>('');
   const [webhookDecline, setWebhookDecline] = useState<string>('');
+  const [isCreatedNewLoop, setIsCreatedNewLoop] = useState<boolean>(false);
   const { user, loops, setLoops } = useUser();
 
   useEffect(() => {
@@ -272,6 +275,7 @@ export default function Loops() {
         toast.success('Loops added successfully!');
         setIsOpen(false);
         setLoading(false);
+        setIsCreatedNewLoop(true);
       } catch (error) {
         toast.error('Something went wrong!');
         setLoading(false);
@@ -279,6 +283,23 @@ export default function Loops() {
       }
     }
   };
+
+  if (isCreatedNewLoop) {
+    return (
+      <section className="bg-zinc-50 mb-32">
+        <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
+          <div className="sm:flex sm:flex-col sm:align-center">
+            <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+              Loops
+            </h1>
+            <p className="mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto">
+              Configure your loops
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-zinc-50 mb-32">
@@ -294,7 +315,7 @@ export default function Loops() {
       </div>
       <div className="p-4 pt-8 sm:pt-20">
         <section className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-3 gap-6 m-auto">
             <div onClick={handleAddProcess}>
               <div className="border border-zinc-300 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-400">
                 <div className="px-5 py-5">
@@ -459,7 +480,7 @@ export function ModalForm({
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
+                    className="text-lg pb-4 font-medium leading-6 text-gray-900"
                   >
                     New Loop
                   </Dialog.Title>
