@@ -18,13 +18,17 @@ import { toast } from 'react-toastify';
 import { getApprovals, updateApprovals } from '@/utils/supabase-client';
 import Button from '@/components/ui/Button/Button';
 import Image from 'next/image';
+import EditableTypography from '@/components/ui/Typography/EditableTypography';
+import EditablePopup from '@/components/ui/Modal/EditablePopup';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [prompt, setPrompt] = useState<string>('');
   const [id, setId] = useState<string | null>(null);
+  const [content, setContent] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [prompts, setPrompts] = useState<Record<string, string>>({});
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 
@@ -43,7 +47,12 @@ export default function ApproveDeclineWithContentView() {
           })
           .then((approval) => {
             setApprovalData(approval.data);
-            if (approval.data?.prompt) setPrompt(approval.data?.prompt);
+            if (approval.data?.prompt) {
+              setPrompts(approval.data?.prompt);
+            }
+            if(approval.data?.content) {
+              setContent(approval.data?.content)
+            }
             setIsLoading(false);
           })
           .catch((error) => {
@@ -85,13 +94,17 @@ export default function ApproveDeclineWithContentView() {
 
   const handleApprove = async () => {
     await axios
-      .get(`api/approve?id=${id}`)
+      .post(`api/approve?id=${id}`,{"content" : content})
       .then((response) => {
         router.push('approved');
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleTextChange = (content: string) => {
+    setContent(content);
   };
 
   const handleDecline = async () => {
@@ -105,20 +118,35 @@ export default function ApproveDeclineWithContentView() {
       });
   };
 
-  const handleUpdate = async () => {
-    if (!prompt) toast.error('Please enter a prompt');
+  const handleSave = async (newData: Record<string, string>) => {
+    setPrompts(newData);
+    axios
+      .post(`api/reloop?id=${id}`,{"content" : content})
+      .then((response) => {
+        router.push('approved');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
+
+  };
+
+  const handleUpdate = async () => {
+
+    if (!prompts) toast.error('Please enter a prompt');
+    /*
     const approval = await getApprovals(approvalData?.ID as string);
 
     if (!approval) return toast.error('Error updating approvals');
 
-    approval.prompt = prompt;
+    approval.prompt = prompts;
 
     await toast.promise(updateApprovals(approval.ID, approval), {
       pending: 'Updating approvals...',
       success: 'Approvals updated',
       error: 'Error updating approvals'
-    });
+    });*/
 
     await fetch(`/api/approvalData?id=${id}`)
       .then((res) => {
@@ -176,6 +204,7 @@ export default function ApproveDeclineWithContentView() {
 
   return (
     <section className="bg-zinc-50 mb-32">
+      <EditablePopup data={prompts} open={open} onClose={() => setOpen(false)} onSave={handleSave} />
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -227,11 +256,10 @@ export default function ApproveDeclineWithContentView() {
                       padding: '0'
                     }}
                   >
+
                     {approvalData?.type?.toLowerCase() == 'text' && (
-                      <Typography variant="body1" className="text-zinc-700">
-                        {approvalData?.content}
-                      </Typography>
-                    )}
+                      <EditableTypography initialText={content} onChange={handleTextChange}/>
+                      )}
                     {approvalData?.type?.toLowerCase() == 'video' && (
                       <video
                         controls
@@ -251,23 +279,11 @@ export default function ApproveDeclineWithContentView() {
                 </Card>
               </div>
 
-              <TextField
-                onChange={(e: any) => {
-                  setPrompt(e.target.value);
-                }}
-                label="Prompt"
-                className="ring-0 border-0 outline-none"
-                size="medium"
-                multiline
-                rows={6}
-                value={prompt}
-                required
-              />
               <Grid container spacing={4} className={classes.buttonContainer}>
                 <Button onClick={handleApprove} className="bg-green-600">
                   Approve
                 </Button>
-                <Button onClick={handleUpdate} className="bg-yellow-600">
+                <Button  onClick={() => setOpen(true)} className="bg-yellow-600">
                   Update
                 </Button>
                 <Button onClick={handleDecline} className="bg-red-600">
