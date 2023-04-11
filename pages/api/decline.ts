@@ -1,6 +1,6 @@
 import { supabase } from '@/utils/supabase-client';
 
-export default async function approve(
+export default async function decline(
   req: any,
   res: any
 ) {
