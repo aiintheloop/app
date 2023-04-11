@@ -9,7 +9,7 @@ const supabaseAdmin = createClient<Database>(
 );
 
 const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
-  const { event, webhook } = job;
+  const { event, payload } = job;
   const headerName = 'aai';
 
 
@@ -18,23 +18,23 @@ const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
       'Content-Type': 'application/json'
     }
 
-  console.log(webhook.subscriberUrl);
+  console.log(event.subscriberUrl);
   try {
     try {
-      const response = await axios.post(webhook.subscriberUrl, event.payload, {
+      const response = await axios.post(event.subscriberUrl, payload, {
         headers : headers,
         timeout : 10000
       });
-      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'sended' }).match({ 'approval': webhook.approvalId });
+      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'sended' }).match({ 'id': event.webhookID});
       if (supabaseResponse.error) {
-        console.error('Failed to update Status for ');
+        console.error(`Failed to update Status for webhook ${event.webhookID}`);
       }
     } catch (error) {
-      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'failed' }).match({ 'approval': webhook.approvalId });
+      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'failed' }).match({ 'id': event.webhookID});
       if (supabaseResponse.error) {
-        console.error(`Failed to update Status for `);
+        console.error(`Failed to update Status for for webhook ${event.webhookID}`);
       }
-      throw new Error(`Failed to send webhook for approval ${webhook.approvalId}`);
+      throw new Error(`Failed to send webhook for approval ${event.approvalId} with error: ${JSON.stringify(error)}`);
     }
     // update this event webhook status in events DB so the user knows the status
   } catch (error: any) {

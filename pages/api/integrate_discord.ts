@@ -20,14 +20,13 @@ export default withApiAuth(async function createCheckoutSession(
       } = await supabaseServerClient.auth.getUser();
       if (!user) throw Error('Could not get user')
 
-      console.log(webhook)
       if(typeof webhook !== 'string') {
-        throw Error("nope")
+        return res.redirect(307, '/account')
+        throw Error("Failed to add discord webhook")
       }
       const novu = new Novu(NOVU_SECRET);
-
       await novu.subscribers.setCredentials(user.id, ChatProviderIdEnum.Discord, {
-        webhookUrl: 'https://discord.com/api/webhooks/1075067303999307807/vV7gYfYfPKxM7Ee01lIqRG5cCfzqMJO-IF6gA-fFOsUkiJzxlAhTEFx4DtfLOBmGPLZg',
+        webhookUrl: webhook,
       });
 
       return res.redirect(307, '/account')

@@ -5,22 +5,30 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { Prompt } from '../../../models/prompt';
 
 interface EditablePopupProps {
-  data: Record<string, string>;
+  data: Prompt[];
   open: boolean;
   onClose: () => void;
-  onSave: (data: Record<string, string>) => void;
+  onSave: (data: Prompt[]) => void;
 }
 
 const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSave }) => {
-  const [editableData, setEditableData] = useState<Record<string, string>>(data);
+  const [editableData, setEditableData] = useState<Prompt[]>(data);
 
-  const handleFieldChange = (field: string, value: string) => {
-    setEditableData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+  const handleFieldChange = (id: string, value: string) => {
+    const newData = editableData.map(prompt => {
+      if (prompt.id === id) {
+        return {
+          ...prompt,
+          prompt: value
+        };
+      } else {
+        return prompt;
+      }
+    });
+    setEditableData(newData);
   };
 
   const handleSaveClick = () => {
@@ -29,7 +37,7 @@ const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSa
   };
 
   const handleCancelClick = () => {
-    setEditableData(data);
+    setEditableData([...data]); // Create a new copy of the data array
     onClose();
   };
 
@@ -37,12 +45,12 @@ const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSa
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Data</DialogTitle>
       <DialogContent>
-        {Object.entries(editableData).map(([key, value]) => (
+        {editableData.map((prompt) => (
           <TextField
-            key={key}
-            label={key}
-            value={value}
-            onChange={(event) => handleFieldChange(key, event.target.value)}
+            key={prompt.id}
+            label={prompt.id}
+            value={prompt.prompt}
+            onChange={(event) => handleFieldChange(prompt.id, event.target.value)}
             fullWidth
             margin="normal"
           />

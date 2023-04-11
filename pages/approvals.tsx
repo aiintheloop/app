@@ -20,6 +20,7 @@ import Button from '@/components/ui/Button/Button';
 import Image from 'next/image';
 import EditableTypography from '@/components/ui/Typography/EditableTypography';
 import EditablePopup from '@/components/ui/Modal/EditablePopup';
+import { Prompt } from '../models/prompt';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function ApproveDeclineWithContentView() {
   const [id, setId] = useState<string | null>(null);
   const [content, setContent] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [prompts, setPrompts] = useState<Record<string, string>>({});
+  const [prompts, setPrompts] = useState<Prompt[] | []>([]);
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 
@@ -118,7 +119,7 @@ export default function ApproveDeclineWithContentView() {
       });
   };
 
-  const handleSave = async (newData: Record<string, string>) => {
+  const handleSave = async (newData: Prompt[]) => {
     setPrompts(newData);
     axios
       .post(`api/reloop?id=${id}`,{"content" : content})
@@ -147,7 +148,7 @@ export default function ApproveDeclineWithContentView() {
       success: 'Approvals updated',
       error: 'Error updating approvals'
     });*/
-
+    /*
     await fetch(`/api/approvalData?id=${id}`)
       .then((res) => {
         if (res.ok) {
@@ -163,7 +164,7 @@ export default function ApproveDeclineWithContentView() {
       .catch((error) => {
         setIsError(true);
         setIsLoading(false);
-      });
+      });*/
   };
 
   if (isLoading) {

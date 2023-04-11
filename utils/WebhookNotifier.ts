@@ -12,7 +12,7 @@ const supabaseAdmin = createClient<Database>(
 );
 
 export default class WebhookNotifier {
-  static async sendEvent(loopId: string, approvalId: string, data: string) {
+  static async sendApprove(loopId: string, approvalId: string, data: string) {
     const process = await supabaseAdmin
       .from('loops')
       .select()
@@ -29,17 +29,57 @@ export default class WebhookNotifier {
       if (!webhookResponse.error) {
         const response = await WebhookQueue.enqueue(
           {
-            webhook: {
-              processID: loopData.ident,
-              approvalId: approvalId,
-              subscriberUrl: loopData.acceptHook
-            },
             event: {
-              type: 'approval',
-              payload: {
-                type: 'approval',
-                data: data
-              }
+              type: 'approve',
+              approvalId: approvalId,
+              loopID: loopData.ident,
+              webhookUrl: loopData.acceptHook
+            },
+            payload: {
+              data: data
+            }
+
+          },
+          {
+            retry: ['10sec', '5min', '1h'] // or output of https://www.npmjs.com/package/exponential-backoff-generator
+          }
+        );
+        return;
+      } else {
+        throw new Error(
+          `Failed to send webhook with reason '${JSON.stringify(webhookResponse.error)}' and status '${webhookResponse.status}'`
+        );
+      }
+    }
+    throw new Error(`Failed to load process with id: ${loopId}`);
+  }
+
+  static async sendReloop(loopId: string, approvalId: string, prompts: string) {
+    const process = await supabaseAdmin
+      .from('loops')
+      .select()
+      .eq('ident', loopId)
+      .single();
+    if (process.data) {
+      const loopData = process.data;
+      // Adding to the
+      const webhookID = uuid4()
+      const webhookResponse = await supabaseAdmin.from('webhooks').insert({
+        id: webhookID,
+        approval: approvalId,
+        status: 'enqueued'
+      });
+      if (!webhookResponse.error) {
+        const response = await WebhookQueue.enqueue(
+          {
+            event: {
+              type: 'reLoop',
+              loopID: loopData.ident,
+              subscriberUrl: loopData.declineHook,
+              webhookID: webhookID
+            },
+            payload: {
+              prompts: prompts
             }
           },
           {
@@ -55,4 +95,47 @@ export default class WebhookNotifier {
     }
     throw new Error(`Failed to load process with id: ${loopId}`);
   }
+
+
+  static async sendStart(loopId: string, prompts: any) {
+    const loop = await supabaseAdmin
+      .from('loops')
+      .select()
+      .eq('ident', loopId)
+      .single();
+    if (loop.data) {
+      const loopData = loop.data;
+      // Adding to the queue
+      const webhookID = uuid4()
+      const webhookResponse = await supabaseAdmin.from('webhooks').insert({
+        id: webhookID,
+        status: 'enqueued'
+      });
+      if (!webhookResponse.error) {
+        const response = await WebhookQueue.enqueue(
+          {
+            event: {
+              type: 'startLoop',
+              loopID: loopData.ident,
+              subscriberUrl: loopData.declineHook,
+              webhookID: webhookID
+            },
+            payload: {
+              prompts: prompts
+            }
+          },
+          {
+            retry: ['10sec', '5min', '1h'] // or output of https://www.npmjs.com/package/exponential-backoff-generator
+          }
+        );
+        return;
+      } else {
+        throw new Error(
+          `Failed to send webhook with reason '${JSON.stringify(webhookResponse.error)}' and status '${webhookResponse.status}'`
+        );
+      }
+    }
+    throw new Error(`Failed to load process with id: ${loopId}`);
+  }
+
 }
