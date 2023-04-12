@@ -80,8 +80,9 @@ export const MyUserContextProvider = (props: Props) => {
     } else if (!user && !isLoadingUser && !isLoadingData) {
       setUserDetails(null);
       setSubscription(null);
+      setLoops(null);
     }
-  }, [user, isLoadingUser]);
+  }, [user, isLoadingUser, isLoadingData, userDetails, subscription, loops]);
 
   const value = {
     accessToken,
