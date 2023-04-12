@@ -16,7 +16,7 @@ function withExceptionHandler(route : NextRoute) {
       } else if (e instanceof ServiceError) {
         return res.status(500).json({message: e.message, status : 500})
       }
-      return res.status(500).json({message: 'Unexpected Error', status : 500})
+      return res.status(500).json({message: JSON.stringify(e), status : 500})
     }
   }
   return handleErrors;
