@@ -5,30 +5,22 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Prompt } from '../../../models/prompt';
 
 interface EditablePopupProps {
-  data: Prompt[];
+  data: Record<string, string>;
   open: boolean;
   onClose: () => void;
-  onSave: (data: Prompt[]) => void;
+  onSave: (data: Record<string, string>) => void;
 }
 
 const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSave }) => {
-  const [editableData, setEditableData] = useState<Prompt[]>(data);
+  const [editableData, setEditableData] = useState<Record<string, string>>(data);
 
-  const handleFieldChange = (id: string, value: string) => {
-    const newData = editableData.map(prompt => {
-      if (prompt.id === id) {
-        return {
-          ...prompt,
-          prompt: value
-        };
-      } else {
-        return prompt;
-      }
-    });
-    setEditableData(newData);
+  const handleFieldChange = (field: string, value: string) => {
+    setEditableData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
   };
 
   const handleSaveClick = () => {
@@ -37,7 +29,7 @@ const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSa
   };
 
   const handleCancelClick = () => {
-    setEditableData([...data]); // Create a new copy of the data array
+    setEditableData(data);
     onClose();
   };
 
@@ -45,12 +37,12 @@ const EditablePopup: React.FC<EditablePopupProps> = ({ data, open, onClose, onSa
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Data</DialogTitle>
       <DialogContent>
-        {editableData.map((prompt) => (
+        {Object.entries(editableData).map(([key, value]) => (
           <TextField
-            key={prompt.id}
-            label={prompt.id}
-            value={prompt.prompt}
-            onChange={(event) => handleFieldChange(prompt.id, event.target.value)}
+            key={key}
+            label={key}
+            value={value}
+            onChange={(event) => handleFieldChange(key, event.target.value)}
             fullWidth
             margin="normal"
           />

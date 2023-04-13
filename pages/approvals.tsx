@@ -29,7 +29,7 @@ export default function ApproveDeclineWithContentView() {
   const [id, setId] = useState<string | null>(null);
   const [content, setContent] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [prompts, setPrompts] = useState<Prompt[] | []>([]);
+  const [prompts, setPrompts] = useState<Record<string,string>>({});
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 
@@ -119,10 +119,10 @@ export default function ApproveDeclineWithContentView() {
       });
   };
 
-  const handleSave = async (newData: Prompt[]) => {
+  const handleSave = async (newData: Record<string,string>) => {
     setPrompts(newData);
     axios
-      .post(`api/reloop?id=${id}`,{"content" : content})
+      .post(`api/reloop?id=${id}`,{"prompts" : prompts})
       .then((response) => {
         router.push('approved');
       })
