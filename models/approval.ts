@@ -7,6 +7,6 @@ export interface Approval {
   ID: string;
   loop_id: string | null;
   user_id: string;
-  prompt: string | null;
+  prompts: Record<string, string> | null;
   type: string | null;
 }

@@ -4,8 +4,6 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { ApprovalService } from '../../../services/approvalService';
 import { Approval } from '../../../models/approval';
-import { NotFoundException } from '../../../services/exception/NotFoundException';
-import { ServiceError } from '../../../services/exception/ServiceError';
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -19,8 +17,11 @@ const schema: JSONSchemaType<Approval> = {
     loop_id: { type: 'string', format: 'uuid' },
     user_id: { type: 'string', format: 'uuid' },
     ID: { type: 'string', format: 'uuid' },
-    prompt: { type: 'string' },
-    type: { type: 'string' }
+    type: { type: 'string' },
+    prompts: {
+      type : "object",
+      required : ['false']
+    },
   },
   required: ['loop_id', 'content'],
   additionalProperties: false
