@@ -5,11 +5,11 @@ import { UnauthorizedException } from '../../services/exception/UnauthorizedExce
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { DiscordIntegrationRequest } from '../../models/discordIntegrationRequest';
-
+import { TeamsIntegrationRequest } from '../../models/teamsIntegrationRequest';
 const ajv = new Ajv()
 addFormats(ajv)
 
-const schema: JSONSchemaType<DiscordIntegrationRequest> = {
+const schema: JSONSchemaType<TeamsIntegrationRequest> = {
   type: "object",
   properties: {
     webhook: {type: "string", format : "uri"},
@@ -22,7 +22,7 @@ const validate = ajv.compile(schema)
 /**
  * No public API
  */
-export default withExceptionHandler(async function integrateDiscord(
+export default withExceptionHandler(async function createCheckoutSession(
   req,
   res
 ) {
@@ -35,16 +35,17 @@ export default withExceptionHandler(async function integrateDiscord(
     throw new UnauthorizedException('Could not get user')
   }
   const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
+
   if (req.method === 'POST') {
       const body = req.body
     if (validate(body)) {
       const novu = new Novu(NOVU_SECRET);
-      await novu.subscribers.setCredentials("58700508-dd6b-488f-9881-abb16ac7bba7", ChatProviderIdEnum.Discord, {
+      await novu.subscribers.setCredentials(session.user.id, ChatProviderIdEnum.MsTeams, {
         webhookUrl: body.webhook,
-      })
+      });
       return res.status(200).json({ status: '200', message: 'Webhook added' });
     } else {
-      res.status(400).json({ status: '400', data : validate.errors, message: "Failed to register discord webhook"});
+      res.status(400).json({ status: '400', data : validate.errors, message: "Failed to register teams webhook"});
     }
   } else {
     res.setHeader('Allow', 'POST');

@@ -21,8 +21,9 @@ export default class WebhookNotifier {
     if (process.data) {
       const loopData = process.data;
       // Adding to the queue
+      const webhookID = uuid4()
       const webhookResponse = await supabaseAdmin.from('webhooks').insert({
-        id: uuid4(),
+        id: webhookID,
         approval: approvalId,
         status: 'enqueued'
       });
@@ -33,7 +34,8 @@ export default class WebhookNotifier {
               type: 'approve',
               approvalId: approvalId,
               loopID: loopData.ident,
-              webhookUrl: loopData.acceptHook
+              subscriberUrl: loopData.acceptHook,
+              webhookID: webhookID
             },
             payload: {
               data: data

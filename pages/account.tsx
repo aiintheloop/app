@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ReactNode, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 
 import LoadingDots from 'components/ui/LoadingDots';
 import Button from 'components/ui/Button';
@@ -18,6 +18,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import ApiKeyModal from '@/components/ui/Modal/ApiKeyModal';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 interface Props {
   title: string;
@@ -49,6 +50,8 @@ export default function Account({ user }: { user: User }) {
   const [apiKey, setApiKey] = useState('');
   const [hideApiKey, setHideApiKey] = useState(true);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
+  const [discordWebhook, setDiscordWebhook] = useState<string>("");
+  const [teamsWebhook, setTeamsWebhook] = useState<string>("");
 
   const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID;
 
@@ -95,6 +98,47 @@ export default function Account({ user }: { user: User }) {
   const handleCopy = () => {
     toast.info('API Key copied to clipboard');
   };
+
+  const handleDiscordIntegration = async () => {
+    // Fix for missing delete function -> otherwise following messages are not sended by novu
+    const webhook = discordWebhook !== '' ? discordWebhook : 'https://httpstat.us/200';
+    axios
+      .post(`api/integrate_discord`, { 'webhook': webhook })
+      .then((response) => {
+        console.log(response);
+        toast.info(response.data.message);
+      }).catch((response) => {
+      console.log(response);
+      toast.error(response.data.message);
+    });
+
+  };
+
+  const handleTeamsIntegration = async () => {
+    // Fix for missing delete function -> otherwise following messages are not sended by novu
+    const webhook = teamsWebhook !== "" ? teamsWebhook : "https://httpstat.us/200"
+    axios
+      .post(`api/integrate_teams`,{"webhook" : webhook})
+      .then((response) => {
+        toast.info(response.data.message);
+      }).catch((error) => {
+        if(error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Unexpected Error");
+        }
+    })
+
+  };
+
+  const handleDiscordWebhookChange = (event : ChangeEvent<HTMLInputElement>) => {
+    setDiscordWebhook(event.target.value);
+  };
+
+  const handleTeamsWebhookChange = (event : ChangeEvent<HTMLInputElement>) => {
+    setTeamsWebhook(event.target.value);
+  };
+
 
   const subscriptionPrice =
     subscription &&
@@ -290,9 +334,38 @@ export default function Account({ user }: { user: User }) {
               id="outlined-basic"
               label="Webhook"
               variant="outlined"
+              onChange={handleDiscordWebhookChange}
             />
-            <Button className={'w-96 ml-5 bg-purple-700'}>
+            <Button onClick={handleDiscordIntegration} className={'w-96 ml-5 bg-purple-700'}>
               Add to Discord
+            </Button>
+          </p>
+        </Card>
+        <Card
+          title="Teams Integration"
+          description="Please enter a Teams Webhook"
+          footer={
+            <p>
+              <a
+                href={
+                  'https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook?tabs=dotnet'
+                }
+              >
+                More Infos
+              </a>
+            </p>
+          }
+        >
+          <p className="flex items-start flex-row mt-8 mb-4 font-semibold">
+            <TextField
+              className={'w-full'}
+              id="outlined-basic"
+              label="Webhook"
+              variant="outlined"
+              onChange={handleTeamsWebhookChange}
+            />
+            <Button onClick={handleTeamsIntegration} className={'w-96 ml-5 bg-blue-700'}>
+              Add to Teams
             </Button>
           </p>
         </Card>

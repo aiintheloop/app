@@ -7,7 +7,7 @@ const supabaseAdmin = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 );
-
+//TODO
 const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
   const { event, payload } = job;
   const headerName = 'aai';
@@ -36,7 +36,6 @@ const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
       }
       throw new Error(`Failed to send webhook for approval ${event.approvalId} with error: ${JSON.stringify(error)}`);
     }
-    // update this event webhook status in events DB so the user knows the status
   } catch (error: any) {
     if (error.code && error.code === 'ECONNABORTED') {
       throw new Error('Response exceeded timeout of : ' + 10000 + 'ms');
