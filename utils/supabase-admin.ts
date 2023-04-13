@@ -221,7 +221,7 @@ const getDataForApproval = async (approvalID: string) => {
             content: approvalData.content,
             name: loopData.name,
             approved: approvalData.approved,
-            prompt: approvalData.prompt,
+            prompt: approvalData.prompts,
             created_at: approvalData.created_at,
             type: loopData.type
           } as ApprovalData,

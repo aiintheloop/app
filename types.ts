@@ -44,7 +44,7 @@ export interface Approval {
   created_at: string | null;
   user_id: string;
   type: string | null;
-  prompt: string | null;
+  prompts: string | null;
 }
 
 export interface ApprovalData {
