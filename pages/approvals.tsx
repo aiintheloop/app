@@ -122,7 +122,7 @@ export default function ApproveDeclineWithContentView() {
   const handleSave = async (newData: Record<string,string>) => {
     setPrompts(newData);
     axios
-      .post(`api/reloop?id=${id}`,{"prompts" : prompts})
+      .post(`api/reloop?id=${id}`,{"prompts" : newData})
       .then((response) => {
         router.push('approved');
       })
