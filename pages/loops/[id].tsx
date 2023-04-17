@@ -2,12 +2,46 @@ import { getLoopsApprovals } from '@/utils/supabase-client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Approval } from 'types';
+import Box from '@mui/material/Box';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', minWidth: 300, flex: 1 },
+  {
+    field: 'approved',
+    headerName: 'Approved',
+    minWidth: 150,
+    flex: 1,
+    sortable: true
+  },
+  {
+    field: 'action',
+    headerName: 'Action',
+    sortable: false,
+    maxWidth: 100,
+    flex: 1,
+    renderCell: (params) => {
+      const onClick = (e: { stopPropagation: () => void }) => {
+        e.stopPropagation(); // don't select this row after clicking
+      };
+
+      return <MoreVertIcon onClick={onClick} />;
+    }
+  }
+];
 
 export default function LoopApprovalsPage() {
   const router = useRouter();
   const { id } = router.query;
 
   const [approvals, setApprovals] = useState<Approval[] | null>(null);
+  const [rows, setRows] = useState<
+    {
+      id: string;
+      approved: boolean | null;
+    }[]
+  >([]);
 
   useEffect(() => {
     async function fetchApprovals() {
@@ -16,6 +50,18 @@ export default function LoopApprovalsPage() {
     }
     if (id) fetchApprovals();
   }, [id]);
+
+  useEffect(() => {
+    if (approvals) {
+      const rows = approvals.map((approval, index) => {
+        return {
+          id: approval.ID,
+          approved: approval.approved
+        };
+      });
+      setRows(rows);
+    }
+  }, [approvals]);
 
   return (
     <section className="bg-zinc-50 mb-32">
@@ -27,7 +73,16 @@ export default function LoopApprovalsPage() {
         </div>
       </div>
 
-      <div className="p-4 pt-8 sm:pt-20"></div>
+      <div className="p-4 pt-8 sm:pt-20 max-w-6xl mx-auto">
+        <Box sx={{ height: 475, width: '100%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={25}
+            checkboxSelection
+          />
+        </Box>
+      </div>
     </section>
   );
 }
