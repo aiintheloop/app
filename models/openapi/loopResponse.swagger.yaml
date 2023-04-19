@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Converted from loopResponse.swagger.yaml with typeconv
+  version: '1'
+  x-id: loopResponse.swagger.yaml
+  x-comment: >-
+    Generated from models\loopResponse.ts by core-types-json-schema
+    (https://github.com/grantila/core-types-json-schema) on behalf of typeconv
+    (https://github.com/grantila/typeconv)
+paths: {}
+components:
+  schemas:
+    LoopResponse:
+      properties:
+        message:
+          title: LoopResponse.message
+          examples:
+            - Some Message
+            - Some Other Message
+          type: string
+        data:
+          $ref: '#/components/schemas/Loop'
+          title: LoopResponse.data
+        status:
+          title: LoopResponse.status
+          examples:
+            - '200'
+            - '400'
+          type: number
+      required:
+        - message
+        - data
+        - status
+      additionalProperties: false
+      title: LoopResponse
+      type: object

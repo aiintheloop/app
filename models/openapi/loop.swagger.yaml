@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Converted from loop.swagger.yaml with typeconv
+  version: '1'
+  x-id: loop.swagger.yaml
+  x-comment: >-
+    Generated from models\loop.ts by core-types-json-schema
+    (https://github.com/grantila/core-types-json-schema) on behalf of typeconv
+    (https://github.com/grantila/typeconv)
+paths: {}
+components:
+  schemas:
+    Loop:
+      properties:
+        afterLoopHook:
+          title: Loop.afterLoopHook
+          nullable: true
+          type: string
+        beforeLoopHook:
+          title: Loop.beforeLoopHook
+          nullable: true
+          type: string
+        created_at:
+          title: Loop.created_at
+          nullable: true
+          type: string
+        description:
+          title: Loop.description
+          nullable: true
+          type: string
+        hook:
+          title: Loop.hook
+          nullable: true
+          type: boolean
+        ident:
+          title: Loop.ident
+          type: string
+        name:
+          title: Loop.name
+          nullable: true
+          type: string
+        tool:
+          title: Loop.tool
+          nullable: true
+          type: string
+        type:
+          title: Loop.type
+          nullable: true
+          type: string
+      required:
+        - ident
+      additionalProperties: false
+      title: Loop
+      type: object
