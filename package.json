@@ -50,7 +50,9 @@
     "swr": "1.2.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "3.0.18",
-    "uuid4": "^2.0.3"
+    "uuid": "^9.0.0",
+    "uuid4": "^2.0.3",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/classnames": "2.3.1",

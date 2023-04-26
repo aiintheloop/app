@@ -11,7 +11,7 @@ import { withPageAuth } from '@supabase/auth-helpers-nextjs';
 import { TextField } from '@mui/material';
 import { getURL } from '@/utils/helpers';
 import { supabase } from '@/utils/supabase-client';
-import { uuid4 } from '@sentry/utils';
+import { v4 as uuidv4 } from 'uuid';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -87,7 +87,8 @@ export default function Account({ user }: { user: User }) {
   };
 
   const generateNewApiKey = async () => {
-    const newApiKey = uuid4();
+    const newApiKey = uuidv4();
+    console.log(newApiKey)
     const { data, error } = await supabase
       .from('users')
       .update({ api_key: newApiKey })
