@@ -344,15 +344,7 @@ export default function Loops() {
                     footer={
                       <div className="flex items-start justify-between flex-col sm:flex-row sm:items-center">
                         <p className="pb-4 sm:pb-0">
-                          {loop.hook === null && (
-                            <PendingOutlinedIcon
-                              fontSize="medium"
-                              color="warning"
-                              width={24}
-                              height={24}
-                            />
-                          )}
-                          {loop.hook == true && (
+                          {loop.acceptHook && loop.declineHook && (
                             <CheckCircleOutlinedIcon
                               fontSize="medium"
                               color="success"
@@ -360,7 +352,7 @@ export default function Loops() {
                               height={24}
                             />
                           )}
-                          {loop.hook == false && (
+                          {(!loop.acceptHook || !loop.declineHook) && (
                             <ErrorOutlineOutlinedIcon
                               fontSize="medium"
                               color="error"
