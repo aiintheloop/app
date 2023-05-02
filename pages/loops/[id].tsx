@@ -171,7 +171,7 @@ export default function LoopApprovalsPage() {
             rows={rows}
             columns={columns}
             pageSize={25}
-            checkboxSelection
+            checkboxSelection={false}
             disableSelectionOnClick
           />
         </Box>
