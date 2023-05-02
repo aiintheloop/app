@@ -172,6 +172,7 @@ export default function LoopApprovalsPage() {
             columns={columns}
             pageSize={25}
             checkboxSelection
+            disableSelectionOnClick
           />
         </Box>
       </div>
