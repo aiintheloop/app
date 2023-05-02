@@ -5,12 +5,54 @@ import { Approval } from 'types';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import moment from 'moment';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import PendingIcon from '@mui/icons-material/Pending';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', minWidth: 300, flex: 1 },
   {
     field: 'approved',
     headerName: 'Approved',
+    minWidth: 150,
+    flex: 1,
+    sortable: true,
+    renderCell: (params) => {
+      // use icon instead of text
+      if (params.value === true) {
+        return (
+          <CheckCircleIcon
+            titleAccess="Approved"
+            className="text-green-500"
+            fontSize="medium"
+          />
+        );
+      } else if (params.value === false) {
+        return (
+          <CancelIcon
+            titleAccess="Disapproved"
+            className="text-red-500"
+            fontSize="medium"
+          />
+        );
+      } else {
+        return (
+          <PendingIcon
+            titleAccess="Pending"
+            className="text-yellow-500"
+            fontSize="medium"
+          />
+        );
+      }
+    }
+  },
+  {
+    field: 'created_at',
+    headerName: 'Created',
     minWidth: 150,
     flex: 1,
     sortable: true
@@ -22,11 +64,60 @@ const columns: GridColDef[] = [
     maxWidth: 100,
     flex: 1,
     renderCell: (params) => {
+      const router = useRouter();
+      const [anchorActionEl, setAnchorActionEl] = useState<null | HTMLElement>(
+        null
+      );
+      const open = Boolean(anchorActionEl);
+      const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorActionEl(event.currentTarget);
+      };
+      const handleClose = () => {
+        setAnchorActionEl(null);
+      };
+
       const onClick = (e: { stopPropagation: () => void }) => {
         e.stopPropagation(); // don't select this row after clicking
       };
 
-      return <MoreVertIcon onClick={onClick} />;
+      return (
+        <div>
+          <Button
+            id="demo-positioned-button"
+            className="bg-transparent hover:bg-transparent"
+            aria-controls={open ? 'demo-positioned-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+          >
+            <MoreVertIcon className="text-zinc-900" />
+          </Button>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorActionEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left'
+            }}
+          >
+            <MenuItem
+              onClick={(e) => {
+                onClick(e);
+                router.push(`/approvals?id=${params.id}`);
+              }}
+            >
+              Approval
+            </MenuItem>
+          </Menu>
+        </div>
+      );
     }
   }
 ];
@@ -56,7 +147,8 @@ export default function LoopApprovalsPage() {
       const rows = approvals.map((approval, index) => {
         return {
           id: approval.ID,
-          approved: approval.approved
+          approved: approval.approved,
+          created_at: moment(approval.created_at).format('HH:mm, DD/MM/YYYY')
         };
       });
       setRows(rows);
