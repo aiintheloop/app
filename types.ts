@@ -101,7 +101,6 @@ export interface Loop {
   user_id: string;
   tool: string;
   type: string;
-  hook?: boolean | null;
   description: string;
   acceptHook: string;
   declineHook: string;
