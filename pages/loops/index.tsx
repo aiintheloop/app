@@ -56,9 +56,9 @@ function Card({
   const handleDeleteLoop = async () => {
     if (!user) return;
     await toast.promise(deleteUserLoops(loop.ident), {
-      pending: 'Deleting history...',
-      success: 'History deleted',
-      error: 'Error deleting history'
+      pending: 'Deleting Loop...',
+      success: 'Loop deleted',
+      error: 'Error deleting loop'
     });
     await getUserLoops(user?.id).then((res) => setLoops(res));
   };
