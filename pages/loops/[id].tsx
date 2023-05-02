@@ -52,7 +52,7 @@ const columns: GridColDef[] = [
   },
   {
     field: 'created_at',
-    headerName: 'Created',
+    headerName: 'Created At',
     minWidth: 150,
     flex: 1,
     sortable: true
@@ -144,13 +144,21 @@ export default function LoopApprovalsPage() {
 
   useEffect(() => {
     if (approvals) {
-      const rows = approvals.map((approval, index) => {
-        return {
-          id: approval.ID,
-          approved: approval.approved,
-          created_at: moment(approval.created_at).format('HH:mm, DD/MM/YYYY')
-        };
-      });
+      const rows = approvals
+        .map((approval, index) => {
+          return {
+            id: approval.ID,
+            approved: approval.approved,
+            created_at: moment(approval.created_at).format('HH:mm, DD/MM/YYYY')
+          };
+        })
+        // sort by created_at from the newest to the oldest
+        .sort((a, b) => {
+          return (
+            moment(b.created_at, 'HH:mm, DD/MM/YYYY').unix() -
+            moment(a.created_at, 'HH:mm, DD/MM/YYYY').unix()
+          );
+        });
       setRows(rows);
     }
   }, [approvals]);
