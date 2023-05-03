@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
         return (
           <CheckCircleIcon
             titleAccess="Approved"
-            className="text-green-500"
+            className="text-success"
             fontSize="medium"
           />
         );
@@ -35,7 +35,7 @@ const columns: GridColDef[] = [
         return (
           <CancelIcon
             titleAccess="Disapproved"
-            className="text-red-500"
+            className="text-error"
             fontSize="medium"
           />
         );
@@ -43,7 +43,7 @@ const columns: GridColDef[] = [
         return (
           <PendingIcon
             titleAccess="Pending"
-            className="text-yellow-500"
+            className="text-warning"
             fontSize="medium"
           />
         );
@@ -164,7 +164,7 @@ export default function LoopApprovalsPage() {
   }, [approvals]);
 
   return (
-    <section className="bg-zinc-50 mb-32">
+    <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -173,7 +173,15 @@ export default function LoopApprovalsPage() {
         </div>
       </div>
 
-      <div className="p-4 pt-8 sm:pt-20 max-w-6xl mx-auto">
+      <div className="p-4 pt-8 sm:pt-20 max-w-6xl mx-auto grid">
+        <span className="mb-2">
+          <button
+            className="btn btn-sm btn-accent"
+            onClick={() => router.back()}
+          >
+            Go back
+          </button>
+        </span>
         <Box sx={{ height: 475, width: '100%' }}>
           <DataGrid
             rows={rows}

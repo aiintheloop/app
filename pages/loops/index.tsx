@@ -150,7 +150,7 @@ function Card({
         <p className="overflow-scroll scrollbar-hide h-16 mt-4">{children}</p>
       </div>
       {footer && (
-        <div className="border-t border-zinc-300 bg-zinc-100 p-4 text-zinc-500 rounded-b-md">
+        <div className="border-t border-zinc-300 p-4 text-zinc-500 rounded-b-md">
           {footer}
         </div>
       )}
@@ -283,7 +283,7 @@ export default function Loops() {
   };
 
   return (
-    <section className="bg-zinc-50 mb-32">
+    <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -347,7 +347,7 @@ export default function Loops() {
                           {loop.acceptHook && loop.declineHook && (
                             <CheckCircleOutlinedIcon
                               fontSize="medium"
-                              color="success"
+                              className="text-success"
                               width={24}
                               height={24}
                             />
@@ -355,7 +355,7 @@ export default function Loops() {
                           {(!loop.acceptHook || !loop.declineHook) && (
                             <ErrorOutlineOutlinedIcon
                               fontSize="medium"
-                              color="error"
+                              className="text-error"
                               width={24}
                               height={24}
                             />

@@ -6,7 +6,7 @@ import GitHub from 'components/icons/GitHub';
 
 export default function Footer() {
   return (
-    <footer className="mx-auto max-w-[1920px] px-6 bg-zinc-50">
+    <footer className="mx-auto max-w-[1920px] px-6 ">
       <div className="py-12 mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center space-y-4 ">
         <div>
           <span className="text-black">v.0.1.0</span>

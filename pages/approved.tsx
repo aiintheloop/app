@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { supabase } from '@/utils/supabase-client';
 import { ApprovalData } from '../types';
 import axios from 'axios';
+import Link from 'next/link';
 
 export default function ApprovedFinish() {
   const useStyles = makeStyles({
@@ -40,7 +41,7 @@ export default function ApprovedFinish() {
   const classes = useStyles();
 
   return (
-    <section className="bg-zinc-50 mb-32">
+    <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -49,13 +50,16 @@ export default function ApprovedFinish() {
         </div>
       </div>
       <div className="p-4">
-        <div className="border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8">
-          <div className="px-5 py-4">
+        <div className="border border-zinc-700 max-w-3xl rounded-md m-auto my-8">
+          <div className="px-5 py-4 flex flex-col gap-2 justify-center items-center">
             <div className={classes.root}>
-              <h3 className="text-2xl font-extrabold text-black sm:text-center pb-5">
+              <h3 className="text-2xl font-extrabold text-black sm:text-center">
                 Thanks for your decision
               </h3>
             </div>
+            <button className="btn btn-sm btn-primary w-32">
+              <Link href="/loops">Go to Loop</Link>
+            </button>
           </div>
         </div>
       </div>

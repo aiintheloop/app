@@ -188,7 +188,7 @@ export default function ApproveDeclineWithContentView() {
 
   if (approvalData && approvalData.approved != null) {
     return (
-      <section className="bg-zinc-50 mb-32">
+      <section className="mb-32">
         <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
             <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -201,7 +201,7 @@ export default function ApproveDeclineWithContentView() {
   }
 
   return (
-    <section className="bg-zinc-50 mb-32">
+    <section className="mb-32">
       <EditablePopup
         data={prompts}
         open={open}
@@ -215,10 +215,22 @@ export default function ApproveDeclineWithContentView() {
           </h1>
         </div>
       </div>
-      <div className="p-4">
-        <div className="border border-zinc-700	max-w-3xl w-full p rounded-md m-auto my-8">
+
+      <div className="p-4 flex flex-col gap-2 max-w-3xl justify-center mx-auto">
+        <span>
+          <button
+            className="btn btn-accent btn-sm"
+            onClick={() => {
+              // go to loops/loopsId, just go to previous page
+              router.back();
+            }}
+          >
+            Go back
+          </button>
+        </span>
+        <div className="border border-zinc-700 w-full p rounded-md m-auto">
           <div className="px-5 py-4">
-            <div className="flex flex-col justify-start p-4">
+            <div className="flex flex-col justify-start">
               <h3 className="text-2xl font-extrabold text-black sm:text-left pb-1">
                 {approvalData?.name}
               </h3>
@@ -284,17 +296,26 @@ export default function ApproveDeclineWithContentView() {
                 </Card>
               </div>
 
-              <Grid container spacing={4} className={classes.buttonContainer}>
-                <Button onClick={handleApprove} className="bg-green-600">
+              <div className="flex flex-row flex-wrap justify-center gap-2">
+                <button
+                  className="btn btn-md btn-success"
+                  onClick={handleApprove}
+                >
                   Approve
-                </Button>
-                <Button onClick={() => setOpen(true)} className="bg-yellow-600">
+                </button>
+                <button
+                  className="btn btn-md btn-warning"
+                  onClick={() => setOpen(true)}
+                >
                   Update
-                </Button>
-                <Button onClick={handleDecline} className="bg-red-600">
+                </button>
+                <button
+                  className="btn btn-md btn-error"
+                  onClick={handleDecline}
+                >
                   Decline
-                </Button>
-              </Grid>
+                </button>
+              </div>
             </div>
           </div>
         </div>

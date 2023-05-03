@@ -4,6 +4,11 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {
+  CheckIcon,
+  PencilSquareIcon,
+  XMarkIcon
+} from '@heroicons/react/24/outline';
 
 interface EditableTypographyProps {
   initialText: string;
@@ -60,48 +65,43 @@ const EditableTypography: React.FC<EditableTypographyProps> = ({
             ref={textareaRef}
             value={text}
             onChange={handleTextChange}
-            style={{ width: '100%', height: '100px', padding: '12px' }}
-            className="border border-gray-300 rounded-md bg-transparent h-auto"
+            className="border border-zinc-600 p-2 rounded-md bg-transparent h-auto outline-0 w-full"
           />
           <div
             style={{
               display: 'flex',
-              justifyContent: 'flex-end',
-              marginTop: '8px'
+              gap: '4px',
+              justifyContent: 'flex-start',
+              marginTop: '4px'
             }}
           >
-            <IconButton
+            <CheckIcon
+              title="Save"
+              className="w-6 h-6 cursor-pointer hover:text-success"
+              aria-hidden="true"
               onClick={handleSaveClick}
-              style={{
-                backgroundColor: '#4caf50',
-                marginRight: '8px',
-                color: '#fff'
-              }}
-            >
-              <SaveIcon />
-            </IconButton>
-            <IconButton
+            />
+            <XMarkIcon
+              title="Cancel"
+              className="w-6 h-6 cursor-pointer hover:text-error"
+              aria-hidden="true"
               onClick={handleCancelClick}
-              style={{ backgroundColor: '#f44336', color: '#fff' }}
-            >
-              <CancelIcon />
-            </IconButton>
+            />
           </div>
         </div>
       ) : (
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <div>
           <Typography
             variant="body1"
-            style={{ marginRight: '16px', width: '100%' }}
+            style={{ marginRight: '16px', width: '100%', marginBottom: '4px' }}
           >
             {text}
           </Typography>
-          <IconButton
+          <PencilSquareIcon
             onClick={handleEditModeToggle}
-            style={{ backgroundColor: '#2196f3', color: '#fff' }}
-          >
-            <EditIcon />
-          </IconButton>
+            className="w-6 h-6 cursor-pointer"
+            aria-hidden="true"
+          />
         </div>
       )}
     </div>

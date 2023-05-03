@@ -50,8 +50,8 @@ export default function Account({ user }: { user: User }) {
   const [apiKey, setApiKey] = useState('');
   const [hideApiKey, setHideApiKey] = useState(true);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
-  const [discordWebhook, setDiscordWebhook] = useState<string>("");
-  const [teamsWebhook, setTeamsWebhook] = useState<string>("");
+  const [discordWebhook, setDiscordWebhook] = useState<string>('');
+  const [teamsWebhook, setTeamsWebhook] = useState<string>('');
 
   const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID;
 
@@ -88,7 +88,7 @@ export default function Account({ user }: { user: User }) {
 
   const generateNewApiKey = async () => {
     const newApiKey = uuidv4();
-    console.log(newApiKey)
+    console.log(newApiKey);
     const { data, error } = await supabase
       .from('users')
       .update({ api_key: newApiKey })
@@ -102,44 +102,45 @@ export default function Account({ user }: { user: User }) {
 
   const handleDiscordIntegration = async () => {
     // Fix for missing delete function -> otherwise following messages are not sended by novu
-    const webhook = discordWebhook !== '' ? discordWebhook : 'https://httpstat.us/200';
+    const webhook =
+      discordWebhook !== '' ? discordWebhook : 'https://httpstat.us/200';
     axios
-      .post(`api/integrate_discord`, { 'webhook': webhook })
+      .post(`api/integrate_discord`, { webhook: webhook })
       .then((response) => {
         console.log(response);
         toast.info(response.data.message);
-      }).catch((response) => {
-      console.log(response);
-      toast.error(response.data.message);
-    });
-
+      })
+      .catch((response) => {
+        console.log(response);
+        toast.error(response.data.message);
+      });
   };
 
   const handleTeamsIntegration = async () => {
     // Fix for missing delete function -> otherwise following messages are not sended by novu
-    const webhook = teamsWebhook !== "" ? teamsWebhook : "https://httpstat.us/200"
+    const webhook =
+      teamsWebhook !== '' ? teamsWebhook : 'https://httpstat.us/200';
     axios
-      .post(`api/integrate_teams`,{"webhook" : webhook})
+      .post(`api/integrate_teams`, { webhook: webhook })
       .then((response) => {
         toast.info(response.data.message);
-      }).catch((error) => {
-        if(error.response) {
+      })
+      .catch((error) => {
+        if (error.response) {
           toast.error(error.response.data.message);
         } else {
-          toast.error("Unexpected Error");
+          toast.error('Unexpected Error');
         }
-    })
-
+      });
   };
 
-  const handleDiscordWebhookChange = (event : ChangeEvent<HTMLInputElement>) => {
+  const handleDiscordWebhookChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDiscordWebhook(event.target.value);
   };
 
-  const handleTeamsWebhookChange = (event : ChangeEvent<HTMLInputElement>) => {
+  const handleTeamsWebhookChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTeamsWebhook(event.target.value);
   };
-
 
   const subscriptionPrice =
     subscription &&
@@ -150,7 +151,7 @@ export default function Account({ user }: { user: User }) {
     }).format((subscription?.prices?.unit_amount || 0) / 100);
 
   return (
-    <section className="bg-zinc-50 mb-32">
+    <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
           <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
@@ -337,7 +338,10 @@ export default function Account({ user }: { user: User }) {
               variant="outlined"
               onChange={handleDiscordWebhookChange}
             />
-            <Button onClick={handleDiscordIntegration} className={'w-96 ml-5 bg-purple-700'}>
+            <Button
+              onClick={handleDiscordIntegration}
+              className={'w-96 ml-5 bg-purple-700'}
+            >
               Add to Discord
             </Button>
           </p>
@@ -365,7 +369,10 @@ export default function Account({ user }: { user: User }) {
               variant="outlined"
               onChange={handleTeamsWebhookChange}
             />
-            <Button onClick={handleTeamsIntegration} className={'w-96 ml-5 bg-blue-700'}>
+            <Button
+              onClick={handleTeamsIntegration}
+              className={'w-96 ml-5 bg-blue-700'}
+            >
               Add to Teams
             </Button>
           </p>

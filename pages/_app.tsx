@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <div className="bg-zinc-50">
+    <div className="">
       <SessionContextProvider supabaseClient={supabaseClient}>
         <MyUserContextProvider>
           <ToastContainer
