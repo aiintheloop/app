@@ -20,7 +20,7 @@ body {
   font-family: 'Roboto', serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-zinc-900 bg-zinc-100 antialiased;
+  @apply bg-base-100 antialiased;
 }
 
 body {

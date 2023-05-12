@@ -69,16 +69,16 @@ function Card({
         {title && (
           <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
-              <h3 className="text-2xl mb-1 font-medium cursor-pointer hover:text-zinc-600 block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
+              <h3 className="text-2xl mb-1 font-medium cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
                 {title}
               </h3>
             </Link>
             <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                   <Settings
                     fontSize="medium"
-                    className="hover:cursor-pointer text-zinc-600"
+                    className="hover:cursor-pointer"
                   />
                 </Menu.Button>
               </div>
@@ -91,15 +91,13 @@ function Card({
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 mt-2 w-20 origin-top-right divide-gray-100 rounded-md bg-zinc-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 mt-2 w-20 origin-top-right divide-gray-300 rounded-md bg-neutral shadow-lg ring-0 focus:outline-none">
                   <div className="px-1 py-1 ">
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           className={`${
-                            active
-                              ? 'bg-zinc-300 text-zinc-900'
-                              : 'text-zinc-900'
+                            active ? 'bg-base-300' : ''
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           onClick={() => {
                             selectedEditLoops(loop);
@@ -118,9 +116,7 @@ function Card({
                       {({ active }) => (
                         <button
                           className={`${
-                            active
-                              ? 'bg-zinc-300 text-zinc-900'
-                              : 'text-zinc-900'
+                            active ? 'bg-base-300' : ''
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                           onClick={handleDeleteLoop}
                         >
@@ -135,22 +131,22 @@ function Card({
           </div>
         )}
         {description && (
-          <p className="text-zinc-100 my-2">
+          <div className="my-2">
             <div
               className={`${
                 description.toLowerCase() == 'video' && 'bg-blue-400'
               } ${description.toLowerCase() == 'picture' && 'bg-green-400'}
               ${description.toLowerCase() == 'text' && 'bg-purple-400'}
-              } rounded-2xl px-3 py-1 inline-block`}
+              } rounded-2xl px-3 py-1 inline-block text-neutral`}
             >
               {capitalizeFirstLetter(description)}
             </div>
-          </p>
+          </div>
         )}
         <p className="overflow-scroll scrollbar-hide h-16 mt-4">{children}</p>
       </div>
       {footer && (
-        <div className="border-t border-zinc-300 p-4 text-zinc-500 rounded-b-md">
+        <div className="border-t border-zinc-300 p-4 text-zinc-300 rounded-b-md">
           {footer}
         </div>
       )}
@@ -286,10 +282,10 @@ export default function Loops() {
     <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
             Loops
           </h1>
-          <p className="mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto">
+          <p className="mt-5 text-xl sm:text-center sm:text-2xl max-w-2xl m-auto">
             Configure your loops
           </p>
         </div>
@@ -301,8 +297,8 @@ export default function Loops() {
               <div className="border border-zinc-300 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-400">
                 <div className="px-5 py-5">
                   <div className="flex justify-center items-center text-center py-20">
-                    <div className="bg-zinc-200 rounded-full w-9 h-9">
-                      <AddIcon className="text-zinc-900" fontSize="large" />
+                    <div className="bg-zinc-200 bg-opacity-40 rounded-full w-9 h-9">
+                      <AddIcon className="text-zinc-100" fontSize="large" />
                     </div>
                   </div>
                 </div>
@@ -436,7 +432,7 @@ export function ModalForm({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-base-300 bg-opacity-25 backdrop-blur-sm" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -450,10 +446,10 @@ export function ModalForm({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg pb-4 font-medium leading-6 text-gray-900"
+                    className="text-lg pb-4 font-medium leading-6"
                   >
                     New Loop
                   </Dialog.Title>
@@ -469,49 +465,59 @@ export function ModalForm({
                         options={type}
                         data={capitalizeFirstLetter(data.automationType)}
                       />
-                      <TextField
-                        onChange={setTitle}
-                        label="Title"
-                        className="ring-0 border-0 outline-none"
-                        size="small"
+                      <input
                         value={data.title}
                         required
+                        onChange={setTitle}
+                        type="text"
+                        placeholder="Write title here..."
+                        className="input input-bordered input-primary w-full"
                       />
-                      <TextField
+                      <textarea
                         onChange={setDescription}
-                        label="Description"
-                        multiline
-                        className="ring-0 border-0 outline-none"
                         rows={6}
                         value={data.description}
                         required
+                        className="textarea textarea-primary w-full"
+                        placeholder="Write description here..."
                       />
                       {data.automation === 'webhook' && (
-                        <>
-                          <TextField
-                            onChange={setWebhookAccept}
-                            label="Webhook Accept"
-                            className="ring-0 border-0 outline-none"
-                            size="small"
-                            required
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text">
+                              Webhook accept URL
+                            </span>
+                          </label>
+                          <input
                             value={data.webhookAccept}
-                          />
-                          <TextField
-                            onChange={setWebhookDecline}
-                            label="Webhook Decline"
-                            className="ring-0 border-0 outline-none"
-                            size="small"
+                            aria-label="Webhook URL"
                             required
-                            value={data.webhookDecline}
+                            onChange={setWebhookAccept}
+                            type="text"
+                            placeholder="Write webhook accept here..."
+                            className="input input-bordered input-primary w-full"
                           />
-                        </>
+                          <label className="label">
+                            <span className="label-text">
+                              Webhook decline URL
+                            </span>
+                          </label>
+                          <input
+                            value={data.webhookDecline}
+                            required
+                            onChange={setWebhookDecline}
+                            type="text"
+                            placeholder="Write webhook decline here..."
+                            className="input input-bordered input-primary w-full"
+                          />
+                        </div>
                       )}
 
                       <div className="mt-4">
                         <button
                           type="submit"
                           onClick={submit}
-                          className="inline-flex justify-center rounded-md border border-transparent bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-700 focus:outline-none"
+                          className="inline-flex justify-center border border-transparent btn btn-primary normal-case btn-sm focus:outline-none"
                         >
                           {isEdit ? 'Update Loop' : 'Create Loop'}
                         </button>
@@ -566,13 +572,13 @@ export function List({ onChange, options, data }: ListProps) {
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-base-100 py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
           <span className="block truncate text-sm">
             {data || selected.name}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
-              className="h-5 w-5 text-gray-400"
+              className="h-5 w-5 text-zinc-400"
               aria-hidden="true"
             />
           </span>
@@ -583,13 +589,13 @@ export function List({ onChange, options, data }: ListProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md bg-zinc-200 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+          <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
             {options.map((option) => (
               <Listbox.Option
                 key={option.id}
                 className={({ active }) =>
                   `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
-                    active ? 'bg-zinc-100 text-zinc-900' : 'text-gray-900'
+                    active ? 'bg-base-300' : ''
                   }`
                 }
                 value={option}
@@ -631,7 +637,7 @@ export function List({ onChange, options, data }: ListProps) {
                       {option.name}
                     </span>
                     {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-900">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 ">
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}

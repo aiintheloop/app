@@ -191,7 +191,7 @@ export default function ApproveDeclineWithContentView() {
       <section className="mb-32">
         <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:flex-col sm:align-center">
-            <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+            <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
               Already approved
             </h1>
           </div>
@@ -210,7 +210,7 @@ export default function ApproveDeclineWithContentView() {
       />
       <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
             New Approval
           </h1>
         </div>
@@ -228,10 +228,10 @@ export default function ApproveDeclineWithContentView() {
             Go back
           </button>
         </span>
-        <div className="border border-zinc-700 w-full p rounded-md m-auto">
+        <div className="border border-zinc-300 w-full p rounded-md m-auto">
           <div className="px-5 py-4">
             <div className="flex flex-col justify-start">
-              <h3 className="text-2xl font-extrabold text-black sm:text-left pb-1">
+              <h3 className="text-2xl font-extrabold sm:text-left pb-1">
                 {approvalData?.name}
               </h3>
               {approvalData?.type && (
@@ -252,7 +252,7 @@ export default function ApproveDeclineWithContentView() {
                 </p>
               )}
 
-              <span className="pb-5 text-zinc-700">
+              <span className="pb-5 text-zinc-400">
                 {approvalData?.created_at &&
                   moment(`${approvalData.created_at}`).format('MMMM Do YYYY')}
               </span>

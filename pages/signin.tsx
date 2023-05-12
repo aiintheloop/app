@@ -23,10 +23,14 @@ const SignIn = () => {
     }
     async function initUser() {
       if (!user) return;
-      const res: Response = await axios.post("api/init_user", {email: "user.email"}, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-      });
+      const res: Response = await axios.post(
+        'api/init_user',
+        { email: 'user.email' },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
     }
     if (user) {
       if (userDetails?.email !== user.email) updateUser();
@@ -58,17 +62,17 @@ const SignIn = () => {
                   }
                 }
               }}
-              theme="default"
+              theme="dark"
             />
             <div className="flex place-items-center m-auto">
-              <span className="text-xs text-accents-4 text-center">
+              <span className="text-xs text-center">
                 By continuing you agree to our{' '}
                 <Link href="/" target={'_blank'}>
-                  <a className="text-pink-500">Privacy Policy</a>
+                  <a className="text-accent">Privacy Policy</a>
                 </Link>{' '}
                 and{' '}
                 <Link href="/" target={'_blank'}>
-                  <a className="text-pink-500">Terms of Use</a>
+                  <a className="text-accent">Terms of Use</a>
                 </Link>
                 .
               </span>

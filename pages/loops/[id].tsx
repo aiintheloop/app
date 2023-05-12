@@ -84,13 +84,13 @@ const columns: GridColDef[] = [
         <div>
           <Button
             id="demo-positioned-button"
-            className="bg-transparent hover:bg-transparent"
+            className="bg-transparent hover:bg-transparent border-0 outline-none"
             aria-controls={open ? 'demo-positioned-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
           >
-            <MoreVertIcon className="text-zinc-900" />
+            <MoreVertIcon className="text-zinc-100 border-0 outline-none" />
           </Button>
           <Menu
             id="demo-positioned-menu"
@@ -108,6 +108,7 @@ const columns: GridColDef[] = [
             }}
           >
             <MenuItem
+              className="bg-neutral text-zinc-100 hover:bg-neutral hover:text-zinc-200 border-0 outline-none"
               onClick={(e) => {
                 onClick(e);
                 router.push(`/approvals?id=${params.id}`);
@@ -167,7 +168,7 @@ export default function LoopApprovalsPage() {
     <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
             Approvals
           </h1>
         </div>
@@ -182,8 +183,9 @@ export default function LoopApprovalsPage() {
             Go back
           </button>
         </span>
-        <Box sx={{ height: 475, width: '100%' }}>
+        <Box sx={{ height: 475, width: '100%' }} className="text-zinc-100">
           <DataGrid
+            className="bg-base-300 text-zinc-100"
             rows={rows}
             columns={columns}
             pageSize={25}

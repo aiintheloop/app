@@ -35,7 +35,7 @@ function Card({ title, description, footer, children }: Props) {
         <p className="text-zinc-900">{description}</p>
         {children}
       </div>
-      <div className="border-t border-zinc-300 bg-zinc-100 p-4 text-zinc-500 rounded-b-md">
+      <div className="border-t border-zinc-300 bg-base-300 p-4 rounded-b-md">
         {footer}
       </div>
     </div>
@@ -154,10 +154,10 @@ export default function Account({ user }: { user: User }) {
     <section className="mb-32">
       <div className="max-w-6xl mx-auto pt-4 sm:pt-12 pb-4 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:flex-col sm:align-center">
-          <h1 className="text-4xl font-extrabold text-black sm:text-center sm:text-6xl">
+          <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
             Account
           </h1>
-          <p className="mt-5 text-xl text-zinc-800 sm:text-center sm:text-2xl max-w-2xl m-auto">
+          <p className="mt-5 text-xl sm:text-center sm:text-2xl max-w-2xl m-auto">
             We partnered with Stripe for a simplified billing.
           </p>
         </div>
@@ -180,14 +180,15 @@ export default function Account({ user }: { user: User }) {
               <p className="pb-4 sm:pb-0">
                 Manage your subscription on Stripe.
               </p>
-              <Button
-                variant="slim"
-                loading={loading}
+              <button
+                className={`btn btn-primary btn-md ${
+                  loading && 'loading'
+                } disabled:bg-primary disabled:bg-opacity-50 disabled:text-zinc-800`}
                 disabled={loading || !subscription}
                 onClick={redirectToCustomerPortal}
               >
                 Open customer portal
-              </Button>
+              </button>
             </div>
           }
         >
@@ -220,13 +221,12 @@ export default function Account({ user }: { user: User }) {
           footer={
             <div className="flex items-start justify-between flex-col sm:flex-row sm:items-center">
               <p>Your Api Key</p>
-              <Button
-                className={'bg-zinc-700'}
-                variant="slim"
+              <button
+                className={'btn btn-primary btn-md'}
                 onClick={() => setApiKeyModalOpen(true)}
               >
                 Generate new API-KEY
-              </Button>
+              </button>
             </div>
           }
         >
@@ -268,17 +268,14 @@ export default function Account({ user }: { user: User }) {
           description="Please authenticate with Slack if you want the Approvals in your slack channel"
           footer={<p>Repress the button if you want to change the Channel</p>}
         >
-          <p className="text-xl mt-8 mb-4 font-semibold">
+          <p className="text-xl mb-4 font-semibold">
             <a
               href={`https://slack.com/oauth/v2/authorize?scope=incoming-webhook&redirect_uri=${encodeURIComponent(
                 getURL() + 'api/integrate_slack'
               )}&client_id=${SLACK_CLIENT_ID}`}
+              className="btn btn-primary btn-md"
               style={{
                 alignItems: 'center',
-                color: '#000',
-                backgroundColor: '#fff',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
                 display: 'inline-flex',
                 fontFamily: 'Lato, sans-serif',
                 fontSize: '16px',
@@ -330,20 +327,20 @@ export default function Account({ user }: { user: User }) {
             </p>
           }
         >
-          <p className="flex items-start flex-row mt-8 mb-4 font-semibold">
-            <TextField
-              className={'w-full'}
-              id="outlined-basic"
-              label="Webhook"
-              variant="outlined"
+          <p className="flex items-center flex-row mb-4 font-semibold">
+            <input
+              aria-label="Discord Webhook"
+              type="text"
+              placeholder="Discord Webhook"
+              className="input input-bordered input-primary w-full"
               onChange={handleDiscordWebhookChange}
             />
-            <Button
+            <button
               onClick={handleDiscordIntegration}
-              className={'w-96 ml-5 bg-purple-700'}
+              className={'ml-5 btn btn-secondary'}
             >
               Add to Discord
-            </Button>
+            </button>
           </p>
         </Card>
         <Card
@@ -361,20 +358,20 @@ export default function Account({ user }: { user: User }) {
             </p>
           }
         >
-          <p className="flex items-start flex-row mt-8 mb-4 font-semibold">
-            <TextField
-              className={'w-full'}
-              id="outlined-basic"
-              label="Webhook"
-              variant="outlined"
+          <p className="flex items-center flex-row mb-4 font-semibold">
+            <input
+              aria-label="Teams Webhook"
+              type="text"
+              placeholder="Teams Webhook"
+              className="input input-bordered input-primary w-full"
               onChange={handleTeamsWebhookChange}
             />
-            <Button
+            <button
               onClick={handleTeamsIntegration}
-              className={'w-96 ml-5 bg-blue-700'}
+              className={'ml-5 btn btn-secondary'}
             >
               Add to Teams
-            </Button>
+            </button>
           </p>
         </Card>
       </div>
