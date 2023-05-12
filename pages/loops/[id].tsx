@@ -186,6 +186,8 @@ export default function LoopApprovalsPage() {
         <Box sx={{ height: 475, width: '100%' }} className="text-zinc-100">
           <DataGrid
             className="bg-base-300 text-zinc-100"
+            // make text text-zinc-100
+            style={{ color: '#f4f4f5' }}
             rows={rows}
             columns={columns}
             pageSize={25}
