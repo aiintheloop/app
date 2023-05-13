@@ -183,9 +183,9 @@ export default function LoopApprovalsPage() {
             Go back
           </button>
         </span>
-        <Box sx={{ height: 475, width: '100%' }} className="text-zinc-100">
+        <Box sx={{ height: 475, width: '100%' }} className="text-inherit">
           <DataGrid
-            className="bg-base-300 text-zinc-100"
+            className="bg-base-300 text-inherit"
             // make text text-zinc-100
             style={{ color: '#f4f4f5' }}
             rows={rows}

@@ -29,13 +29,13 @@ interface Props {
 
 function Card({ title, description, footer, children }: Props) {
   return (
-    <div className="border border-zinc-300	max-w-3xl w-full p rounded-md m-auto my-8">
+    <div className="card bg-base-200 card max-w-3xl w-full p rounded-md m-auto my-8">
       <div className="px-5 py-4">
         <h3 className="text-2xl mb-1 font-medium">{title}</h3>
-        <p className="text-zinc-900">{description}</p>
+        <p>{description}</p>
         {children}
       </div>
-      <div className="border-t border-zinc-300 bg-base-300 p-4 rounded-b-md">
+      <div className="px-5 py-3 rounded-b-md bg-base-300 shadow-inner">
         {footer}
       </div>
     </div>
@@ -168,7 +168,7 @@ export default function Account({ user }: { user: User }) {
           modalOpen={apiKeyModalOpen}
           setModalOpen={setApiKeyModalOpen}
         />
-        <Card
+        {/** <Card
           title="Your Plan"
           description={
             subscription
@@ -205,7 +205,7 @@ export default function Account({ user }: { user: User }) {
               </Link>
             )}
           </div>
-        </Card>
+        </Card>**/}
         <Card
           title="Your Email"
           description="Please enter the email address you want to use to login."
@@ -266,51 +266,43 @@ export default function Account({ user }: { user: User }) {
         <Card
           title="Slack Integration"
           description="Please authenticate with Slack if you want the Approvals in your slack channel"
-          footer={<p>Repress the button if you want to change the Channel</p>}
-        >
-          <p className="text-xl mb-4 font-semibold">
-            <a
-              href={`https://slack.com/oauth/v2/authorize?scope=incoming-webhook&redirect_uri=${encodeURIComponent(
-                getURL() + 'api/integrate_slack'
-              )}&client_id=${SLACK_CLIENT_ID}`}
-              className="btn btn-primary btn-md"
-              style={{
-                alignItems: 'center',
-                display: 'inline-flex',
-                fontFamily: 'Lato, sans-serif',
-                fontSize: '16px',
-                fontWeight: '600',
-                height: '48px',
-                justifyContent: 'center',
-                textDecoration: 'none',
-                width: '236px'
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ height: '20px', width: '20px', marginRight: '12px' }}
-                viewBox="0 0 122.8 122.8"
+          footer={
+            <div className="flex items-start justify-between flex-col sm:flex-row sm:items-center">
+            <p>Repress the button if you want to change the Channel</p>
+            <p>
+              <a
+                href={`https://slack.com/oauth/v2/authorize?scope=incoming-webhook&redirect_uri=${encodeURIComponent(
+                  getURL() + 'api/integrate_slack'
+                )}&client_id=${SLACK_CLIENT_ID}`}
+                className="btn btn-primary btn-md"
               >
-                <path
-                  d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
-                  fill="#e01e5a"
-                ></path>
-                <path
-                  d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
-                  fill="#36c5f0"
-                ></path>
-                <path
-                  d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
-                  fill="#2eb67d"
-                ></path>
-                <path
-                  d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
-                  fill="#ecb22e"
-                ></path>
-              </svg>
-              Add to Slack
-            </a>
-          </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  style={{ height: '20px', width: '20px', marginRight: '12px' }}
+                  viewBox="0 0 122.8 122.8"
+                >
+                  <path
+                    d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
+                    fill="#e01e5a"
+                  ></path>
+                  <path
+                    d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
+                    fill="#36c5f0"
+                  ></path>
+                  <path
+                    d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
+                    fill="#2eb67d"
+                  ></path>
+                  <path
+                    d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
+                    fill="#ecb22e"
+                  ></path>
+                </svg>
+                Add to Slack
+              </a>
+            </p>
+          </div>}
+        >
         </Card>
         <Card
           title="Discord Integration"
@@ -327,7 +319,7 @@ export default function Account({ user }: { user: User }) {
             </p>
           }
         >
-          <p className="flex items-center flex-row mb-4 font-semibold">
+          <p className="mt-5 flex items-center flex-row mb-4 font-semibold">
             <input
               aria-label="Discord Webhook"
               type="text"
@@ -337,7 +329,7 @@ export default function Account({ user }: { user: User }) {
             />
             <button
               onClick={handleDiscordIntegration}
-              className={'ml-5 btn btn-secondary'}
+              className={'ml-5 btn btn-primary' }
             >
               Add to Discord
             </button>
@@ -358,7 +350,7 @@ export default function Account({ user }: { user: User }) {
             </p>
           }
         >
-          <p className="flex items-center flex-row mb-4 font-semibold">
+          <p className="mt-5 flex items-center flex-row mb-4 font-semibold">
             <input
               aria-label="Teams Webhook"
               type="text"
@@ -368,7 +360,7 @@ export default function Account({ user }: { user: User }) {
             />
             <button
               onClick={handleTeamsIntegration}
-              className={'ml-5 btn btn-secondary'}
+              className={'ml-5 btn btn-primary'}
             >
               Add to Teams
             </button>

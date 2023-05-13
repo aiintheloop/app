@@ -27,7 +27,7 @@ import {
   generateUUID,
   getCurrentDate
 } from '@/utils/helpers';
-import { Settings } from '@mui/icons-material';
+import { SettingsOutlined } from '@mui/icons-material';
 import Link from 'next/link';
 
 interface Props {
@@ -64,20 +64,19 @@ function Card({
   };
 
   return (
-    <div className="border border-zinc-300 max-w-xl rounded-md m-auto">
+    <div className="card max-w-xl bg-base-200 shadow-xl rounded-md m-auto">
       <div className="px-5 py-5">
         {title && (
           <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
-              <h3 className="text-2xl mb-1 font-medium cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
+              <h3 className="text-2xl mb-1 cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
                 {title}
               </h3>
             </Link>
             <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="inline-flex w-full justify-center rounded-md text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <Settings
-                    fontSize="medium"
+                <Menu.Button className="inline-flex w-full justify-center rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                  <SettingsOutlined
                     className="hover:cursor-pointer"
                   />
                 </Menu.Button>
@@ -130,14 +129,15 @@ function Card({
             </Menu>
           </div>
         )}
+        <div className="divider m-0"></div>
         {description && (
           <div className="my-2">
             <div
               className={`${
-                description.toLowerCase() == 'video' && 'bg-blue-400'
-              } ${description.toLowerCase() == 'picture' && 'bg-green-400'}
-              ${description.toLowerCase() == 'text' && 'bg-purple-400'}
-              } rounded-2xl px-3 py-1 inline-block text-neutral`}
+                description.toLowerCase() == 'video' && 'badge-primary'
+              } ${description.toLowerCase() == 'picture' && 'badge-secondary'}
+              ${description.toLowerCase() == 'text' && 'badge-accent'}
+              } badge`}
             >
               {capitalizeFirstLetter(description)}
             </div>
@@ -146,7 +146,7 @@ function Card({
         <p className="overflow-scroll scrollbar-hide h-16 mt-4">{children}</p>
       </div>
       {footer && (
-        <div className="border-t border-zinc-300 p-4 text-zinc-300 rounded-b-md">
+        <div className="p-5 rounded-b-md bg-base-300 shadow-inner">
           {footer}
         </div>
       )}
@@ -294,7 +294,7 @@ export default function Loops() {
         <section className="max-w-6xl mx-auto">
           <div className="grid sm:grid-cols-3 gap-6 m-auto">
             <div onClick={handleAddProcess}>
-              <div className="border border-zinc-300 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:border-zinc-400">
+              <div className="card bg-base-200 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:bg-base-300">
                 <div className="px-5 py-5">
                   <div className="flex justify-center items-center text-center py-20">
                     <div className="bg-zinc-200 bg-opacity-40 rounded-full w-9 h-9">
@@ -342,7 +342,6 @@ export default function Loops() {
                         <p className="pb-4 sm:pb-0">
                           {loop.acceptHook && loop.declineHook && (
                             <CheckCircleOutlinedIcon
-                              fontSize="medium"
                               className="text-success"
                               width={24}
                               height={24}
@@ -350,7 +349,6 @@ export default function Loops() {
                           )}
                           {(!loop.acceptHook || !loop.declineHook) && (
                             <ErrorOutlineOutlinedIcon
-                              fontSize="medium"
                               className="text-error"
                               width={24}
                               height={24}
@@ -449,7 +447,7 @@ export function ModalForm({
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-lg pb-4 font-medium leading-6"
+                    className="text-lg pb-4 leading-6"
                   >
                     New Loop
                   </Dialog.Title>
@@ -572,7 +570,7 @@ export function List({ onChange, options, data }: ListProps) {
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-base-100 py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-md bg-base-200 py-3 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
           <span className="block truncate text-sm">
             {data || selected.name}
           </span>
@@ -589,7 +587,7 @@ export function List({ onChange, options, data }: ListProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md bg-base-100 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+          <Listbox.Options className="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-md bg-base-200 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
             {options.map((option) => (
               <Listbox.Option
                 key={option.id}
