@@ -228,7 +228,7 @@ export default function ApproveDeclineWithContentView() {
             Go back
           </button>
         </span>
-        <div className="border border-zinc-300 w-full p rounded-md m-auto">
+        <div className="card bg-base-200 w-full m-auto">
           <div className="px-5 py-4">
             <div className="flex flex-col justify-start">
               <h3 className="text-2xl font-extrabold sm:text-left pb-1">
@@ -239,38 +239,33 @@ export default function ApproveDeclineWithContentView() {
                   <div
                     className={`${
                       approvalData?.type.toLowerCase() == 'video' &&
-                      'bg-blue-400'
+                      'badge-primary'
                     } ${
                       approvalData?.type.toLowerCase() == 'picture' &&
-                      'bg-green-400'
+                      'badge-secondary'
                     }
-            ${approvalData?.type.toLowerCase() == 'text' && 'bg-purple-400'}
-            } rounded-2xl px-3 py-1 inline-block`}
+            ${approvalData?.type.toLowerCase() == 'text' && 'badge-accent'}
+            } badge`}
                   >
                     {capitalizeFirstLetter(approvalData?.type)}
                   </div>
                 </p>
               )}
 
-              <span className="pb-5 text-zinc-400">
+              <span className="pb-5">
                 {approvalData?.created_at &&
                   moment(`${approvalData.created_at}`).format('MMMM Do YYYY')}
               </span>
               <div className="flex flex-col gap-2 pb-10">
                 <span className="font-bold">Output</span>
 
-                <Card
+                <div
                   style={{
                     backgroundColor: 'transparent',
                     boxShadow: 'none'
                   }}
                 >
-                  <CardContent
-                    className="whitespace-pre-wrap text-zinc-700"
-                    style={{
-                      padding: '0'
-                    }}
-                  >
+                  <div className="whitespace-pre-wrap p-5 rounded break-all bg-base-300 shadow-inner text-inherit">
                     {approvalData?.type?.toLowerCase() == 'text' && (
                       <EditableTypography
                         initialText={content}
@@ -292,31 +287,31 @@ export default function ApproveDeclineWithContentView() {
                         alt={`${approvalData?.name}`}
                       />
                     )}
-                  </CardContent>
-                </Card>
-              </div>
-
-              <div className="flex flex-row flex-wrap justify-center gap-2">
-                <button
-                  className="btn btn-md btn-success"
-                  onClick={handleApprove}
-                >
-                  Approve
-                </button>
-                <button
-                  className="btn btn-md btn-warning"
-                  onClick={() => setOpen(true)}
-                >
-                  Update
-                </button>
-                <button
-                  className="btn btn-md btn-error"
-                  onClick={handleDecline}
-                >
-                  Decline
-                </button>
+                  </div>
+                </div>
               </div>
             </div>
+
+          </div>
+          <div className="flex flex-row flex-wrap justify-center gap-2 p-3 rounded bg-base-300 shadow-inner">
+            <button
+              className="btn btn-md btn-success"
+              onClick={handleApprove}
+            >
+              Approve
+            </button>
+            <button
+              className="btn btn-md btn-warning"
+              onClick={() => setOpen(true)}
+            >
+              Update
+            </button>
+            <button
+              className="btn btn-md btn-error"
+              onClick={handleDecline}
+            >
+              Decline
+            </button>
           </div>
         </div>
       </div>

@@ -45,7 +45,7 @@ const EditablePopup: React.FC<EditablePopupProps> = ({
       <DialogTitle>Edit Data</DialogTitle>
       <DialogContent className="flex flex-col gap-2">
         <DialogContentText>
-          Edit the data below and click Save to save the changes.
+          Edit the prompts below and click Save to reloop.
         </DialogContentText>
         {Object.entries(editableData).map(([key, value]) => (
           <TextField

@@ -64,8 +64,8 @@ function Card({
   };
 
   return (
-    <div className="card max-w-xl bg-base-200 shadow-xl rounded-md m-auto">
-      <div className="px-5 py-5">
+    <div className="card max-w-xl bg-base-200 shadow-xl rounded-md m-auto h-full">
+      <div className="px-5 py-5 flex-auto">
         {title && (
           <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
@@ -143,7 +143,7 @@ function Card({
             </div>
           </div>
         )}
-        <p className="overflow-scroll scrollbar-hide h-16 mt-4">{children}</p>
+        <p className="p-5 rounded break-all bg-base-300 shadow-inner mt-4">{children}</p>
       </div>
       {footer && (
         <div className="p-5 rounded-b-md bg-base-300 shadow-inner">
@@ -295,8 +295,8 @@ export default function Loops() {
           <div className="grid sm:grid-cols-3 gap-6 m-auto">
             <div onClick={handleAddProcess}>
               <div className="card bg-base-200 max-w-xl h-full rounded-md m-auto hover:cursor-pointer hover:bg-base-300">
-                <div className="px-5 py-5">
-                  <div className="flex justify-center items-center text-center py-20">
+                <div className="px-5 py-5 h-full">
+                  <div className="flex justify-center items-center text-center py-20 h-full">
                     <div className="bg-zinc-200 bg-opacity-40 rounded-full w-9 h-9">
                       <AddIcon className="text-zinc-100" fontSize="large" />
                     </div>
@@ -413,6 +413,21 @@ export function ModalForm({
   setWebhookAccept,
   setWebhookDecline
 }: ModalFormProps) {
+
+
+  useEffect(() => {
+    setText(data.description)
+  },[setTitle]);
+
+  const handleTextChange = (e : any) => {
+    setText(e.target.value);
+  };
+
+  const [text, setText] = useState("");
+  const maxChars = 100;
+  const remainingChars = maxChars - text.length;
+
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -475,10 +490,14 @@ export function ModalForm({
                         onChange={setDescription}
                         rows={6}
                         value={data.description}
+                        maxLength={100}
                         required
                         className="textarea textarea-primary w-full"
                         placeholder="Write description here..."
                       />
+                      <p>
+                        {remainingChars} / {maxChars} characters remaining
+                      </p>
                       {data.automation === 'webhook' && (
                         <div className="form-control">
                           <label className="label">

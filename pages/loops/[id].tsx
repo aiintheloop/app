@@ -90,7 +90,7 @@ const columns: GridColDef[] = [
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
           >
-            <MoreVertIcon className="text-zinc-100 border-0 outline-none" />
+            <MoreVertIcon className="text-base-content border-0 outline-none" />
           </Button>
           <Menu
             id="demo-positioned-menu"
@@ -108,7 +108,7 @@ const columns: GridColDef[] = [
             }}
           >
             <MenuItem
-              className="bg-neutral text-zinc-100 hover:bg-neutral hover:text-zinc-200 border-0 outline-none"
+              className="base-100 text-base-content hover:base-200 hover:text-base-content/70 border-0 outline-none"
               onClick={(e) => {
                 onClick(e);
                 router.push(`/approvals?id=${params.id}`);
@@ -183,11 +183,10 @@ export default function LoopApprovalsPage() {
             Go back
           </button>
         </span>
-        <Box sx={{ height: 475, width: '100%' }} className="text-inherit">
+        <Box sx={{ height: 475, width: '100%' }} className="text-base-content">
           <DataGrid
-            className="bg-base-300 text-inherit"
+            className="bg-base-300 text-base-content"
             // make text text-zinc-100
-            style={{ color: '#f4f4f5' }}
             rows={rows}
             columns={columns}
             pageSize={25}

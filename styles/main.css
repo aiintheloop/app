@@ -45,3 +45,21 @@ a {
 .height-screen-helper {
   height: calc(100vh - 80px);
 }
+.MuiDataGrid-root {
+  @apply text-base-content;
+}
+.MuiDataGrid-root .MuiTablePagination-root {
+  @apply text-base-content;
+}
+.MuiDataGrid-root .MuiTablePagination-root svg,  .MuiDataGrid-root .MuiTablePagination-root button{
+  @apply text-base-content
+}
+
+.MuiPaper-root {
+  @apply bg-base-100;
+  @apply text-base-content;
+}
+.MuiPaper-root .MuiMenuItem-root {
+  @apply bg-base-100;
+  @apply text-base-content;
+}
