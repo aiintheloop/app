@@ -49,7 +49,10 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                       <ol className="list-decimal list-inside">
                         <li className="mb-2">
                           Login to{' '}
-                          <Link href="http://make.com" className="text-accent">
+                          <Link
+                            href="http://make.com"
+                            className="link link-accent"
+                          >
                             Make
                           </Link>
                         </li>
