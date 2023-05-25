@@ -61,7 +61,7 @@ const EditableTypography: React.FC<EditableTypographyProps> = ({
             ref={textareaRef}
             value={text}
             onChange={handleTextChange}
-            className="border border-zinc-600 p-2 rounded-md bg-transparent h-auto outline-0 w-full"
+            className="textarea w-full textarea-primary text-base"
           />
           <div
             style={{
