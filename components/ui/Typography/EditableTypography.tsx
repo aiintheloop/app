@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
 import {
   CheckIcon,
   PencilSquareIcon,
@@ -93,7 +89,7 @@ const EditableTypography: React.FC<EditableTypographyProps> = ({
         <div>
           <Typography
             variant="body1"
-            style={{ marginRight: '16px', width: '100%', marginBottom: '4px' }}
+            style={{ marginRight: '16px', width: '100%', marginBottom: '12px' }}
           >
             {text}
           </Typography>
