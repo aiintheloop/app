@@ -105,34 +105,6 @@ const EditablePopup: React.FC<EditablePopupProps> = ({
         </div>
       </Dialog>
     </Transition>
-    // <Dialog open={open} onClose={onClose}>
-    //   <DialogTitle>Edit Data</DialogTitle>
-    //   <DialogContent className="flex flex-col gap-2">
-    //     <DialogContentText>
-    //       Edit the prompts below and click Save to reloop.
-    //     </DialogContentText>
-    //     {Object.entries(editableData).map(([key, value]) => (
-    //       <TextField
-    //         key={key}
-    //         label={key}
-    //         value={value}
-    //         onChange={(event) => handleFieldChange(key, event.target.value)}
-    //         fullWidth
-    //         className="w-full"
-    //       />
-    //     ))}
-    //   </DialogContent>
-    //   <DialogActions>
-    //     <div className="grid grid-cols-2 w-48 gap-2 mx-auto">
-    //       <button className="btn btn-md btn-accent" onClick={handleCancelClick}>
-    //         Cancel
-    //       </button>
-    //       <button className="btn btn-md btn-success" onClick={handleSaveClick}>
-    //         Save
-    //       </button>
-    //     </div>
-    //   </DialogActions>
-    // </Dialog>
   );
 };
 
