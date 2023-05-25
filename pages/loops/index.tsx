@@ -29,6 +29,7 @@ import {
 } from '@/utils/helpers';
 import { SettingsOutlined } from '@mui/icons-material';
 import Link from 'next/link';
+import { LoopHelper } from '@/components/ui/Modal/LoopHelper';
 
 interface Props {
   title?: string | null;
@@ -76,9 +77,7 @@ function Card({
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-                  <SettingsOutlined
-                    className="hover:cursor-pointer"
-                  />
+                  <SettingsOutlined className="hover:cursor-pointer" />
                 </Menu.Button>
               </div>
               <Transition
@@ -143,7 +142,9 @@ function Card({
             </div>
           </div>
         )}
-        <p className="p-5 rounded break-all bg-base-300 shadow-inner mt-4">{children}</p>
+        <p className="p-5 rounded break-all bg-base-300 shadow-inner mt-4">
+          {children}
+        </p>
       </div>
       {footer && (
         <div className="p-5 rounded-b-md bg-base-300 shadow-inner">
@@ -157,6 +158,7 @@ function Card({
 export default function Loops() {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenHelper, setIsOpenHelper] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedEditLoops, setSelectedEditLoops] = useState<Loop>();
   const [automation, setAutomation] = useState<string>('');
@@ -259,7 +261,6 @@ export default function Loops() {
         description,
         tool: automation,
         type: automationType,
-        hook: null,
         acceptHook: webhookAccept,
         declineHook: webhookDecline
       };
@@ -270,6 +271,7 @@ export default function Loops() {
         toast.success('Loops added successfully!');
         setIsOpen(false);
         setLoading(false);
+        setIsOpenHelper(true);
       } catch (error) {
         toast.error('Something went wrong!');
         setLoading(false);
@@ -324,6 +326,11 @@ export default function Loops() {
               setDescription={handleDescription}
               setWebhookAccept={handleWebhookAccept}
               setWebhookDecline={handleWebhookDecline}
+            />
+
+            <LoopHelper
+              isOpenHelper={isOpenHelper}
+              setIsOpenHelper={setIsOpenHelper}
             />
 
             {loops?.map((loop: Loop) => {
@@ -413,20 +420,17 @@ export function ModalForm({
   setWebhookAccept,
   setWebhookDecline
 }: ModalFormProps) {
-
-
   useEffect(() => {
-    setText(data.description)
-  },[setTitle]);
+    setText(data.description);
+  }, [setTitle]);
 
-  const handleTextChange = (e : any) => {
+  const handleTextChange = (e: any) => {
     setText(e.target.value);
   };
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const maxChars = 100;
   const remainingChars = maxChars - text.length;
-
 
   return (
     <>
@@ -460,10 +464,7 @@ export function ModalForm({
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg pb-4 leading-6"
-                  >
+                  <Dialog.Title as="h3" className="text-lg pb-4 leading-6">
                     New Loop
                   </Dialog.Title>
                   <div className="mt-2">
