@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useState } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
@@ -9,6 +9,15 @@ interface Props {
 }
 
 export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
+  const [isShowAgain, setIsShowAgain] = useState<boolean>(false);
+
+  const handleOk = () => {
+    setIsOpenHelper(false);
+    if (isShowAgain) {
+      localStorage.setItem('isShowAgain', 'false');
+    }
+  };
+
   return (
     <>
       <Transition appear show={isOpenHelper} as={Fragment}>
@@ -66,10 +75,22 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                       </ol>
                     </div>
                   </Dialog.Description>
+
                   <div className="mt-4">
+                    <label className="label cursor-pointer max-w-[17rem]">
+                      <span className="label-text">
+                        Don't show me this message again
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={isShowAgain}
+                        onChange={() => setIsShowAgain(!isShowAgain)}
+                        className="checkbox checkbox-primary checkbox-sm"
+                      />
+                    </label>
                     <button
                       type="button"
-                      onClick={() => setIsOpenHelper(false)}
+                      onClick={handleOk}
                       className="inline-flex justify-center border border-transparent btn btn-primary normal-case btn-sm focus:outline-none"
                     >
                       OK Got It

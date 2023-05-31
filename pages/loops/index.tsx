@@ -206,14 +206,14 @@ export default function Loops() {
   };
 
   const handleAddProcess = async () => {
-    if (!user) return alert('You need to be logged in to do that!');
+    if (!user) return toast.error('You need to be logged in!');
     setIsOpen(true);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    if (!user) return alert('You need to be logged in to do that!');
+    if (!user) return toast.error('You need to be logged in!');
     if (!automation) return toast.error('Please select an automation!');
     if (!automationType) return toast.error('Please select the type!');
     if (!title) return toast.error('Please write a title!');
@@ -271,7 +271,17 @@ export default function Loops() {
         toast.success('Loops added successfully!');
         setIsOpen(false);
         setLoading(false);
-        setIsOpenHelper(true);
+
+        // get local storage isShowAgain, if not found, set isShowAgain to true
+        const isShowAgain = localStorage.getItem('isShowAgain');
+        if (isShowAgain) {
+          if (isShowAgain == 'true') {
+            setIsOpenHelper(true);
+          }
+        } else {
+          localStorage.setItem('isShowAgain', 'true');
+          setIsOpenHelper(true);
+        }
       } catch (error) {
         toast.error('Something went wrong!');
         setLoading(false);
