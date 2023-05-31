@@ -88,13 +88,23 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                         className="checkbox checkbox-primary checkbox-sm"
                       />
                     </label>
-                    <button
-                      type="button"
-                      onClick={handleOk}
-                      className="inline-flex justify-center border border-transparent btn btn-primary normal-case btn-sm focus:outline-none"
-                    >
-                      OK Got It
-                    </button>
+
+                    <div className="flex flex-row items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleOk}
+                        className="inline-flex justify-center border border-transparent btn btn-primary normal-case btn-sm focus:outline-none"
+                      >
+                        OK Got It
+                      </button>
+                      <a
+                        href={'#'}
+                        className="link link-secondary text-sm"
+                        target="_blank"
+                      >
+                        Video help
+                      </a>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
