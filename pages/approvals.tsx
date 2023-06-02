@@ -190,10 +190,18 @@ export default function ApproveDeclineWithContentView() {
     return (
       <section className="mb-32">
         <div className="max-w-6xl mx-auto pt-8 sm:pt-24 pb-8 px-4 sm:px-6 lg:px-8">
-          <div className="sm:flex sm:flex-col sm:align-center">
+          <div className="sm:flex sm:flex-col sm:align-center sm:justify-center sm:items-center gap-4">
             <h1 className="text-4xl font-extrabold sm:text-center sm:text-6xl">
               Already approved
             </h1>
+            <span className="my-2">
+              <button
+                className="btn btn-sm btn-accent"
+                onClick={() => router.back()}
+              >
+                Go back
+              </button>
+            </span>
           </div>
         </div>
       </section>
@@ -291,13 +299,9 @@ export default function ApproveDeclineWithContentView() {
                 </div>
               </div>
             </div>
-
           </div>
           <div className="flex flex-row flex-wrap justify-center gap-2 p-3 rounded bg-base-300 shadow-inner">
-            <button
-              className="btn btn-md btn-success"
-              onClick={handleApprove}
-            >
+            <button className="btn btn-md btn-success" onClick={handleApprove}>
               Approve
             </button>
             <button
@@ -306,10 +310,7 @@ export default function ApproveDeclineWithContentView() {
             >
               Update
             </button>
-            <button
-              className="btn btn-md btn-error"
-              onClick={handleDecline}
-            >
+            <button className="btn btn-md btn-error" onClick={handleDecline}>
               Decline
             </button>
           </div>
