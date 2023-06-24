@@ -7,6 +7,12 @@ export class ApiTokenService extends BaseService {
     super()
   }
 
+  /**
+   * Retrieves the user ID associated with the given API token.
+   * @param apiKey The API token to validate.
+   * @returns The user ID if the token is valid, otherwise null.
+   * @throws {ServiceError} If an error occurs during the retrieval.
+   */
   async getUserIdByAPIToken(apiKey : string) : Promise<string | null> {
     let response;
     try {

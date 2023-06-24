@@ -2,6 +2,57 @@ import { getApproval } from 'utils/supabase-admin';
 import WebhookNotifier from '@/utils/WebhookNotifier';
 import { supabase } from '@/utils/supabase-client';
 
+
+/**
+ * @swagger
+ *  /approve/{id}:
+ *     post:
+ *       summary: Approve a request
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           required: true
+ *           schema:
+ *             type: string
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 content:
+ *                   type: object
+ *               required:
+ *                 - content
+ *       responses:
+ *         '200':
+ *           description: Request successfully approved
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   status:
+ *                     type: string
+ *                     example: '200'
+ *                   message:
+ *                     type: string
+ *                     example: 'Approved'
+ *         '500':
+ *           description: Error occurred during approval process
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   status:
+ *                     type: string
+ *                     example: '500'
+ *                   message:
+ *                     type: string
+ *                     example: 'Approving failed'
+ */
 export default async function approve(
   req: any,
   res: any

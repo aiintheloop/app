@@ -1,7 +1,6 @@
 // WebhookNotifier.ts
 
 import WebhookQueue from 'pages/api/queues/webhook';
-import { supabase } from '@/utils/supabase-client';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../types_db';
 import { uuid4 } from '@sentry/utils';

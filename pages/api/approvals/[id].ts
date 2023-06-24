@@ -4,6 +4,7 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { ApprovalService } from '../../../services/approvalService';
 import { Approval } from '../../../models/approval';
+import withExceptionHandler from '@/utils/withExceptionHandler';
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -41,33 +42,28 @@ async function approvals(
   if (typeof id !== 'string') {
     return res.status(400).json({ message: "id shouldn't be an array" });
   }
+  if (!req.query.id) {
+    return res.status(400).json({ message: 'id is required' });
+  }
 
   switch (method) {
     case 'GET':
       const approvals = await approvalService.getById(id);
       return res.status(200).json({ approvals });
     case 'PUT':
-      if (!req.query.id) {
-        return res.status(400).json({ message: 'id is required' });
-      }
       const updatedApproval = await approvalService.update(id, req.body);
       return res.status(200).json({ updatedApproval });
     case 'DELETE':
-      if (!req.query.id) {
-        return res.status(400).json({ message: 'id is required' });
-      }
-      try {
-        await approvalService.delete(id);
-        return res.status(200).json({
-          message: `Approval with id "${id}" deleted successfully`,
-          status: 200
-        });
-      } catch (e) {}
+      await approvalService.delete(id);
+      return res.status(200).json({
+        message: `Approval with id "${id}" deleted successfully`,
+        status: 200
+      });
     default:
       return res
         .status(405)
-        .end({ message: 'Method Not Allowed', status: 405 });
+        .json({ message: 'Method Not Allowed', status: 405 });
   }
 }
 
-export default withAuth(approvals);
+export default withExceptionHandler(withAuth(approvals));

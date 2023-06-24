@@ -2,6 +2,62 @@ import { getApproval } from 'utils/supabase-admin';
 import WebhookNotifier from '@/utils/WebhookNotifier';
 import { supabase } from '@/utils/supabase-client';
 
+
+/**
+ * @swagger
+ * /api/reloop/{id}:
+ *   post:
+ *     summary: Reloop based on the approval
+ *     tags:
+ *      - Loops
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: The ID of the approval
+ *        required: true
+ *        schema:
+ *          type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               prompts:
+ *                 type: array
+ *                 description: Array of strings containing the prompts for the loop.
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Loop has been relooped successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: '200'
+ *                 message:
+ *                   type: string
+ *                   example: 'Approved'
+ *       500:
+ *         description: Failed to reloop
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: '500'
+ *                 message:
+ *                   type: string
+ *                   example: 'Approving failed'
+ */
+
 export default async function reloop(
   req: any,
   res: any

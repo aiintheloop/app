@@ -37,6 +37,7 @@ const Button = forwardRef<HTMLButtonElement, Props>((props, buttonRef) => {
     className
   );
   return (
+    // @ts-ignore
     <Component
       aria-pressed={active}
       data-variant={variant}

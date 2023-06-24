@@ -5,6 +5,9 @@ import { getURL } from 'utils/helpers';
 import { Novu, ChatProviderIdEnum } from '@novu/node';
 import { uuid4 } from '@sentry/utils';
 
+/**
+ * No public API
+ */
 export default withApiAuth(async function createCheckoutSession(
   req,
   res,

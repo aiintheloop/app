@@ -5,7 +5,9 @@ import { getURL } from 'utils/helpers';
 import { Novu, ChatProviderIdEnum } from '@novu/node';
 import axios from 'axios';
 
-
+/**
+ * No public API
+ */
 function generateRequest(code :string, client_id :string, client_secret :string, url: string) {
   let slackUrl = `https://slack.com/api/oauth.v2.access`;
   let details = {
