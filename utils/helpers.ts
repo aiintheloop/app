@@ -1,5 +1,6 @@
 import { Price } from 'types';
 import { v4 as uuidv4 } from 'uuid';
+import { supabase } from '@/utils/supabase-client';
 
 export const getURL = () => {
   let url =
@@ -12,6 +13,24 @@ export const getURL = () => {
   url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
   return url;
 };
+
+export const generateNewApiKey = async (id :string) => {
+  const newApiKey = uuidv4();
+  const { data, error } = await supabase
+    .from('users')
+    .update({ api_key: newApiKey })
+    .eq('id', id);
+  return newApiKey;
+};
+
+export const getApiKey = async (id :string) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('api_key')
+    .eq('id', id);
+  return data;
+};
+
 
 export const postData = async ({
   url,

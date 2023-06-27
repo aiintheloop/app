@@ -3,7 +3,7 @@ import { withApiAuth } from '@supabase/auth-helpers-nextjs';
 import { createOrRetrieveCustomer } from 'utils/supabase-admin';
 import { getURL } from 'utils/helpers';
 import { Novu, ChatProviderIdEnum } from '@novu/node';
-import { uuid4 } from '@sentry/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * No public API
@@ -28,7 +28,7 @@ export default withApiAuth(async function createCheckoutSession(
       await novu.subscribers.identify(user.id, {
         email: user.email
       });
-      supabaseServerClient.from("users").update({"init" : true, "api_key" : uuid4()});
+      supabaseServerClient.from("users").update({"init" : true, "api_key" : uuidv4()});
 
       return res.status(200).end('Success');
     } catch (err: any) {

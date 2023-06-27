@@ -4,7 +4,7 @@ import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import LoadingDots from 'components/ui/LoadingDots';
 import Button from 'components/ui/Button';
 import { useUser } from 'utils/useUser';
-import { postData } from 'utils/helpers';
+import { generateNewApiKey, getApiKey, postData } from 'utils/helpers';
 
 import { User } from '@supabase/supabase-js';
 import { withPageAuth } from '@supabase/auth-helpers-nextjs';
@@ -57,7 +57,7 @@ export default function Account({ user }: { user: User }) {
 
   useEffect(() => {
     if (user) {
-      getApiKey().then((data) => {
+      getApiKey(user.id).then((data) => {
         if (data && data[0].api_key != null) {
           setApiKey(data[0].api_key);
         }
@@ -78,22 +78,9 @@ export default function Account({ user }: { user: User }) {
     setLoading(false);
   };
 
-  const getApiKey = async () => {
-    const { data, error } = await supabase
-      .from('users')
-      .select('api_key')
-      .eq('id', user.id);
-    return data;
-  };
 
-  const generateNewApiKey = async () => {
-    const newApiKey = uuidv4();
-    console.log(newApiKey);
-    const { data, error } = await supabase
-      .from('users')
-      .update({ api_key: newApiKey })
-      .eq('id', user.id);
-    setApiKey(newApiKey);
+  const regenerateApiKey = async () => {
+    setApiKey(await generateNewApiKey(user.id));
   };
 
   const handleCopy = () => {
@@ -164,7 +151,7 @@ export default function Account({ user }: { user: User }) {
       </div>
       <div className="p-4">
         <ApiKeyModal
-          generateApiKey={generateNewApiKey}
+          generateApiKey={regenerateApiKey}
           modalOpen={apiKeyModalOpen}
           setModalOpen={setApiKeyModalOpen}
         />
