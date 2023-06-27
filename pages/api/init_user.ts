@@ -28,7 +28,7 @@ export default withApiAuth(async function createCheckoutSession(
       await novu.subscribers.identify(user.id, {
         email: user.email
       });
-      supabaseServerClient.from("users").update({"init" : true, "api_key" : uuidv4()});
+      supabaseServerClient.from("users").update({"init" : true, "api_key" : uuidv4()}).eq('id', user.id);
 
       return res.status(200).end('Success');
     } catch (err: any) {
