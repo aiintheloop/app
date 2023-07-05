@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Converted from approvalResponse.swagger.yaml with typeconv
+  version: '1'
+  x-id: approvalResponse.swagger.yaml
+  x-comment: >-
+    Generated from models\approvalResponse.ts by core-types-json-schema
+    (https://github.com/grantila/core-types-json-schema) on behalf of typeconv
+    (https://github.com/grantila/typeconv)
+paths: {}
+components:
+  schemas:
+    ApprovalResponse:
+      properties:
+        message:
+          title: ApprovalResponse.message
+          type: string
+        data:
+          items: {}
+          title: ApprovalResponse.data, ApprovalResponse.data.[]
+          type: array
+        status:
+          title: ApprovalResponse.status
+          type: number
+      required:
+        - message
+        - status
+      additionalProperties: false
+      title: ApprovalResponse
+      type: object

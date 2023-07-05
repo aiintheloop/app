@@ -12,43 +12,47 @@ components:
   schemas:
     Loop:
       properties:
-        afterLoopHook:
-          title: Loop.afterLoopHook
-          nullable: true
-          type: string
-        beforeLoopHook:
-          title: Loop.beforeLoopHook
-          nullable: true
+        ident:
+          title: Loop.ident
           type: string
         created_at:
           title: Loop.created_at
-          nullable: true
           type: string
-        description:
-          title: Loop.description
-          nullable: true
+        name:
+          title: Loop.name
+          type: string
+        user_id:
+          title: Loop.user_id
+          type: string
+        tool:
+          title: Loop.tool
+          type: string
+        type:
+          title: Loop.type
           type: string
         hook:
           title: Loop.hook
           nullable: true
           type: boolean
-        ident:
-          title: Loop.ident
+        description:
+          title: Loop.description
           type: string
-        name:
-          title: Loop.name
+        acceptHook:
+          title: Loop.acceptHook
           nullable: true
           type: string
-        tool:
-          title: Loop.tool
-          nullable: true
-          type: string
-        type:
-          title: Loop.type
+        declineHook:
+          title: Loop.declineHook
           nullable: true
           type: string
       required:
         - ident
+        - created_at
+        - name
+        - user_id
+        - tool
+        - type
+        - description
       additionalProperties: false
       title: Loop
       type: object

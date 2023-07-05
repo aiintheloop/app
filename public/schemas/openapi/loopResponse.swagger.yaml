@@ -19,7 +19,6 @@ components:
             - Some Other Message
           type: string
         data:
-          $ref: '#/components/schemas/Loop'
           title: LoopResponse.data
         status:
           title: LoopResponse.status
