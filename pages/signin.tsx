@@ -67,11 +67,11 @@ const SignIn = () => {
             <div className="flex place-items-center m-auto">
               <span className="text-xs text-center">
                 By continuing you agree to our{' '}
-                <Link href="/" target={'_blank'}>
+                <Link href="https://www.ai2loop.com/toc" target={'_blank'}>
                   <a className="text-accent">Privacy Policy</a>
                 </Link>{' '}
                 and{' '}
-                <Link href="/" target={'_blank'}>
+                <Link href="https://www.ai2loop.com/toc" target={'_blank'}>
                   <a className="text-accent">Terms of Use</a>
                 </Link>
                 .
