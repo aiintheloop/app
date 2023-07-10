@@ -2,6 +2,12 @@ import { FC, Fragment, useState } from 'react';
 
 import { Dialog, Transition } from '@headlessui/react';
 import Link from 'next/link';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import { useUser } from '@/utils/useUser';
+import { toast } from 'react-toastify';
 
 interface Props {
   isOpenHelper: boolean;
@@ -9,13 +15,19 @@ interface Props {
 }
 
 export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
+  const { userDetails } = useUser();
   const [isShowAgain, setIsShowAgain] = useState<boolean>(false);
+  const [hideApiKey, setHideApiKey] = useState<boolean>(true);
 
   const handleOk = () => {
     setIsOpenHelper(false);
     if (isShowAgain) {
       localStorage.setItem('isShowAgain', 'false');
     }
+  };
+
+  const handleCopy = () => {
+    toast.info('API Key copied to clipboard');
   };
 
   return (
@@ -49,7 +61,7 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-neutral p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title as="h3" className="text-lg pb-4 leading-6">
                     Next steps
                   </Dialog.Title>
@@ -75,6 +87,37 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                       </ol>
                     </div>
                   </Dialog.Description>
+
+                  <div className="flex items-center my-4 justify-between">
+                    <p className="bg-base-300 px-2 py-1 rounded-md">
+                      {hideApiKey
+                        ? '*********************'
+                        : userDetails?.api_key
+                        ? userDetails?.api_key
+                        : ''}
+                    </p>
+
+                    <div className="flex flex-row gap-2 items-center">
+                      {hideApiKey ? (
+                        <VisibilityIcon
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => setHideApiKey(false)}
+                        />
+                      ) : (
+                        <VisibilityOffIcon
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => setHideApiKey(true)}
+                        />
+                      )}
+
+                      <CopyToClipboard
+                        text={String(userDetails?.api_key)}
+                        onCopy={() => handleCopy()}
+                      >
+                        <ContentPasteIcon style={{ cursor: 'pointer' }} />
+                      </CopyToClipboard>
+                    </div>
+                  </div>
 
                   <div className="mt-4">
                     <label className="label cursor-pointer max-w-[17rem]">

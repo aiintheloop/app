@@ -29,7 +29,7 @@ interface Props {
 
 function Card({ title, description, footer, children }: Props) {
   return (
-    <div className="card bg-base-200 card max-w-3xl w-full p rounded-md m-auto my-8">
+    <div className="card bg-base-200 max-w-3xl w-full p rounded-md m-auto my-8">
       <div className="px-5 py-4">
         <h3 className="text-2xl mb-1 font-medium">{title}</h3>
         <p>{description}</p>
