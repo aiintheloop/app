@@ -1,0 +1,215 @@
+openapi: 3.0.0
+info:
+  title: Converted from merged.swagger.yaml with typeconv
+  version: '1'
+  x-id: merged.swagger.yaml
+  x-comment: >-
+    Generated from .build\models\merged.ts by core-types-json-schema
+    (https://github.com/grantila/core-types-json-schema) on behalf of typeconv
+    (https://github.com/grantila/typeconv)
+paths: {}
+components:
+  schemas:
+    Approval:
+      properties:
+        approved:
+          title: Approval.approved
+          nullable: true
+          type: boolean
+        content:
+          title: Approval.content
+          nullable: true
+          type: string
+        created_at:
+          title: Approval.created_at
+          nullable: true
+          type: string
+        ID:
+          title: Approval.ID
+          type: string
+        loop_id:
+          title: Approval.loop_id
+          nullable: true
+          type: string
+        user_id:
+          title: Approval.user_id
+          type: string
+        prompts:
+          title: Approval.prompts
+          nullable: true
+        type:
+          title: Approval.type
+          nullable: true
+          type: string
+      required:
+        - approved
+        - content
+        - created_at
+        - ID
+        - loop_id
+        - user_id
+        - prompts
+        - type
+      additionalProperties: false
+      title: Approval
+      type: object
+    ApprovalResponse:
+      properties:
+        message:
+          title: ApprovalResponse.message
+          type: string
+        data:
+          anyOf:
+            - $ref: '#/components/schemas/Approval'
+              title: ApprovalResponse.data
+            - items:
+                $ref: '#/components/schemas/Approval'
+                title: ApprovalResponse.data.[]
+              title: ApprovalResponse.data.[]
+              type: array
+          title: ApprovalResponse.data
+        status:
+          title: ApprovalResponse.status
+          type: number
+      required:
+        - message
+        - status
+      additionalProperties: false
+      title: ApprovalResponse
+      type: object
+    DefaultResponse:
+      properties:
+        status:
+          title: DefaultResponse.status
+          type: number
+        message:
+          title: DefaultResponse.message
+          type: string
+      required:
+        - status
+        - message
+      additionalProperties: false
+      title: DefaultResponse
+      type: object
+    DiscordIntegrationRequest:
+      properties:
+        webhook:
+          title: DiscordIntegrationRequest.webhook
+          type: string
+      required:
+        - webhook
+      additionalProperties: false
+      title: DiscordIntegrationRequest
+      type: object
+    Loop:
+      properties:
+        ident:
+          title: Loop.ident
+          type: string
+        created_at:
+          title: Loop.created_at
+          type: string
+        name:
+          title: Loop.name
+          type: string
+        user_id:
+          title: Loop.user_id
+          type: string
+        tool:
+          title: Loop.tool
+          type: string
+        type:
+          title: Loop.type
+          type: string
+        hook:
+          title: Loop.hook
+          nullable: true
+          type: boolean
+        description:
+          title: Loop.description
+          type: string
+        acceptHook:
+          title: Loop.acceptHook
+          nullable: true
+          type: string
+        declineHook:
+          title: Loop.declineHook
+          nullable: true
+          type: string
+      required:
+        - ident
+        - created_at
+        - name
+        - user_id
+        - tool
+        - type
+        - description
+      additionalProperties: false
+      title: Loop
+      type: object
+    LoopResponse:
+      properties:
+        message:
+          title: LoopResponse.message
+          examples:
+            - Some Message
+            - Some Other Message
+          type: string
+        data:
+          $ref: '#/components/schemas/Loop'
+          title: LoopResponse.data
+        status:
+          title: LoopResponse.status
+          examples:
+            - '200'
+            - '400'
+          type: number
+      required:
+        - message
+        - data
+        - status
+      additionalProperties: false
+      title: LoopResponse
+      type: object
+    Prompt:
+      properties:
+        id:
+          title: Prompt.id
+          type: string
+        prompt:
+          title: Prompt.prompt
+          type: string
+      required:
+        - id
+        - prompt
+      additionalProperties: false
+      title: Prompt
+      type: object
+    RegisterHookRequest:
+      properties:
+        type:
+          title: RegisterHookRequest.type
+          type: string
+        url:
+          title: RegisterHookRequest.url
+          type: string
+        loopId:
+          title: RegisterHookRequest.loopId
+          type: string
+      required:
+        - type
+        - url
+        - loopId
+      additionalProperties: false
+      title: RegisterHookRequest
+      type: object
+    TeamsIntegrationRequest:
+      properties:
+        webhook:
+          title: TeamsIntegrationRequest.webhook
+          type: string
+      required:
+        - webhook
+      additionalProperties: false
+      title: TeamsIntegrationRequest
+      type: object
