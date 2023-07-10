@@ -22,6 +22,6 @@ const swaggerHandler = withSwagger({
   }]
 },
   apiFolder: 'pages/api',
-  schemaFolders: ['schemas'],
+  schemaFolders: ['public/schemas'],
 });
 export default swaggerHandler();
