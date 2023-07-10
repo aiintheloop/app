@@ -56,21 +56,8 @@ const EditableTypography: React.FC<EditableTypographyProps> = ({
   return (
     <div style={{ alignItems: 'center' }}>
       {editMode ? (
-        <div>
-          <textarea
-            ref={textareaRef}
-            value={text}
-            onChange={handleTextChange}
-            className="textarea w-full textarea-primary text-base"
-          />
-          <div
-            style={{
-              display: 'flex',
-              gap: '4px',
-              justifyContent: 'flex-start',
-              marginTop: '4px'
-            }}
-          >
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row gap-1 mb-2 justify-end">
             <CheckIcon
               title="Save"
               className="w-6 h-6 cursor-pointer hover:text-success"
@@ -84,20 +71,34 @@ const EditableTypography: React.FC<EditableTypographyProps> = ({
               onClick={handleCancelClick}
             />
           </div>
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={handleTextChange}
+            className="textarea w-full textarea-primary text-base"
+          />
         </div>
       ) : (
-        <div>
+        <div className="flex flex-col gap-1">
+          <button className="flex flex-row gap-1 mb-2 justify-end">
+            <PencilSquareIcon
+              onClick={handleEditModeToggle}
+              className="w-6 h-6 cursor-pointer"
+              aria-hidden="true"
+            />
+          </button>
           <Typography
             variant="body1"
-            style={{ marginRight: '16px', width: '100%', marginBottom: '12px' }}
+            style={{
+              marginRight: '16px',
+              width: '100%',
+              marginBottom: '12px',
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word'
+            }}
           >
             {text}
           </Typography>
-          <PencilSquareIcon
-            onClick={handleEditModeToggle}
-            className="w-6 h-6 cursor-pointer"
-            aria-hidden="true"
-          />
         </div>
       )}
     </div>

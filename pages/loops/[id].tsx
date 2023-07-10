@@ -183,10 +183,16 @@ export default function LoopApprovalsPage() {
             Go back
           </button>
         </span>
-        <Box sx={{ height: 475, width: '100%' }} className="text-base-content">
+        <Box
+          sx={{ height: 475, width: '100%' }}
+          className="text-base-content bg-base-200"
+        >
           <DataGrid
-            className="bg-base-300 text-base-content"
-            // make text text-zinc-100
+            sx={{
+              backgroundColor:
+                'hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity))',
+              color: 'hsl(var(--bc) / var(--tw-text-opacity))'
+            }}
             rows={rows}
             columns={columns}
             pageSize={25}
