@@ -21,7 +21,6 @@ const swaggerHandler = withSwagger({
     ApiKeyAuth : []
   }]
 },
-  apiFolder: 'pages/api',
-  schemaFolders: ['public/schemas'],
+  apiFolder: 'pages/api'
 });
 export default swaggerHandler();
