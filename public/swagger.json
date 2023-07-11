@@ -1,0 +1,636 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AiInTheLoop Swagger",
+    "version": "0.1.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    },
+    "schemas": {
+      "UnregisterHookResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "number"
+          }
+        }
+      },
+      "UnregisterHookRequest": {
+        "type": "object",
+        "properties": {
+          "loopId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Approval": {
+        "properties": {
+          "approved": {
+            "title": "Approval.approved",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "content": {
+            "title": "Approval.content",
+            "nullable": true,
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Approval.created_at",
+            "nullable": true,
+            "type": "string"
+          },
+          "ID": {
+            "title": "Approval.ID",
+            "type": "string"
+          },
+          "loop_id": {
+            "title": "Approval.loop_id",
+            "nullable": true,
+            "type": "string"
+          },
+          "user_id": {
+            "title": "Approval.user_id",
+            "type": "string"
+          },
+          "prompts": {
+            "title": "Approval.prompts",
+            "nullable": true
+          },
+          "type": {
+            "title": "Approval.type",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "approved",
+          "content",
+          "created_at",
+          "ID",
+          "loop_id",
+          "user_id",
+          "prompts",
+          "type"
+        ],
+        "additionalProperties": false,
+        "title": "Approval",
+        "type": "object"
+      },
+      "ApprovalResponse": {
+        "properties": {
+          "message": {
+            "title": "ApprovalResponse.message",
+            "type": "string"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Approval",
+                "title": "ApprovalResponse.data"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Approval",
+                  "title": "ApprovalResponse.data.[]"
+                },
+                "title": "ApprovalResponse.data.[]",
+                "type": "array"
+              }
+            ],
+            "title": "ApprovalResponse.data"
+          },
+          "status": {
+            "title": "ApprovalResponse.status",
+            "type": "number"
+          }
+        },
+        "required": [
+          "message",
+          "status"
+        ],
+        "additionalProperties": false,
+        "title": "ApprovalResponse",
+        "type": "object"
+      },
+      "DefaultResponse": {
+        "properties": {
+          "status": {
+            "title": "DefaultResponse.status",
+            "type": "number"
+          },
+          "message": {
+            "title": "DefaultResponse.message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "message"
+        ],
+        "additionalProperties": false,
+        "title": "DefaultResponse",
+        "type": "object"
+      },
+      "DiscordIntegrationRequest": {
+        "properties": {
+          "webhook": {
+            "title": "DiscordIntegrationRequest.webhook",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webhook"
+        ],
+        "additionalProperties": false,
+        "title": "DiscordIntegrationRequest",
+        "type": "object"
+      },
+      "Loop": {
+        "properties": {
+          "ident": {
+            "title": "Loop.ident",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Loop.created_at",
+            "type": "string"
+          },
+          "name": {
+            "title": "Loop.name",
+            "type": "string"
+          },
+          "user_id": {
+            "title": "Loop.user_id",
+            "type": "string"
+          },
+          "tool": {
+            "title": "Loop.tool",
+            "type": "string"
+          },
+          "type": {
+            "title": "Loop.type",
+            "type": "string"
+          },
+          "hook": {
+            "title": "Loop.hook",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "description": {
+            "title": "Loop.description",
+            "type": "string"
+          },
+          "acceptHook": {
+            "title": "Loop.acceptHook",
+            "nullable": true,
+            "type": "string"
+          },
+          "declineHook": {
+            "title": "Loop.declineHook",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "ident",
+          "created_at",
+          "name",
+          "user_id",
+          "tool",
+          "type",
+          "description"
+        ],
+        "additionalProperties": false,
+        "title": "Loop",
+        "type": "object"
+      },
+      "LoopResponse": {
+        "properties": {
+          "message": {
+            "title": "LoopResponse.message",
+            "examples": [
+              "Some Message",
+              "Some Other Message"
+            ],
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Loop",
+            "title": "LoopResponse.data"
+          },
+          "status": {
+            "title": "LoopResponse.status",
+            "examples": [
+              "200",
+              "400"
+            ],
+            "type": "number"
+          }
+        },
+        "required": [
+          "message",
+          "data",
+          "status"
+        ],
+        "additionalProperties": false,
+        "title": "LoopResponse",
+        "type": "object"
+      },
+      "Prompt": {
+        "properties": {
+          "id": {
+            "title": "Prompt.id",
+            "type": "string"
+          },
+          "prompt": {
+            "title": "Prompt.prompt",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "prompt"
+        ],
+        "additionalProperties": false,
+        "title": "Prompt",
+        "type": "object"
+      },
+      "RegisterHookRequest": {
+        "properties": {
+          "type": {
+            "title": "RegisterHookRequest.type",
+            "type": "string"
+          },
+          "url": {
+            "title": "RegisterHookRequest.url",
+            "type": "string"
+          },
+          "loopId": {
+            "title": "RegisterHookRequest.loopId",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "url",
+          "loopId"
+        ],
+        "additionalProperties": false,
+        "title": "RegisterHookRequest",
+        "type": "object"
+      },
+      "TeamsIntegrationRequest": {
+        "properties": {
+          "webhook": {
+            "title": "TeamsIntegrationRequest.webhook",
+            "type": "string"
+          }
+        },
+        "required": [
+          "webhook"
+        ],
+        "additionalProperties": false,
+        "title": "TeamsIntegrationRequest",
+        "type": "object"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/approve/{id}": {
+      "post": {
+        "summary": "Approve a request",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request successfully approved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Approved"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error occurred during approval process",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "500"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Approving failed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/loops": {
+      "get": {
+        "summary": "Returns all Loops for a User",
+        "tags": [
+          "Loops"
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of all Loops",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoopResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ping": {
+      "get": {
+        "summary": "Check if api key valid",
+        "responses": {
+          "200": {
+            "description": "If API Key is valid"
+          }
+        }
+      }
+    },
+    "/api/registerHook": {
+      "post": {
+        "summary": "Register a hook for a certain loop",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterHookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RegisterHookResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reloop/{id}": {
+      "post": {
+        "summary": "Reloop based on the approval",
+        "tags": [
+          "Loops"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The ID of the approval",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompts": {
+                    "type": "array",
+                    "description": "Array of strings containing the prompts for the loop.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Loop has been relooped successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Approved"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to reloop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "500"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Approving failed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/loops/loopStart": {
+      "post": {
+        "summary": "Starts a loop with the specified prompts",
+        "tags": [
+          "Loops"
+        ],
+        "requestBody": {
+          "description": "The prompts for the loop",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "loopId": {
+                    "type": "string",
+                    "description": "The ID of the loop to start"
+                  },
+                  "prompts": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "An array of prompts for the loop"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The loop was successfully started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The HTTP status code",
+                      "example": "200"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating the success of the request",
+                      "example": "Loop started"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error occurred while starting the loop",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "The HTTP status code",
+                      "example": "500"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating the failure of the request",
+                      "example": "Loop Start failed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/unregisterHook": {
+      "post": {
+        "summary": "Unregister a hook for a certain loop",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnregisterHookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RegisterHookResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+  },
+  "tags": []
+}
