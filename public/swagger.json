@@ -56,6 +56,11 @@
             "title": "Approval.ID",
             "type": "string"
           },
+          "approval_uri": {
+            "title": "Approval.approval_uri",
+            "nullable": true,
+            "type": "string"
+          },
           "loop_id": {
             "title": "Approval.loop_id",
             "nullable": true,
@@ -80,6 +85,7 @@
           "content",
           "created_at",
           "ID",
+          "approval_uri",
           "loop_id",
           "user_id",
           "prompts",
@@ -677,6 +683,12 @@
       "2": "0",
       "3": ".",
       "4": "0"
+    },
+    "info": {
+      "title": "Converted from merged.swagger.yaml with typeconv",
+      "version": "1",
+      "x-id": "merged.swagger.yaml",
+      "x-comment": "Generated from models\\merged.ts by core-types-json-schema (https://github.com/grantila/core-types-json-schema) on behalf of typeconv (https://github.com/grantila/typeconv)"
     }
   },
   "tags": []
