@@ -52,6 +52,8 @@ const validate = ajv.compile(schema)
  * /api/unregisterHook:
  *   post:
  *     summary: Unregister a hook for a certain loop
+ *     tags:
+ *      - Hooks
  *     requestBody:
  *       required: true
  *       content:

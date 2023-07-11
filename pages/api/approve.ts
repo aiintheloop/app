@@ -7,6 +7,8 @@ import { supabase } from '@/utils/supabase-client';
  * @swagger
  *  /approve/{id}:
  *     post:
+ *       tags:
+ *         - Approvals
  *       summary: Approve a request
  *       parameters:
  *         - in: path

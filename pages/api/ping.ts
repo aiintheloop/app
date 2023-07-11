@@ -8,6 +8,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
  * @swagger
  * /api/ping:
  *   get:
+ *     tags:
+ *       - Ping
  *     summary: Check if api key valid
  *     responses:
  *       200:

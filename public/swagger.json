@@ -345,6 +345,9 @@
     },
     "/approve/{id}": {
       "post": {
+        "tags": [
+          "Approvals"
+        ],
         "summary": "Approve a request",
         "parameters": [
           {
@@ -440,6 +443,9 @@
     },
     "/api/ping": {
       "get": {
+        "tags": [
+          "Ping"
+        ],
         "summary": "Check if api key valid",
         "responses": {
           "200": {
@@ -450,6 +456,9 @@
     },
     "/api/registerHook": {
       "post": {
+        "tags": [
+          "Hooks"
+        ],
         "summary": "Register a hook for a certain loop",
         "requestBody": {
           "content": {
@@ -635,6 +644,9 @@
     "/api/unregisterHook": {
       "post": {
         "summary": "Unregister a hook for a certain loop",
+        "tags": [
+          "Hooks"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -659,13 +671,6 @@
         }
       }
     },
-    "openapi": {
-      "0": "3",
-      "1": ".",
-      "2": "0",
-      "3": ".",
-      "4": "0"
-    }
   },
   "tags": []
 }

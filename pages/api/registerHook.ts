@@ -25,6 +25,8 @@ const validate = ajv.compile(schema)
  * @swagger
  * /api/registerHook:
  *   post:
+ *     tags:
+ *       - Hooks
  *     summary: Register a hook for a certain loop
  *     requestBody:
  *       content:
