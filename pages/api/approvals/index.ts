@@ -3,6 +3,27 @@ import withAuth from '@/utils/withAuth'
 import { ApprovalService } from '../../../services/approvalService';
 import withExceptionHandler from '@/utils/withExceptionHandler';
 
+
+/**
+ * @swagger
+ * /api/approvals:
+ *   post:
+ *     summary: Creates an Approval
+ *     tags:
+ *      - Approvals
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Approval'
+ *     responses:
+ *       200:
+ *         description: The Approval Data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApprovalResponse'
+ */
 async function approvals(req: NextApiRequest, res: NextApiResponse, userId : string) {
   const NOVU_SECRET = process?.env?.NOVU_SECRET ?? ""
   const approvalService = new ApprovalService(userId,NOVU_SECRET);

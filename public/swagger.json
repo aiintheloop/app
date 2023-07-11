@@ -314,6 +314,35 @@
     }
   ],
   "paths": {
+    "/api/approvals": {
+      "post": {
+        "summary": "Creates an Approval",
+        "tags": [
+          "Approvals"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Approval"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Approval Data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/approve/{id}": {
       "post": {
         "summary": "Approve a request",
@@ -630,6 +659,13 @@
           }
         }
       }
+    },
+    "openapi": {
+      "0": "3",
+      "1": ".",
+      "2": "0",
+      "3": ".",
+      "4": "0"
     }
   },
   "tags": []
