@@ -9,7 +9,8 @@
     "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=saas-starter",
     "merge-files": "ts-node --esm merge-files.mts",
     "openapi:yaml": "typeconv -v -f ts -t oapi --oapi-format yaml --output-extension swagger.yaml --output-directory public/schemas/openapi .build/models/*.ts",
-    "build-models": "npm run merge-files && npm run openapi:yaml"
+    "build-models": "yarn run merge-files && yarn run openapi:yaml",
+    "generate-swagger": "yarn run build-models && yarn next-swagger-doc-cli next-swagger-doc.json"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

@@ -5,7 +5,7 @@ export default function ApproveDeclineWithContentView() {
 
   return (
     <RedocStandalone
-      specUrl="/api/doc"
+      specUrl="/swagger.json"
       options={{
         nativeScrollbars: true,
         scrollYOffset: "118",
