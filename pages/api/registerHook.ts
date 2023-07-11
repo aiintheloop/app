@@ -27,7 +27,6 @@ const validate = ajv.compile(schema)
  *   post:
  *     summary: Register a hook for a certain loop
  *     requestBody:
- *       required: true
  *       content:
  *         application/json:
  *           schema:
