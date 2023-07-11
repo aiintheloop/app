@@ -5,6 +5,7 @@ export interface Approval {
   content: string | null;
   created_at: string | null;
   ID: string;
+  approval_uri: string | null,
   loop_id: string | null;
   user_id: string;
   prompts: Record<string, string> | null;

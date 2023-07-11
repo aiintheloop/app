@@ -104,8 +104,9 @@ export class ApprovalService extends BaseService {
         approvalID: createApprovalQueryResult.data[0].ID
       }
     });
-
-    return createApprovalQueryResult.data[0] as Approval;
+    const save_approval = createApprovalQueryResult.data[0] as Approval;
+    save_approval.user_id = `https://my.ai2loop.com/${save_approval.ID}`
+    return save_approval;
   }
 
   /**
