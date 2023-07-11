@@ -8,7 +8,7 @@
     "start": "npx concurrently \"next start\" \"quirrel\"",
     "stripe:listen": "stripe listen --forward-to=localhost:3000/api/webhooks --project-name=saas-starter",
     "merge-files": "ts-node --esm merge-files.mts",
-    "openapi:yaml": "typeconv -v -f ts -t oapi --oapi-format yaml --output-extension swagger.yaml --output-directory public/schemas/openapi .build/models/*.ts",
+    "openapi:yaml": "typeconv -f ts -t oapi --oapi-format yaml --output-extension swagger.yaml --output-directory public/schemas/openapi .build/models/*.ts",
     "build-models": "yarn run merge-files && yarn run openapi:yaml",
     "generate-swagger": "yarn run build-models && yarn next-swagger-doc-cli next-swagger-doc.json"
   },
@@ -70,6 +70,7 @@
     "autoprefixer": "^10.4.2",
     "postcss": "8.4.5",
     "prettier": "2.5.1",
+    "shx": "^0.3.4",
     "supabase": "^1.33.0",
     "typescript": "^4.5.5"
   },
