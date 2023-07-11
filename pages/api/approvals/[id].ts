@@ -14,6 +14,7 @@ const schema: JSONSchemaType<Approval> = {
   properties: {
     approved: { type: 'boolean' },
     content: { type: 'string' },
+    approval_uri: { type: 'string' },
     created_at: { type: 'string' },
     loop_id: { type: 'string', format: 'uuid' },
     user_id: { type: 'string', format: 'uuid' },
