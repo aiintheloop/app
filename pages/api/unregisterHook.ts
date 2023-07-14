@@ -25,28 +25,6 @@ const schema: JSONSchemaType<RegisterHookRequest> = {
 // validate is a type guard for MyData - type is inferred from schema type
 const validate = ajv.compile(schema)
 
-//Todo
-/**
- * @swagger
- * components:
- *   schemas:
- *     UnregisterHookResponse:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *         status:
- *           type: number
- *     UnregisterHookRequest:
- *       type: object
- *       properties:
- *         loopId:
- *           type: string
- *         type:
- *           type: string
- *
- */
-
 /**
  * @swagger
  * /api/unregisterHook:
@@ -62,7 +40,7 @@ const validate = ajv.compile(schema)
  *             $ref: '#/components/schemas/UnregisterHookRequest'
  *     responses:
  *       200:
- *         description: RegisterHookResponse
+ *         description: UnregisterHookResponse
  *         content:
  *            application/json:
  *              schema:

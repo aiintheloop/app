@@ -2,6 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "AiInTheLoop Swagger",
+    "description": "Welcome to the API documentation for AI2loop! AI2loop is a powerful SaaS (Software-as-a-Service) tool designed to review AI-generated content in automation processes. This REST API allows developers to seamlessly integrate AI2loop into their applications and leverage its advanced capabilities.\n\nWith AI2loop, you can ensure the quality and reliability of AI-generated content by automating the review process. Whether you're working on content generation or any other AI-driven automation, AI2loop provides you with a robust solution to validate the outputs.\n\nThis documentation will guide you through the various endpoints and functionalities of the AI2loop API, enabling you to make efficient use of the tool's features. You will learn how to authenticate requests, handle responses, and explore the available endpoints to perform tasks such as submitting content for review and managing AI2loop configurations.\n\nTo get started, we recommend familiarizing yourself with the authentication process and the basic structure of API requests. You will also find detailed explanations and examples for each endpoint, along with the expected request parameters and response formats.\\n\nLet's begin the journey towards more accurate and dependable AI-generated content with AI2loop!",
     "version": "0.1.0"
   },
   "components": {
@@ -13,28 +14,6 @@
       }
     },
     "schemas": {
-      "UnregisterHookResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          },
-          "status": {
-            "type": "number"
-          }
-        }
-      },
-      "UnregisterHookRequest": {
-        "type": "object",
-        "properties": {
-          "loopId": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
       "Approval": {
         "properties": {
           "approved": {
@@ -311,14 +290,33 @@
         "additionalProperties": false,
         "title": "TeamsIntegrationRequest",
         "type": "object"
+      },
+      "UnregisterHookRequest": {
+        "properties": {
+          "type": {
+            "title": "UnregisterHookRequest.type",
+            "type": "string"
+          },
+          "url": {
+            "title": "UnregisterHookRequest.url",
+            "type": "string"
+          },
+          "loopId": {
+            "title": "UnregisterHookRequest.loopId",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "url",
+          "loopId"
+        ],
+        "additionalProperties": false,
+        "title": "UnregisterHookRequest",
+        "type": "object"
       }
     }
   },
-  "security": [
-    {
-      "ApiKeyAuth": []
-    }
-  ],
   "paths": {
     "/api/approvals": {
       "post": {
@@ -665,7 +663,7 @@
         },
         "responses": {
           "200": {
-            "description": "RegisterHookResponse",
+            "description": "UnregisterHookResponse",
             "content": {
               "application/json": {
                 "schema": {
