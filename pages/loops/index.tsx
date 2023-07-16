@@ -167,6 +167,7 @@ export default function Loops() {
   const [description, setDescription] = useState<string>('');
   const [webhookAccept, setWebhookAccept] = useState<string>('');
   const [webhookDecline, setWebhookDecline] = useState<string>('');
+  const [typeLoopHelper, setTypeLoopHelper] = useState<string>('');
   const { user, loops, setLoops } = useUser();
 
   useEffect(() => {
@@ -188,6 +189,12 @@ export default function Loops() {
     }
     if (!isOpen) setIsEdit(false);
   }, [isEdit, isOpen, selectedEditLoops]);
+
+  useEffect(() => {
+    if (automation) {
+      setTypeLoopHelper(automation);
+    }
+  }, [automation]);
 
   const handleTitle = (e: any) => {
     setTitle(e.target.value);
@@ -341,6 +348,7 @@ export default function Loops() {
             <LoopHelper
               isOpenHelper={isOpenHelper}
               setIsOpenHelper={setIsOpenHelper}
+              type={typeLoopHelper}
             />
 
             {loops?.map((loop: Loop) => {

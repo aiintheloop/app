@@ -12,9 +12,14 @@ import { toast } from 'react-toastify';
 interface Props {
   isOpenHelper: boolean;
   setIsOpenHelper: (isOpen: boolean) => void;
+  type: string;
 }
 
-export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
+export const LoopHelper: FC<Props> = ({
+  isOpenHelper,
+  setIsOpenHelper,
+  type
+}) => {
   const { userDetails } = useUser();
   const [isShowAgain, setIsShowAgain] = useState<boolean>(false);
   const [hideApiKey, setHideApiKey] = useState<boolean>(true);
@@ -68,19 +73,32 @@ export const LoopHelper: FC<Props> = ({ isOpenHelper, setIsOpenHelper }) => {
                   <Dialog.Description className="my-2 mx-auto">
                     <div>
                       <ol className="list-decimal list-inside">
-                        <li className="mb-2">
-                          Login to{' '}
-                          <Link
-                            href="http://make.com"
-                            className="link link-accent"
-                          >
-                            Make
-                          </Link>
-                        </li>
-                        <li className="mb-2">
-                          Create a new Scenario with our AI2Loop App
-                        </li>
-                        <li className="mb-2">Choose the AI2Loop trigger</li>
+                        {type === 'webhook' && (
+                          <li className="mb-2">
+                            Create a new Webhook in your tools
+                          </li>
+                        )}
+
+                        {type !== 'webhook' && (
+                          <>
+                            <li className="mb-2">
+                              Login to{' '}
+                              <Link
+                                href={`https://${type}.com`}
+                                target="_blank"
+                              >
+                                <a className="link link-accent" target="_blank">
+                                  {type}.com
+                                </a>
+                              </Link>
+                            </li>
+                            <li className="mb-2">
+                              Create a new Scenario with our AI2Loop App
+                            </li>
+                            <li className="mb-2">Choose the AI2Loop trigger</li>
+                          </>
+                        )}
+
                         <li className="mb-2">
                           We will present you the Loop in a dropdown
                         </li>
