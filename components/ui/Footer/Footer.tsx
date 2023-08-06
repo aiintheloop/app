@@ -11,10 +11,12 @@ export default function Footer() {
         <div>
           <span>v.0.1.0</span>
           <span> | </span>
-          <span>Terms</span>
+          <Link href={'https://ai2loop.com/legal/'} target="_blank">
+            Terms
+          </Link>
         </div>
         <div className="flex items-center">
-          <span>Support</span>
+          <Link href={'mailto:support@ai2loop.com'}>Support</Link>
         </div>
       </div>
     </footer>
