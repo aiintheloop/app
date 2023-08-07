@@ -18,12 +18,14 @@ import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import { Loop } from 'models/loop';
 import {
   deleteUserLoops,
+  getUserDetails,
   getUserLoops,
   insertUserLoops,
   updateUserLoops
 } from '@/utils/supabase-client';
 import {
   capitalizeFirstLetter,
+  generateNewApiKey,
   generateUUID,
   getCurrentDate
 } from '@/utils/helpers';
@@ -170,6 +172,8 @@ function Card({
 }
 
 export default function Loops() {
+  const { user, loops, setLoops, userDetails, setUserDetails } = useUser();
+
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenHelper, setIsOpenHelper] = useState(false);
@@ -182,7 +186,20 @@ export default function Loops() {
   const [webhookAccept, setWebhookAccept] = useState<string>('');
   const [webhookDecline, setWebhookDecline] = useState<string>('');
   const [typeLoopHelper, setTypeLoopHelper] = useState<string>('');
-  const { user, loops, setLoops } = useUser();
+
+  useEffect(() => {
+    async function generateApiKey() {
+      if (user) {
+        await generateNewApiKey(user.id);
+        await getUserDetails(user.id).then((res) => setUserDetails(res));
+      }
+    }
+    if (userDetails) {
+      if (!userDetails.api_key) {
+        generateApiKey();
+      }
+    }
+  }, [userDetails]);
 
   useEffect(() => {
     if (selectedEditLoops && isEdit) {
