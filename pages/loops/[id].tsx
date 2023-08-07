@@ -146,6 +146,8 @@ export default function LoopApprovalsPage() {
         >
           <DataGrid
             sx={{
+              boxShadow: 2,
+              border: 2,
               backgroundColor:
                 'hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity))',
               color: 'hsl(var(--bc) / var(--tw-text-opacity))'
