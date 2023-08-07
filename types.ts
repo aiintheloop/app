@@ -26,14 +26,14 @@ export interface ProductWithPrice extends Product {
 
 export interface UserDetails {
   id: string /* primary key */;
-  first_name: string;
-  last_name: string;
-  full_name?: string;
-  email?: string;
-  avatar_url?: string;
-  api_key?: string;
-  billing_address?: Stripe.Address;
-  payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
+  full_name?: string | null;
+  email?: string | null;
+  avatar_url?: string | null;
+  api_key?: string | null;
+  discord?: string | null;
+  teams?: string | null;
+  billing_address?: Stripe.Address | null;
+  payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type] | null;
   init: boolean;
 }
 

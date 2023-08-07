@@ -26,6 +26,19 @@ export const getActiveProductsWithPrices = async (): Promise<
   return (data as any) || [];
 };
 
+export const getUserDetails = async (userId: string) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId);
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+  if (data) return data[0];
+  return null;
+};
+
 export const updateUserName = async (user: User, name: string) => {
   await supabase
     .from('users')

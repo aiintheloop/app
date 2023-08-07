@@ -237,11 +237,31 @@ const getDataForApproval = async (approvalID: string) => {
   }
 };
 
+const updateUserDiscord = async (uuid: string, discord: string) => {
+  const { error } = await supabaseAdmin
+    .from('users')
+    .update({ discord: discord })
+    .eq('id', uuid);
+  if (error) throw error;
+  console.log(`Updated discord for user ${uuid}.`);
+};
+
+const updateUserTeams = async (uuid: string, teams: string) => {
+  const { error } = await supabaseAdmin
+    .from('users')
+    .update({ teams: teams })
+    .eq('id', uuid);
+  if (error) throw error;
+  console.log(`Updated teams for user ${uuid}.`);
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
   getApproval,
-  getDataForApproval
+  getDataForApproval,
+  updateUserDiscord,
+  updateUserTeams
 };
