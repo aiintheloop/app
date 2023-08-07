@@ -34,7 +34,7 @@ const SignIn = () => {
     }
     if (user) {
       if (userDetails?.email !== user.email) updateUser();
-      if (!userDetails?.init) initUser();
+      if (userDetails && !userDetails.init) initUser();
       router.replace('/loops');
     }
   }, [user]);
