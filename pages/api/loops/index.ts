@@ -24,7 +24,8 @@ async function index(
   if (req.method === 'GET') {
     const loopService = new LoopService(userId);
     try {
-      res.status(200).json({ status: '200', data : await loopService.getAllLoops(), message : 'Fetch loop successfully'});
+      const data = await loopService.getAllLoops();
+      res.status(200).json({ status: '200', data : data, message : 'Fetch loop successfully'});
     } catch (err: any) {
       console.error(err);
       res.status(500).json({ status: '500', message: 'Failed to get loop'});
