@@ -72,10 +72,7 @@ function Card({
     <div className="card max-w-xl bg-base-200 shadow-xl rounded-md m-auto h-full">
       <div className="px-5 py-5 flex-auto">
         {title && (
-          <div
-            className="flex align-middle content-center justify-between"
-            onClick={() => router.push(`/loops/${loop.ident}`)}
-          >
+          <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
               <h3 className="text-2xl mb-1 cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
                 {title}
