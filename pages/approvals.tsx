@@ -15,15 +15,21 @@ import moment from 'moment';
 import { TextField } from '@mui/material';
 import { capitalizeFirstLetter } from '@/utils/helpers';
 import { toast } from 'react-toastify';
-import { getApprovals, updateApprovals } from '@/utils/supabase-client';
+import {
+  getApprovals,
+  getUserLoops,
+  updateApprovals
+} from '@/utils/supabase-client';
 import Button from '@/components/ui/Button/Button';
 import Image from 'next/image';
 import EditableTypography from '@/components/ui/Typography/EditableTypography';
 import EditablePopup from '@/components/ui/Modal/EditablePopup';
 import { Prompt } from '../models/prompt';
+import { useUser } from '@/utils/useUser';
 
 export default function ApproveDeclineWithContentView() {
   const router = useRouter();
+  const { setLoops, user } = useUser();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [id, setId] = useState<string | null>(null);
@@ -96,7 +102,12 @@ export default function ApproveDeclineWithContentView() {
   const handleApprove = async () => {
     await axios
       .post(`api/approve?id=${id}`, { content: content })
-      .then((response) => {
+      .then(async (response) => {
+        if (user) {
+          await getUserLoops(user.id).then((res) => {
+            setLoops(res);
+          });
+        }
         router.push('approved');
       })
       .catch((error) => {
@@ -111,7 +122,12 @@ export default function ApproveDeclineWithContentView() {
   const handleDecline = async () => {
     await axios
       .get(`api/decline?id=${id}`)
-      .then((response) => {
+      .then(async (response) => {
+        if (user) {
+          await getUserLoops(user.id).then((res) => {
+            setLoops(res);
+          });
+        }
         router.push('approved');
       })
       .catch((error) => {
@@ -123,7 +139,12 @@ export default function ApproveDeclineWithContentView() {
     setPrompts(newData);
     axios
       .post(`api/reloop?id=${id}`, { prompts: newData })
-      .then((response) => {
+      .then(async (response) => {
+        if (user) {
+          await getUserLoops(user.id).then((res) => {
+            setLoops(res);
+          });
+        }
         router.push('approved');
       })
       .catch((error) => {

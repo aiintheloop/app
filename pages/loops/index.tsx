@@ -30,6 +30,7 @@ import {
 import { SettingsOutlined } from '@mui/icons-material';
 import Link from 'next/link';
 import { LoopHelper } from '@/components/ui/Modal/LoopHelper';
+import { useRouter } from 'next/router';
 
 interface Props {
   title?: string | null;
@@ -53,6 +54,7 @@ function Card({
   setIsOpen,
   selectedEditLoops
 }: Props) {
+  const router = useRouter();
   const { setLoops, user } = useUser();
   const handleDeleteLoop = async () => {
     if (!user) return;
@@ -68,7 +70,10 @@ function Card({
     <div className="card max-w-xl bg-base-200 shadow-xl rounded-md m-auto h-full">
       <div className="px-5 py-5 flex-auto">
         {title && (
-          <div className="flex align-middle content-center justify-between">
+          <div
+            className="flex align-middle content-center justify-between"
+            onClick={() => router.push(`/loops/${loop.ident}`)}
+          >
             <Link href={`/loops/${loop.ident}`}>
               <h3 className="text-2xl mb-1 cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
                 {title}
@@ -130,7 +135,10 @@ function Card({
         )}
         <div className="divider m-0"></div>
         {description && (
-          <div className="my-2">
+          <div
+            className="my-2"
+            onClick={() => router.push(`/loops/${loop.ident}`)}
+          >
             <div
               className={`${
                 description.toLowerCase() == 'video' && 'badge-primary'
@@ -142,12 +150,18 @@ function Card({
             </div>
           </div>
         )}
-        <p className="p-5 rounded break-all bg-base-300 shadow-inner mt-4">
+        <p
+          className="p-5 rounded-lg break-all bg-base-300 shadow-inner mt-4"
+          onClick={() => router.push(`/loops/${loop.ident}`)}
+        >
           {children}
         </p>
       </div>
       {footer && (
-        <div className="p-5 rounded-b-md bg-base-300 shadow-inner">
+        <div
+          className="p-5 rounded-b-md bg-base-300 shadow-inner"
+          onClick={() => router.push(`/loops/${loop.ident}`)}
+        >
           {footer}
         </div>
       )}
