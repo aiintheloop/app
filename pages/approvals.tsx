@@ -308,6 +308,20 @@ export default function ApproveDeclineWithContentView() {
                         src={approvalData?.content as string}
                       />
                     )}
+                    {approvalData?.type?.toLowerCase() == 'text-picture' && (
+                      <div className="flex flex-col justify-start gap-4">
+                        <EditableTypography
+                          initialText={content}
+                          onChange={handleTextChange}
+                        />
+                        <Image
+                          src={approvalData?.content as string}
+                          width={500}
+                          height={500}
+                          alt={`${approvalData?.name}`}
+                        />
+                      </div>
+                    )}
                     {approvalData?.type?.toLowerCase() == 'picture' && (
                       <Image
                         src={approvalData?.content as string}
