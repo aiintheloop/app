@@ -74,7 +74,7 @@ function Card({
         {title && (
           <div className="flex align-middle content-center justify-between">
             <Link href={`/loops/${loop.ident}`}>
-              <h3 className="text-2xl mb-1 cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap">
+              <h3 className="text-2xl mb-1 cursor-pointer block overflow-hidden overflow-ellipsis w-full whitespace-nowrap hover:underline">
                 {title}
               </h3>
             </Link>
