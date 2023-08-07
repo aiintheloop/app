@@ -273,7 +273,7 @@ export default function ApproveDeclineWithContentView() {
                     boxShadow: 'none'
                   }}
                 >
-                  <div className="whitespace-pre-wrap p-5 rounded break-all bg-base-300 shadow-inner text-inherit">
+                  <div className="whitespace-pre-wrap p-5 rounded-box break-all bg-base-300 shadow-inner text-inherit">
                     {approvalData?.type?.toLowerCase() == 'text' && (
                       <EditableTypography
                         initialText={content}

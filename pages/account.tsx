@@ -56,6 +56,13 @@ export default function Account({ user }: { user: User }) {
   const SLACK_CLIENT_ID = process?.env?.NEXT_PUBLIC_SLACK_CLIENT_ID;
 
   useEffect(() => {
+    if (userDetails) {
+      setDiscordWebhook(userDetails?.discord || '');
+      setTeamsWebhook(userDetails?.teams || '');
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
     if (user) {
       getApiKey(user.id).then((data) => {
         if (data && data[0].api_key != null) {
@@ -99,9 +106,12 @@ export default function Account({ user }: { user: User }) {
         });
         toast.info(response.data.message);
       })
-      .catch((response) => {
-        console.log(response);
-        toast.error(response.data.message);
+      .catch((error) => {
+        if (error.response) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error('Unexpected Error');
+        }
       });
   };
 
@@ -322,6 +332,7 @@ export default function Account({ user }: { user: User }) {
               placeholder="Discord Webhook"
               className="input input-bordered input-primary w-full"
               onChange={handleDiscordWebhookChange}
+              value={discordWebhook}
             />
             <button
               onClick={handleDiscordIntegration}
@@ -353,6 +364,7 @@ export default function Account({ user }: { user: User }) {
               placeholder="Teams Webhook"
               className="input input-bordered input-primary w-full"
               onChange={handleTeamsWebhookChange}
+              value={teamsWebhook}
             />
             <button
               onClick={handleTeamsIntegration}

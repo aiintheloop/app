@@ -1,6 +1,6 @@
 import { useState, ReactNode, useEffect } from 'react';
 import { useUser } from 'utils/useUser';
-
+import { IconTextCaption } from '@tabler/icons-react';
 import AddIcon from '@mui/icons-material/Add';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
@@ -580,8 +580,9 @@ const automation = [
 const type = [
   { id: 1, value: '', name: 'Select Type' },
   { id: 2, value: 'text', name: 'Text' },
-  { id: 3, value: 'picture', name: 'Picture' },
-  { id: 4, value: 'video', name: 'Video' }
+  { id: 3, value: 'text-picture', name: 'Text & Picture' },
+  { id: 4, value: 'picture', name: 'Picture' },
+  { id: 5, value: 'video', name: 'Video' }
 ];
 
 interface ListProps {
@@ -643,6 +644,14 @@ export function List({ onChange, options, data }: ListProps) {
                     )}
                     {option.value === 'text' && (
                       <FormatAlignLeftOutlinedIcon
+                        style={{
+                          width: 18,
+                          height: 18
+                        }}
+                      />
+                    )}
+                    {option.value === 'text-picture' && (
+                      <IconTextCaption
                         style={{
                           width: 18,
                           height: 18

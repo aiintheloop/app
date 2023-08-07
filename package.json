@@ -30,6 +30,8 @@
     "@supabase/auth-helpers-react": "^0.3.0",
     "@supabase/auth-ui-react": "^0.2.6",
     "@supabase/supabase-js": "^2.0.0",
+    "@tabler/icons": "^2.30.0",
+    "@tabler/icons-react": "^2.30.0",
     "@types/jest": "^29.5.2",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "ajv": "^8.12.0",
