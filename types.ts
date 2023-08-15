@@ -56,6 +56,7 @@ export interface ApprovalData {
   name: string | null;
   prompt: string | null;
   created_at: string;
+  declineHook: string | null;
   type: string | null;
 }
 

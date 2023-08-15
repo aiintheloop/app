@@ -49,6 +49,7 @@ export default function ApproveDeclineWithContentView() {
           .then((approval) => {
             setApprovalData(approval.data);
             if (approval.data?.prompt) {
+              console.log(approval.data?.prompt)
               setPrompts(approval.data?.prompt);
             }
             if (approval.data?.content) {
@@ -304,12 +305,13 @@ export default function ApproveDeclineWithContentView() {
             <button className="btn btn-md btn-success" onClick={handleApprove}>
               Approve
             </button>
+            {approvalData?.declineHook && (
             <button
               className="btn btn-md btn-warning"
               onClick={() => setOpen(true)}
             >
               Update
-            </button>
+            </button>)}
             <button className="btn btn-md btn-error" onClick={handleDecline}>
               Decline
             </button>

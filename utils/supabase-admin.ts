@@ -223,6 +223,7 @@ const getDataForApproval = async (approvalID: string) => {
             approved: approvalData.approved,
             prompt: approvalData.prompts,
             created_at: approvalData.created_at,
+            declineHook: loopData.declineHook,
             type: loopData.type
           } as ApprovalData,
           message: 'Approval retrieved successfully'
