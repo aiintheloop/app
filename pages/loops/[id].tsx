@@ -14,7 +14,23 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', minWidth: 300, flex: 1 },
+  {
+    field: 'id',
+    headerName: 'ID',
+    minWidth: 300,
+    flex: 1,
+    renderCell: (params) => {
+      const router = useRouter();
+      return (
+        <button
+          className="w-full flex justify-start items-center"
+          onClick={() => router.push(`/approvals?id=${params.id}`)}
+        >
+          {params.value}
+        </button>
+      );
+    }
+  },
   {
     field: 'approved',
     headerName: 'Approved',
@@ -22,32 +38,34 @@ const columns: GridColDef[] = [
     flex: 1,
     sortable: true,
     renderCell: (params) => {
+      const router = useRouter();
       // use icon instead of text
-      if (params.value === true) {
-        return (
-          <CheckCircleIcon
-            titleAccess="Approved"
-            className="text-success"
-            fontSize="medium"
-          />
-        );
-      } else if (params.value === false) {
-        return (
-          <CancelIcon
-            titleAccess="Disapproved"
-            className="text-error"
-            fontSize="medium"
-          />
-        );
-      } else {
-        return (
-          <PendingIcon
-            titleAccess="Pending"
-            className="text-warning"
-            fontSize="medium"
-          />
-        );
-      }
+      return (
+        <button
+          className="w-full flex justify-start items-center"
+          onClick={() => router.push(`/approvals?id=${params.id}`)}
+        >
+          {params.value === true ? (
+            <CheckCircleIcon
+              titleAccess="Approved"
+              className="text-success"
+              fontSize="medium"
+            />
+          ) : params.value === false ? (
+            <CancelIcon
+              titleAccess="Disapproved"
+              className="text-error"
+              fontSize="medium"
+            />
+          ) : (
+            <PendingIcon
+              titleAccess="Pending"
+              className="text-warning"
+              fontSize="medium"
+            />
+          )}
+        </button>
+      );
     }
   },
   {
@@ -55,70 +73,9 @@ const columns: GridColDef[] = [
     headerName: 'Created At',
     minWidth: 150,
     flex: 1,
-    sortable: true
-  },
-  {
-    field: 'action',
-    headerName: 'Action',
-    sortable: false,
-    maxWidth: 100,
-    flex: 1,
+    sortable: true,
     renderCell: (params) => {
-      const router = useRouter();
-      const [anchorActionEl, setAnchorActionEl] = useState<null | HTMLElement>(
-        null
-      );
-      const open = Boolean(anchorActionEl);
-      const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorActionEl(event.currentTarget);
-      };
-      const handleClose = () => {
-        setAnchorActionEl(null);
-      };
-
-      const onClick = (e: { stopPropagation: () => void }) => {
-        e.stopPropagation(); // don't select this row after clicking
-      };
-
-      return (
-        <div>
-          <Button
-            id="demo-positioned-button"
-            className="bg-transparent hover:bg-transparent border-0 outline-none"
-            aria-controls={open ? 'demo-positioned-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-          >
-            <MoreVertIcon className="text-base-content border-0 outline-none" />
-          </Button>
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="demo-positioned-button"
-            anchorEl={anchorActionEl}
-            open={open}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'left'
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left'
-            }}
-          >
-            <MenuItem
-              className="base-100 text-base-content hover:base-200 hover:text-base-content/70 border-0 outline-none"
-              onClick={(e) => {
-                onClick(e);
-                router.push(`/approvals?id=${params.id}`);
-              }}
-            >
-              Approval
-            </MenuItem>
-          </Menu>
-        </div>
-      );
+      return <span>{params.value}</span>;
     }
   }
 ];
@@ -189,6 +146,8 @@ export default function LoopApprovalsPage() {
         >
           <DataGrid
             sx={{
+              boxShadow: 2,
+              border: 2,
               backgroundColor:
                 'hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity))',
               color: 'hsl(var(--bc) / var(--tw-text-opacity))'

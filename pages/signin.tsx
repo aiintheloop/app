@@ -6,13 +6,13 @@ import Logo from 'components/icons/Logo';
 import { getURL } from '@/utils/helpers';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import Link from 'next/link';
-import { updateUserEmail } from '@/utils/supabase-client';
+import { getUserDetails, updateUserEmail } from '@/utils/supabase-client';
 import { useUser } from '@/utils/useUser';
 import axios from 'axios';
 
 const SignIn = () => {
   const router = useRouter();
-  const { user, userDetails } = useUser();
+  const { user, userDetails, setUserDetails } = useUser();
   const supabaseClient = useSupabaseClient();
 
   useEffect(() => {
@@ -31,6 +31,9 @@ const SignIn = () => {
           withCredentials: true
         }
       );
+      await getUserDetails(user.id).then((res) => {
+        setUserDetails(res);
+      });
     }
     if (user) {
       if (userDetails?.email !== user.email) updateUser();
