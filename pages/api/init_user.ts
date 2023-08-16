@@ -4,6 +4,10 @@ import { createOrRetrieveCustomer } from 'utils/supabase-admin';
 import { getURL } from 'utils/helpers';
 import { Novu, ChatProviderIdEnum } from '@novu/node';
 import { v4 as uuidv4 } from 'uuid';
+import { User } from '../../models/user';
+import { ServiceError } from '../../services/exception/ServiceError';
+import { LoopService } from '../../services/loopService';
+import { UserService } from '../../services/userService';
 
 /**
  * No public API
@@ -21,16 +25,24 @@ export default withApiAuth(async function createCheckoutSession(
         data: { user }
       } = await supabaseServerClient.auth.getUser();
       if (!user) throw Error('Could not get user')
+      const userService = new UserService(user.id)
+      const userData = await userService.getUser()
 
+      if(!userData?.init) {
+        const novu = new Novu(NOVU_SECRET);
 
-      const novu = new Novu(NOVU_SECRET);
+        await novu.subscribers.identify(user.id, {
+          email: user.email
+        });
+        const response = await supabaseServerClient.from("users").update({"init" : true, "api_key" : uuidv4()}).eq('id', user.id);
+        return res
+          .status(200)
+          .json({ error: { statusCode: 200, message: "Successfully initialize user" } });
+      }
+      return res
+        .status(200)
+        .json({ error: { statusCode: 200, message: "User already initialized" } });
 
-      await novu.subscribers.identify(user.id, {
-        email: user.email
-      });
-      const response = await supabaseServerClient.from("users").update({"init" : true, "api_key" : uuidv4()}).eq('id', user.id);
-      console.log(response)
-      return res.status(200).end('Success');
     } catch (err: any) {
       console.log(err);
       res

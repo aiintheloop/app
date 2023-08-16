@@ -1,6 +1,7 @@
 import { BaseService } from './baseService';
 import { ServiceError } from './exception/ServiceError';
 import { Loop } from '../models/loop';
+import { User } from '../models/user';
 
 
 export class UserService extends BaseService {
@@ -11,23 +12,22 @@ export class UserService extends BaseService {
     this._userId = userId;
   }
 
-  async getLoop(id : String): Promise<Loop | null> {
+  async getUser(): Promise<User | null> {
     let response;
     try {
       response = await this._supabaseAdmin
-        .from('loops')
-        .select('*')
-        .eq('loop_id', id)
+        .from('get')
+        .select('user_id,init')
         .eq('user_id', this._userId);
     } catch (error) {
-      console.error(`Failed to fetch Loop with error: ${error}`);
-      throw new ServiceError(`Failed to fetch loop with id ${id}`);
+      console.error(`Failed to fetch user with error: ${error}`);
+      throw new ServiceError(`Failed to fetch user with id ${this._userId}`);
     }
     if (response.error) {
       console.error(
-        `Failed to fetch loops with message: ${response.statusText}`
+        `Failed to user loops with message: ${response.statusText}`
       );
-      throw new ServiceError(`Failed to fetch loop with id ${id}`);
+      throw new ServiceError(`Failed to fetch user with id ${this._userId}`);
     }
     return response.data[0];
   }

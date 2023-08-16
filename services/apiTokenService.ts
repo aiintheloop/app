@@ -19,13 +19,13 @@ export class ApiTokenService extends BaseService {
       response = await this._supabaseAdmin.from("users").select('id').eq('api_key', apiKey).single();
     } catch(error) {
       console.log(error)
-      console.error(`Failed to fetch loops with error: ${error}`)
-      throw new ServiceError("Failed to fetch loops");
+      console.error(`Failed to get user by api key with error: ${error}`)
+      throw new ServiceError("Failed to validate api-key");
     }
     console.log(response)
     if(response.status !== 200) {
-      console.error(`Failed to fetch loops with message: ${response.statusText}`)
-      throw new ServiceError("Failed to fetch loops");
+      console.error(`Failed to get user by api key with message: ${response.statusText}`)
+      throw new ServiceError("Failed to validate api-key");
     }
     return response.data?.id || null;
   }
