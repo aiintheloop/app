@@ -35,7 +35,7 @@ export default function ApproveDeclineWithContentView() {
   const [id, setId] = useState<string | null>(null);
   const [content, setContent] = useState<string>('');
   const [open, setOpen] = useState(false);
-  const [prompts, setPrompts] = useState<Record<string, string>>({});
+  const [prompts, setPrompts] = useState<Array<Record<string, string>>>([]);
 
   const [approvalData, setApprovalData] = useState<ApprovalData | null>(null);
 
@@ -136,7 +136,7 @@ export default function ApproveDeclineWithContentView() {
       });
   };
 
-  const handleSave = async (newData: Record<string, string>) => {
+  const handleSave = async (newData: Array<Record<string, string>>) => {
     setPrompts(newData);
     axios
       .post(`api/reloop?id=${id}`, { prompts: newData })

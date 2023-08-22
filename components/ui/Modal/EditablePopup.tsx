@@ -3,10 +3,10 @@ import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 interface EditablePopupProps {
-  data: Record<string, string>;
+  data: Array<Record<string, string>>;
   open: boolean;
   onClose: () => void;
-  onSave: (data: Record<string, string>) => void;
+  onSave: (data: Array<Record<string, string>>) => void;
 }
 
 const EditablePopup: React.FC<EditablePopupProps> = ({
@@ -16,13 +16,18 @@ const EditablePopup: React.FC<EditablePopupProps> = ({
   onSave
 }) => {
   const [editableData, setEditableData] =
-    useState<Record<string, string>>(data);
+    useState<Array<Record<string, string>>>(data);
 
-  const handleFieldChange = (field: string, value: string) => {
-    setEditableData((prevData) => ({
-      ...prevData,
-      [field]: value
-    }));
+  const handleFieldChange = (identifier: string, newPrompt: string) => {
+    setEditableData((prevData) => {
+      return prevData.map(item => {
+        if (item.identifier === identifier) {
+          return { ...item, prompt: newPrompt };
+        }
+        return item;
+      });
+      }
+    );
   };
 
   const handleSaveClick = () => {
@@ -70,16 +75,21 @@ const EditablePopup: React.FC<EditablePopupProps> = ({
                 </span>
                 <section className="my-2 mx-auto">
                   <section>
-                    {Object.entries(editableData).map(([key, value]) => (
-                      <textarea
-                        key={key}
-                        value={value}
+                    {editableData.map((obj) => (
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text">{obj["identifier"]}</span>
+                          </label>
+                          <textarea
+                        key={obj["identifier"]}
+                        value={obj["prompt"]}
                         onChange={(event) =>
-                          handleFieldChange(key, event.target.value)
+                          handleFieldChange(obj["identifier"], event.target.value)
                         }
-                        placeholder={key}
+                        placeholder={obj["identifier"]}
                         className="textarea textarea-primary w-full"
                       />
+                      </div>
                     ))}
                   </section>
                 </section>

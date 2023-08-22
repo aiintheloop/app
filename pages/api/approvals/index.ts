@@ -22,9 +22,13 @@ const schema: JSONSchemaType<Approval> = {
     ID: { type: 'string', format: 'uuid' },
     type: { type: 'string' },
     prompts: {
-      type : "object",
+      type : "array",
       nullable: true,
-      required : []
+      items: {
+        type : "object",
+        nullable: true,
+        required: []
+      }
     },
   },
   required: ['loop_id', 'content'],

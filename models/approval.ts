@@ -8,6 +8,6 @@ export interface Approval {
   approval_uri: string | null,
   loop_id: string | null;
   user_id: string;
-  prompts?: Record<string, string> | null;
+  prompts?: Array<Record<string, string>> | null;
   type: string | null;
 }
