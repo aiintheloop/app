@@ -22,13 +22,15 @@ const schema: JSONSchemaType<Approval> = {
     type: { type: 'string' },
     prompts: {
       type : "object",
-      required : ['false']
+      nullable: true,
+      required : []
     },
   },
   required: ['loop_id', 'content'],
   additionalProperties: false
 };
 const validate = ajv.compile(schema);
+
 
 async function approvals(
   req: NextApiRequest,
@@ -52,6 +54,12 @@ async function approvals(
       const approvals = await approvalService.getById(id);
       return res.status(200).json({ approvals });
     case 'PUT':
+      const approval = req.body;
+      if (!req.body) {
+        return res.status(400).json({ message: 'Content is required', status : 400 });
+      } else if (!validate(approval)) {
+        return res.status(400).json({ message: 'Failed to create approval', status : 400, data: validate.errors });
+      }
       const updatedApproval = await approvalService.update(id, req.body);
       return res.status(200).json({ updatedApproval });
     case 'DELETE':
