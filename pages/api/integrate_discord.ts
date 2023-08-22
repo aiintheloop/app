@@ -41,7 +41,7 @@ export default withExceptionHandler(async function integrateDiscord(req, res) {
     if (validate(body)) {
       const novu = new Novu(NOVU_SECRET);
       await novu.subscribers.setCredentials(
-        '58700508-dd6b-488f-9881-abb16ac7bba7',
+        session.user.id,
         ChatProviderIdEnum.Discord,
         {
           webhookUrl: body.webhook
