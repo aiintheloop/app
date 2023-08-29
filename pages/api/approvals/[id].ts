@@ -32,7 +32,7 @@ const schema: JSONSchemaType<Approval> = {
       }
     },
   },
-  required: ['loop_id', 'content'],
+  required: ['loop_id'],
   additionalProperties: false
 };
 const validate = ajv.compile(schema);
