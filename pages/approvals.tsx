@@ -306,7 +306,7 @@ export default function ApproveDeclineWithContentView() {
                       <video
                         controls
                         className="w-full"
-                        src={approvalData?.content as string}
+                        src={approvalData?.video as string}
                       />
                     )}
                     {approvalData?.type?.toLowerCase() == 'text-picture' && (
@@ -316,7 +316,7 @@ export default function ApproveDeclineWithContentView() {
                           onChange={handleTextChange}
                         />
                         <Image
-                          src={approvalData?.content as string}
+                          src={approvalData?.image as string}
                           width={500}
                           height={500}
                           alt={`${approvalData?.name}`}
@@ -325,7 +325,7 @@ export default function ApproveDeclineWithContentView() {
                     )}
                     {approvalData?.type?.toLowerCase() == 'picture' && (
                       <Image
-                        src={approvalData?.content as string}
+                        src={approvalData?.image as string}
                         width={500}
                         height={500}
                         alt={`${approvalData?.name}`}

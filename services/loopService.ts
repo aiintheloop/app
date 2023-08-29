@@ -39,7 +39,7 @@ export class LoopService extends BaseService {
       response = await this._supabaseAdmin
         .from('loops')
         .select('*')
-        .eq('loop_id', id)
+        .eq('ident', id)
         .eq('user_id', this._userId);
     } catch (error) {
       console.error(`Failed to fetch Loop with error: ${error}`);

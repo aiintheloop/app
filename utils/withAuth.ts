@@ -9,15 +9,16 @@ function withAuth(route : NextRouteWithAuth) {
   const routeFunction: NextRoute = async function (req: any, res: any): Promise<void> {
     const apiTokenService = new ApiTokenService();
     const apiKey = req.headers["apikey"]
+    let userId;
     if(apiKey) {
       try {
-        const userId = await apiTokenService.getUserIdByAPIToken(apiKey);
-        if (userId != null) {
-          await route(req, res, userId)
-        } else {
-          res.status(401).json({ "message": "Invalid ApiKey", status : "401" });
-        }
+        userId = await apiTokenService.getUserIdByAPIToken(apiKey);
       } catch (error) {
+        res.status(401).json({ "message": "Invalid ApiKey", status : "401" });
+      }
+      if (userId != null) {
+        await route(req, res, userId)
+      } else {
         res.status(401).json({ "message": "Invalid ApiKey", status : "401" });
       }
     } else {

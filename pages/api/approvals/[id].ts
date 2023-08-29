@@ -47,10 +47,10 @@ async function approvals(
   const { method } = req;
   const { id } = req.query;
   if (typeof id !== 'string') {
-    return res.status(400).json({ message: "id shouldn't be an array" });
+    return res.status(400).json({status : 400, message: "id shouldn't be an array" });
   }
   if (!req.query.id) {
-    return res.status(400).json({ message: 'id is required' });
+    return res.status(400).json({status : 400, message: 'id is required' });
   }
 
   switch (method) {

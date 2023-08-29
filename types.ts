@@ -51,6 +51,8 @@ export interface Approval {
 export interface ApprovalData {
   ID: string /* primary key */;
   content: string | null;
+  video: string | null;
+  image: string | null;
   process_id: string | null;
   approved: boolean | null;
   name: string | null;

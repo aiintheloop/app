@@ -4,7 +4,7 @@ const folderPath = './models'; // Replace with your desired folder path
 
 const mergeFiles = (folderPath: string) => {
   const files = fs.readdirSync(folderPath).filter(file => file.endsWith('.ts'));
-
+  console.log(files)
   let mergedContent = '';
 
   files.forEach(file => {
