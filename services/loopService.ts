@@ -1,6 +1,8 @@
 import { BaseService } from './baseService';
 import { ServiceError } from './exception/ServiceError';
 import { Loop } from '../models/loop';
+import { Approval } from '../models/approval';
+import { NotFoundException } from './exception/NotFoundException';
 
 
 //Todo more Error classes
@@ -51,7 +53,13 @@ export class LoopService extends BaseService {
       );
       throw new ServiceError(`Failed to fetch loop with id ${id}`);
     }
-    return response.data[0];
+
+    const loop = response.data[0] as Loop;
+
+    if (!loop) {
+      throw new NotFoundException(`Approval with id "${id}" not found`);
+    }
+    return loop;
   }
 
   async unregisterHook(id: string, type: string) {

@@ -3,6 +3,8 @@ import { Json } from 'types_db';
 export interface Approval {
   approved: boolean | null;
   content: string | null;
+  image: string | null;
+  video: string | null;
   created_at: string | null;
   ID: string;
   approval_uri: string | null,
