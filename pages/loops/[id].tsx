@@ -4,14 +4,10 @@ import { useEffect, useState } from 'react';
 import { Approval } from 'types';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import moment from 'moment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import PendingIcon from '@mui/icons-material/Pending';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
 const columns: GridColDef[] = [
   {

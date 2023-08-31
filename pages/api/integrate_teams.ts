@@ -10,6 +10,7 @@ import addFormats from 'ajv-formats';
 import { DiscordIntegrationRequest } from '../../models/discordIntegrationRequest';
 import { TeamsIntegrationRequest } from '../../models/teamsIntegrationRequest';
 import { updateUserTeams } from '@/utils/supabase-admin';
+import { NotificationProviderService } from '../../services/notificationProviderService';
 const ajv = new Ajv();
 addFormats(ajv);
 
@@ -38,6 +39,7 @@ export default withExceptionHandler(async function createCheckoutSession(
   if (!session) {
     throw new UnauthorizedException('Could not get user');
   }
+  const notificationProviderService = new NotificationProviderService(session.user.id)
   const NOVU_SECRET = process?.env?.NOVU_SECRET ?? '';
 
   if (req.method === 'POST') {
@@ -51,7 +53,7 @@ export default withExceptionHandler(async function createCheckoutSession(
           webhookUrl: body.webhook
         }
       );
-      await updateUserTeams(session.user.id, body.webhook);
+      await notificationProviderService.updateUserTeams(session.user.id, body.webhook);
       return res.status(200).json({ status: '200', message: 'Webhook added' });
     } else {
       res

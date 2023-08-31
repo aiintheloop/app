@@ -9,6 +9,7 @@ import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { DiscordIntegrationRequest } from '../../models/discordIntegrationRequest';
 import { updateUserDiscord } from '@/utils/supabase-admin';
+import { NotificationProviderService } from '../../services/notificationProviderService';
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -35,6 +36,7 @@ export default withExceptionHandler(async function integrateDiscord(req, res) {
   if (!session) {
     throw new UnauthorizedException('Could not get user');
   }
+  const notificationProviderService = new NotificationProviderService(session.user.id)
   const NOVU_SECRET = process?.env?.NOVU_SECRET ?? '';
   if (req.method === 'POST') {
     const body = req.body;
@@ -47,7 +49,7 @@ export default withExceptionHandler(async function integrateDiscord(req, res) {
           webhookUrl: body.webhook
         }
       );
-      await updateUserDiscord(session.user.id, body.webhook);
+      await notificationProviderService.updateUserDiscord(session.user.id, body.webhook);
       return res.status(200).json({ status: '200', message: 'Webhook added' });
     } else {
       res
