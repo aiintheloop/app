@@ -57,7 +57,7 @@ export class LoopService extends BaseService {
     const loop = response.data[0] as Loop;
 
     if (!loop) {
-      throw new NotFoundException(`Approval with id "${id}" not found`);
+      throw new NotFoundException(`Loop with id "${id}" not found`);
     }
     return loop;
   }
