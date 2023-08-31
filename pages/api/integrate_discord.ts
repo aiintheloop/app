@@ -8,7 +8,6 @@ import { UnauthorizedException } from '../../services/exception/UnauthorizedExce
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { DiscordIntegrationRequest } from '../../models/discordIntegrationRequest';
-import { updateUserDiscord } from '@/utils/supabase-admin';
 import { NotificationProviderService } from '../../services/notificationProviderService';
 
 const ajv = new Ajv();
