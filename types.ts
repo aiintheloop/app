@@ -40,6 +40,8 @@ export interface UserDetails {
 export interface Approval {
   ID: string /* primary key */;
   content: string | null;
+  video: string | null;
+  image: string | null;
   loop_id: string | null;
   approved: boolean | null;
   created_at: string | null;

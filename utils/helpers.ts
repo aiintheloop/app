@@ -31,6 +31,13 @@ export const getApiKey = async (id :string) => {
   return data;
 };
 
+export const hasDuplicateIdentifiers = (data: Array<Record<string, string>> | null | undefined): boolean => {
+  if(data == undefined) {
+    return false
+  }
+  const identifierSet = new Set<string>();
+  return data.some(item => identifierSet.has(item.identifier) || !identifierSet.add(item.identifier));
+}
 
 export const postData = async ({
   url,

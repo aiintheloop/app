@@ -5,6 +5,7 @@ import withExceptionHandler from '@/utils/withExceptionHandler';
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
 import { Approval } from '../../../models/approval';
+import { hasDuplicateIdentifiers } from '@/utils/helpers';
 
 
 const ajv = new Ajv();
@@ -33,7 +34,7 @@ const schema: JSONSchemaType<Approval> = {
       }
     },
   },
-  required: ['loop_id', 'content'],
+  required: ['loop_id'],
   additionalProperties: false
 };
 const validate = ajv.compile(schema);
@@ -69,10 +70,13 @@ async function approvals(req: NextApiRequest, res: NextApiResponse, userId : str
         return res.status(200).json({ message : 'Approvals fetched successfully', status : 200, data : approvals });
     case 'POST':
       const approval = req.body;
-      if (!req.body) {
+      if (!approval) {
         return res.status(400).json({ message: 'content is required', status : 400 });
       } else if (!validate(approval)) {
         return res.status(400).json({ message: 'Failed to create approval', status : 400, data: validate.errors });
+      }
+      if(hasDuplicateIdentifiers(approval.prompts)) {
+        return res.status(400).json({ message: 'There a duplicate identifier in the prompt definition', status : 400 });
       }
 
       const createdApproval = await approvalService.create(approval);

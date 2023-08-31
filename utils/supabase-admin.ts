@@ -219,6 +219,8 @@ const getDataForApproval = async (approvalID: string) => {
           data: {
             ID: approvalData.ID,
             content: approvalData.content,
+            video: approvalData.video,
+            image: approvalData.image,
             name: loopData.name,
             approved: approvalData.approved,
             prompt: approvalData.prompts,

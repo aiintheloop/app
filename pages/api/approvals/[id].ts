@@ -5,6 +5,7 @@ import addFormats from 'ajv-formats';
 import { ApprovalService } from '../../../services/approvalService';
 import { Approval } from '../../../models/approval';
 import withExceptionHandler from '@/utils/withExceptionHandler';
+import { hasDuplicateIdentifiers } from '@/utils/helpers';
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -65,6 +66,9 @@ async function approvals(
         return res.status(400).json({ message: 'Content is required', status : 400 });
       } else if (!validate(approval)) {
         return res.status(400).json({ message: 'Failed to create approval', status : 400, data: validate.errors });
+      }
+      if(hasDuplicateIdentifiers(approval.prompts)) {
+        return res.status(400).json({ message: 'There a duplicate identifier in the prompt definition', status : 400 });
       }
       const updatedApproval = await approvalService.update(id, req.body);
       return res.status(200).json({ updatedApproval });
