@@ -104,7 +104,7 @@ export default class WebhookNotifier {
       .select()
       .eq('ident', loopId)
       .single();
-    if (loop.data) {
+    if (loop.data && loop.data.declineHook) {
       const loopData = loop.data;
       // Adding to the queue
       const webhookID = uuid4()
