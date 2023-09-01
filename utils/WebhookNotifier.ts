@@ -104,39 +104,41 @@ export default class WebhookNotifier {
       .select()
       .eq('ident', loopId)
       .single();
-    if (loop.data && loop.data.declineHook) {
-      const loopData = loop.data;
-      // Adding to the queue
-      const webhookID = uuid4()
-      const webhookResponse = await supabaseAdmin.from('webhooks').insert({
-        id: webhookID,
-        status: 'enqueued'
-      });
-      if (!webhookResponse.error) {
-        const response = await WebhookQueue.enqueue(
-          {
-            event: {
-              type: 'startLoop',
-              loopID: loopData.ident,
-              subscriberUrl: loopData.declineHook,
-              webhookID: webhookID
-            },
-            payload: {
-              prompts: prompts
-            }
-          },
-          {
-            retry: ['10sec', '5min', '1h'] // or output of https://www.npmjs.com/package/exponential-backoff-generator
-          }
-        );
-        return;
-      } else {
-        throw new Error(
-          `Failed to send webhook with reason '${JSON.stringify(webhookResponse.error)}' and status '${webhookResponse.status}'`
-        );
-      }
-    }
-    throw new Error(`Failed to load process with id: ${loopId}`);
-  }
 
+    if (loop.data) {
+      const loopData = loop.data;
+      if(loopData.declineHook) {
+        // Adding to the queue
+        const webhookID = uuid4()
+        const webhookResponse = await supabaseAdmin.from('webhooks').insert({
+          id: webhookID,
+          status: 'enqueued'
+        });
+        if (!webhookResponse.error) {
+          const response = await WebhookQueue.enqueue(
+            {
+              event: {
+                type: 'startLoop',
+                loopID: loopData.ident,
+                subscriberUrl: loopData.declineHook,
+                webhookID: webhookID
+              },
+              payload: {
+                prompts: prompts
+              }
+            },
+            {
+              retry: ['10sec', '5min', '1h'] // or output of https://www.npmjs.com/package/exponential-backoff-generator
+            }
+          );
+        } else {
+          throw new Error(
+            `Failed to send webhook with reason '${JSON.stringify(webhookResponse.error)}' and status '${webhookResponse.status}'`
+          );
+        }
+      }
+    } else {
+      throw new Error(`Failed to load loop with id: ${loopId}`);
+    }
+  }
 }
