@@ -11,7 +11,7 @@ const supabaseAdmin = createClient<Database>(
 );
 
 export default class WebhookNotifier {
-  static async sendApprove(loopId: string, approvalId: string, data: string) {
+  static async sendApprove(loopId: string, approvalId: string, data: any) {
     const process = await supabaseAdmin
       .from('loops')
       .select()
@@ -23,6 +23,9 @@ export default class WebhookNotifier {
       const webhookID = uuid4()
       const webhookResponse = await supabaseAdmin.from('webhooks').insert({
         id: webhookID,
+        user_id: loopData.user_id,
+        payload: {data: data},
+        type: "acceptHook",
         approval: approvalId,
         status: 'enqueued'
       });
@@ -68,6 +71,11 @@ export default class WebhookNotifier {
       const webhookResponse = await supabaseAdmin.from('webhooks').insert({
         id: webhookID,
         approval: approvalId,
+        user_id: loopData.user_id,
+        payload: {
+          prompts: prompts
+        },
+        type: "declineHook",
         status: 'enqueued'
       });
       if (!webhookResponse.error) {

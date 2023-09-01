@@ -102,7 +102,7 @@ export default function ApproveDeclineWithContentView() {
 
   const handleApprove = async () => {
     await axios
-      .post(`api/approve?id=${id}`, { content: content })
+      .post(`api/approve?id=${id}`, { content: content, image: approvalData?.image, video: approvalData?.video })
       .then(async (response) => {
         if (user) {
           await getUserLoops(user.id).then((res) => {

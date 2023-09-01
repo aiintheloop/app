@@ -25,12 +25,12 @@ const WebhookQueue = Queue('api/queues/webhook', async (job: any) => {
         headers : headers,
         timeout : 10000
       });
-      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'sended' }).match({ 'id': event.webhookID});
+      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'sended', payload : payload}).match({ 'id': event.webhookID});
       if (supabaseResponse.error) {
         console.error(`Failed to update Status for webhook ${event.webhookID}`);
       }
     } catch (error) {
-      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'failed' }).match({ 'id': event.webhookID});
+      const supabaseResponse = await supabaseAdmin.from('webhooks').update({ status: 'failed', payload : payload}).match({ 'id': event.webhookID});
       if (supabaseResponse.error) {
         console.error(`Failed to update Status for for webhook ${event.webhookID}`);
       }
