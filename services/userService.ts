@@ -16,19 +16,22 @@ export class UserService extends BaseService {
     let response;
     try {
       response = await this._supabaseAdmin
-        .from('get')
-        .select('user_id,init')
-        .eq('user_id', this._userId);
+        .from('users')
+        .select('id,init,email')
+        .eq('id', this._userId);
     } catch (error) {
       console.error(`Failed to fetch user with error: ${error}`);
       throw new ServiceError(`Failed to fetch user with id ${this._userId}`);
     }
     if (response.error) {
       console.error(
-        `Failed to user loops with message: ${response.statusText}`
+        `Failed to fetch user with message: ${response.statusText}`
       );
       throw new ServiceError(`Failed to fetch user with id ${this._userId}`);
     }
-    return response.data[0];
+    if(response.data.length < 1) {
+      throw new ServiceError(`Failed to fetch user with id ${this._userId}`);
+    }
+    return {"init" : response.data[0].init, "email" : response.data[0].email} as User;
   }
 }

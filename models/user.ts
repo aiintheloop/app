@@ -1,3 +1,4 @@
 export interface User {
-  init: string | null;
+  init: boolean;
+  email: string | null;
 }

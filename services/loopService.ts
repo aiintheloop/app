@@ -14,7 +14,7 @@ export class LoopService extends BaseService {
     this._userId = userId;
   }
 
-  async getAllLoops(tool : String): Promise<Array<Loop> | null> {
+  async getAllLoops(tool : String | null): Promise<Array<Loop> | null> {
     let response;
     try {
       if(!tool) {
