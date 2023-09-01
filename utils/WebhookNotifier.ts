@@ -120,7 +120,12 @@ export default class WebhookNotifier {
         const webhookID = uuid4()
         const webhookResponse = await supabaseAdmin.from('webhooks').insert({
           id: webhookID,
-          status: 'enqueued'
+          status: 'enqueued',
+          user_id: loopData.user_id,
+          payload: {
+            prompts: prompts
+          },
+          type: "declineHook"
         });
         if (!webhookResponse.error) {
           const response = await WebhookQueue.enqueue(
