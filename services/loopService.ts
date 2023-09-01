@@ -14,13 +14,22 @@ export class LoopService extends BaseService {
     this._userId = userId;
   }
 
-  async getAllLoops(): Promise<Array<Loop> | null> {
+  async getAllLoops(tool : String): Promise<Array<Loop> | null> {
     let response;
     try {
-      response = await this._supabaseAdmin
-        .from('loops')
-        .select('*')
-        .eq('user_id', this._userId);
+      if(!tool) {
+        response = await this._supabaseAdmin
+          .from('loops')
+          .select('*')
+          .eq('user_id', this._userId);
+      } else {
+        response = await this._supabaseAdmin
+          .from('loops')
+          .select('*')
+          .eq('user_id', this._userId)
+          .eq('tool', tool);
+      }
+
     } catch (error) {
       console.error(`Failed to fetch loops with error: ${error}`);
       throw new ServiceError('Failed to fetch loops');
