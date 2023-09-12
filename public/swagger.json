@@ -26,6 +26,16 @@
             "nullable": true,
             "type": "string"
           },
+          "image": {
+            "title": "Approval.image",
+            "nullable": true,
+            "type": "string"
+          },
+          "video": {
+            "title": "Approval.video",
+            "nullable": true,
+            "type": "string"
+          },
           "created_at": {
             "title": "Approval.created_at",
             "nullable": true,
@@ -50,6 +60,17 @@
             "type": "string"
           },
           "prompts": {
+            "anyOf": [
+              {
+                "items": {},
+                "title": "Approval.prompts",
+                "type": "array"
+              },
+              {
+                "title": "Approval.prompts",
+                "nullable": true
+              }
+            ],
             "title": "Approval.prompts",
             "nullable": true
           },
@@ -68,6 +89,7 @@
           "loop_id",
           "user_id",
           "prompts",
+          "type",
           "type"
         ],
         "additionalProperties": false,
@@ -81,6 +103,9 @@
             "type": "string"
           },
           "data": {
+            "items": {},
+            "title": "ApprovalResponse.data",
+            "type": "array",
             "anyOf": [
               {
                 "$ref": "#/components/schemas/Approval",
@@ -94,8 +119,7 @@
                 "title": "ApprovalResponse.data.[]",
                 "type": "array"
               }
-            ],
-            "title": "ApprovalResponse.data"
+            ]
           },
           "status": {
             "title": "ApprovalResponse.status",
@@ -141,6 +165,19 @@
         ],
         "additionalProperties": false,
         "title": "DiscordIntegrationRequest",
+        "type": "object"
+      },
+      "Hook": {
+        "properties": {
+          "data": {
+            "title": "Hook.data"
+          }
+        },
+        "required": [
+          "data"
+        ],
+        "additionalProperties": false,
+        "title": "Hook",
         "type": "object"
       },
       "Loop": {
@@ -213,8 +250,8 @@
             "type": "string"
           },
           "data": {
-            "$ref": "#/components/schemas/Loop",
-            "title": "LoopResponse.data"
+            "title": "LoopResponse.data",
+            "$ref": "#/components/schemas/Loop"
           },
           "status": {
             "title": "LoopResponse.status",
@@ -313,6 +350,26 @@
         ],
         "additionalProperties": false,
         "title": "UnregisterHookRequest",
+        "type": "object"
+      },
+      "User": {
+        "properties": {
+          "init": {
+            "title": "User.init",
+            "type": "boolean"
+          },
+          "email": {
+            "title": "User.email",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
+          "init",
+          "email"
+        ],
+        "additionalProperties": false,
+        "title": "User",
         "type": "object"
       }
     }
@@ -425,9 +482,62 @@
         }
       }
     },
+    "/api/auth": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Check if api key valid",
+        "responses": {
+          "200": {
+            "description": "If API Key is valid"
+          }
+        }
+      }
+    },
+    "/api/hook": {
+      "post": {
+        "summary": "Creates an Approval",
+        "tags": [
+          "Approvals"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Approval"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Approval Data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/loops": {
       "get": {
         "summary": "Returns all Loops for a User",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": false,
+            "description": "The tool for which the loop is deployed"
+          }
+        ],
         "tags": [
           "Loops"
         ],
@@ -441,19 +551,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/api/ping": {
-      "get": {
-        "tags": [
-          "Ping"
-        ],
-        "summary": "Check if api key valid",
-        "responses": {
-          "200": {
-            "description": "If API Key is valid"
           }
         }
       }
@@ -674,19 +771,6 @@
           }
         }
       }
-    },
-    "openapi": {
-      "0": "3",
-      "1": ".",
-      "2": "0",
-      "3": ".",
-      "4": "0"
-    },
-    "info": {
-      "title": "Converted from merged.swagger.yaml with typeconv",
-      "version": "1",
-      "x-id": "merged.swagger.yaml",
-      "x-comment": "Generated from models\\merged.ts by core-types-json-schema (https://github.com/grantila/core-types-json-schema) on behalf of typeconv (https://github.com/grantila/typeconv)"
     }
   },
   "tags": []
